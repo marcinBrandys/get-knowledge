@@ -1,1 +1,50 @@
-/* You can add global styles to this file, and also import other style files */
+@import '~bootstrap/scss/bootstrap-grid';
+@import '~bootstrap/scss/mixins';
+@import '~bootstrap/scss/utilities/flex';
+@import '~bootstrap/scss/utilities/sizing';
+@import '~bootstrap/scss/utilities/spacing';
+@import '~bootstrap/scss/utilities/text';
+@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+
+@import '~@angular/material/theming';
+$custom-typography: mat-typography-config(
+  $font-family: 'Lato, sans-serif'
+);
+@include mat-core($custom-typography);
+
+@mixin center($horizontal: true, $vertical: true) {
+  position: absolute;
+  @if ($horizontal and $vertical) {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  } @else if ($horizontal) {
+    left: 50%;
+    transform: translate(-50%, 0);
+  } @else if ($vertical) {
+    top: 50%;
+    transform: translate(0, -50%);
+  }
+}
+
+.center-xy {
+  @include center;
+}
+
+.center-x {
+  @include center(true, false);
+}
+
+.center-y {
+  @include center(false, true);
+}
+
+mat-card.mat-card {
+  &.form-wrapper {
+    max-width: 400px;
+  }
+}
+
+mat-form-field.mat-form-field {
+  font-size: 16px;
+}

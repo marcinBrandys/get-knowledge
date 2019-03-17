@@ -1,0 +1,63 @@
+<div class="container d-flex min-vh-100">
+  <mat-card class="flex-column form-wrapper w-auto m-auto text-center px-5 py-4">
+    <form id="login-form" (ngSubmit)="onSubmit()">
+      <mat-card-title>
+        <h4 class="my-0">{{translations.TITLE_REGISTER}}</h4>
+      </mat-card-title>
+      <mat-card-content>
+        <mat-vertical-stepper [linear]="true" #stepper>
+          <mat-step>
+            <ng-template matStepLabel>{{translations.REGISTER_STEP_1}}</ng-template>
+            <mat-form-field class="w-100 mb-2">
+              <input matInput placeholder="{{translations.ENTER_EMAIL}}" [formControl]="email" required>
+              <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 mb-2">
+              <input matInput placeholder="{{translations.ENTER_PASSWORD}}" [type]="passwordVisibilityState ? 'password' : 'text'" [formControl]="password" required>
+              <mat-icon matSuffix (click)="passwordVisibilityState = !passwordVisibilityState">{{passwordVisibilityState ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <mat-error *ngIf="password.invalid">{{translations.PASSWORD_REQUIRED}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <input matInput placeholder="{{translations.ATTRIBUTE_NICK}}" [formControl]="nick" required>
+            </mat-form-field>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>{{translations.REGISTER_STEP_2}}</ng-template>
+            <mat-form-field class="w-100 mb-2">
+              <input matInput placeholder="{{translations.ATTRIBUTE_FIRST_NAME}}" [formControl]="firstName" required>
+            </mat-form-field>
+            <mat-form-field class="w-100 mb-2">
+              <input matInput placeholder="{{translations.ATTRIBUTE_LAST_NAME}}" [formControl]="lastName" required>
+            </mat-form-field>
+            <mat-form-field class="w-100 mb-2">
+              <input matInput placeholder="{{translations.ATTRIBUTE_AGE}}" [formControl]="age" type="number" [min]="1" [max]="150" required>
+            </mat-form-field>
+          </mat-step>
+          <mat-step>
+            <ng-template matStepLabel>{{translations.REGISTER_STEP_3}}</ng-template>
+            <mat-form-field class="w-100">
+              <mat-select placeholder="{{translations.ATTRIBUTE_GENDER}}" [formControl]="gender" required>
+                <mat-option *ngFor="let gender of genders" [value]="gender.value">
+                  {{gender.viewValue}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="gender.hasError('required')">{{translations.ATTRIBUTE_GENDER_INVALID}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100">
+              <mat-select placeholder="{{translations.ATTRIBUTE_ROLE}}" [formControl]="role" required>
+                <mat-option *ngFor="let role of roles" [value]="role.value">
+                  {{role.viewValue}}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="role.hasError('required')">{{translations.ATTRIBUTE_ROLE_INVALID}}</mat-error>
+            </mat-form-field>
+          </mat-step>
+        </mat-vertical-stepper>
+      </mat-card-content>
+      <mat-card-actions class="p-0 mb-0">
+        <button type="button" mat-raised-button color="accent" class="text-uppercase" (click)="goToLogin()">{{translations.TITLE_LOGIN}}</button>
+        <button type="submit" mat-raised-button color="primary" class="text-uppercase" [disabled]="form.invalid">{{translations.ACTION_REGISTER}}</button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</div>
