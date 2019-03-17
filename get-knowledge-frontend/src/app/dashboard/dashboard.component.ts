@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Translations} from "../translations/translations.enum";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -7,9 +9,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
-  constructor() { }
+  translations = Translations;
+
+  constructor(private auth: AuthService) { }
 
   ngOnInit() {
+  }
+
+  logout() {
+    this.auth.logout();
   }
 
 }

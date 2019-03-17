@@ -5,6 +5,8 @@ import {Translations} from "../translations/translations.enum";
 import {NotificationService} from "../services/notification.service";
 import {RestService} from "../services/rest.service";
 import {Router} from "@angular/router";
+import {AuthService} from "../services/auth.service";
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +21,7 @@ export class LoginComponent implements OnInit{
   password = new FormControl('', [Validators.required]);
   passwordVisibilityState = true;
 
-  constructor(private restService: RestService, private notificationService: NotificationService, private fb: FormBuilder, private router: Router) { }
+  constructor(private restService: RestService, private notificationService: NotificationService, private fb: FormBuilder, private router: Router, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -38,10 +40,16 @@ export class LoginComponent implements OnInit{
     this.router.navigate(['/register']);
   }
 
+  goToDashboard() {
+    this.router.navigate(['/dashboard']);
+  }
+
   login(email, password) {
     this.restService.login(email, password).subscribe(
       data => {
         this.notificationService.showNotification(this.translations.LOGIN_SUCCESS);
+        this.auth.saveToken(_.get(data, 'token'));
+        this.goToDashboard();
       },
       error => {
         this.notificationService.showNotification(this.translations.LOGIN_ERROR_WRONG_CREDENTIALS);
