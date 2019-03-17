@@ -26,4 +26,19 @@ export class RestService {
 
     return this.http.post(this.REST_API_URL + 'user-management/login', requestPayload, this.httpOptions);
   }
+
+  register(firstName: string, lastName: string, email: string, nick: string, password: string, gender: string, age: number, role: string) {
+    const requestPayload = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      nick: nick,
+      password: password,
+      gender: gender,
+      age: age,
+      role: role
+    };
+
+    return this.http.post(this.REST_API_URL + 'user-management/users', requestPayload, this.httpOptions);
+  }
 }

@@ -16,6 +16,7 @@
         </mat-form-field>
       </mat-card-content>
       <mat-card-actions class="p-0 mb-0">
+        <button type="button" mat-raised-button color="accent" class="text-uppercase" (click)="goToRegister()">{{translations.TITLE_REGISTER}}</button>
         <button type="submit" mat-raised-button color="primary" class="text-uppercase" [disabled]="form.invalid">{{translations.ACTION_LOGIN}}</button>
       </mat-card-actions>
     </form>

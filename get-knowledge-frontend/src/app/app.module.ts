@@ -12,8 +12,8 @@ import {
   MatCardModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule,
-  MatSnackBarModule
+  MatInputModule, MatSelectModule, MatSliderModule,
+  MatSnackBarModule, MatStepperModule
 } from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
@@ -38,7 +38,10 @@ import {RestService} from "./services/rest.service";
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatSliderModule,
+    MatStepperModule,
+    MatSelectModule
   ],
   providers: [RestService],
   bootstrap: [AppComponent]
