@@ -1,7 +1,9 @@
 let User = require('../models/user-model');
 const userControllerConfig = require('../config/config');
 const cryptoService = require('../services/crypto-service');
+const validatorService = require('../services/validator-service');
 const jwt = require('jsonwebtoken');
+const _ = require('lodash');
 
 export class UserController {
     getAll(req, res) {
@@ -102,23 +104,43 @@ export class UserController {
     }
 
     register(req, res) {
-        let user = new User({
-            firstName: req.body.firstName,
-            lastName: req.body.lastName,
-            email: req.body.email,
-            password: cryptoService.hashPassword(req.body.password)
-        });
+        const firstName = _.get(req, 'body.firstName');
+        const lastName = _.get(req, 'body.lastName');
+        const nick = _.get(req, 'body.nick');
+        const email = _.get(req, 'body.email');
+        const password = _.get(req, 'body.password');
+        const gender = _.get(req, 'body.gender');
+        const age = _.get(req, 'body.age');
+        const role = _.get(req, 'body.role');
 
-        user.save().then(function () {
-            res.json({
-                data: user
+        if (validatorService.isEmailValid(email) && validatorService.isGenderValid(gender) && validatorService.isRoleValid(role)) {
+            let user = new User({
+                firstName: firstName,
+                lastName: lastName,
+                nick: nick,
+                email: email,
+                password: cryptoService.hashPassword(password),
+                gender: gender,
+                age: age,
+                role: role
             });
-        }).catch(function (error) {
+
+            user.save().then(function () {
+                res.json({
+                    data: user
+                });
+            }).catch(function (error) {
+                res.statusCode = 400;
+                res.json({
+                    error: error
+                });
+            });
+        } else {
             res.statusCode = 400;
             res.json({
-                error: error
+                error: 'invalid user data'
             });
-        });
+        }
     }
 
     login(req, res) {
@@ -126,7 +148,8 @@ export class UserController {
             if (cryptoService.comparePassword(req.body.password, user.password)) {
                 const token = jwt.sign(
                     {
-                        id: user._id
+                        id: user._id,
+                        role: user.role
                     },
                     userControllerConfig.SECRET_KEY_JWT,
                     {
