@@ -18,6 +18,11 @@ import {
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {RestService} from "./services/rest.service";
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('auth_token');
+}
 
 @NgModule({
   declarations: [
@@ -41,7 +46,14 @@ import {RestService} from "./services/rest.service";
     MatSnackBarModule,
     MatSliderModule,
     MatStepperModule,
-    MatSelectModule
+    MatSelectModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter,
+        whitelistedDomains: [],
+        blacklistedRoutes: []
+      }
+    })
   ],
   providers: [RestService],
   bootstrap: [AppComponent]

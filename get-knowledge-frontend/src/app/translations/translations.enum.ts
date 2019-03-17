@@ -29,5 +29,6 @@ export enum Translations {
   REGISTER_STEP_3 = 'Dane osobowe i rodzaj konta',
   REGISTER_SUCCESS = 'Konto zostało utworzone. Możesz się zalogować.',
   REGISTER_FAIL = 'Rejestracja nie powiodła się, spróbuj ponownie.',
-  REGISTER_FAIL_DUPLICATE_KEY = 'Podany adres email lub nick jest zajęty'
+  REGISTER_FAIL_DUPLICATE_KEY = 'Podany adres email lub nick jest zajęty',
+  ACTION_LOGOUT = 'Wyloguj'
 }
