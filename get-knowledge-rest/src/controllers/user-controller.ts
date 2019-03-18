@@ -148,8 +148,16 @@ export class UserController {
             if (cryptoService.comparePassword(req.body.password, user.password)) {
                 const token = jwt.sign(
                     {
-                        id: user._id,
-                        role: user.role
+                        user: {
+                            id: user._id,
+                            role: user.role,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            nick: user.nick,
+                            email: user.email,
+                            gender: user.gender,
+                            age: user.age
+                        }
                     },
                     userControllerConfig.SECRET_KEY_JWT,
                     {
