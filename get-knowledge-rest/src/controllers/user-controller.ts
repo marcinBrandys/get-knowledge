@@ -35,7 +35,7 @@ export class UserController {
             try {
                 const decoded = jwt.verify(req.headers['x-access-token'], userControllerConfig.SECRET_KEY_JWT);
 
-                User.findOne({_id: decoded.id}).then(function (user) {
+                User.findOne({_id: decoded.user.id}).then(function (user) {
                     res.json({
                         user: user
                     });
