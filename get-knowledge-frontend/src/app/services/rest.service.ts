@@ -59,4 +59,20 @@ export class RestService {
   getGroups() {
     return this.http.get(this.REST_API_URL + 'group-management/groups', this.httpOptions);
   }
+
+  addStudentToGroup(groupId: string, studentId: string) {
+    const requestPayload = {
+      studentId: studentId
+    };
+
+    return this.http.post(this.REST_API_URL + 'group-management/group/by_id/' + groupId, requestPayload, this.httpOptions)
+  }
+
+  getStudents() {
+    return this.http.get(this.REST_API_URL + 'user-management/students', this.httpOptions);
+  }
+
+  getStudentsOfGroup(groupId: string) {
+    return this.http.get(this.REST_API_URL + 'group-management/studentsOfGroup/' + groupId, this.httpOptions)
+  }
 }

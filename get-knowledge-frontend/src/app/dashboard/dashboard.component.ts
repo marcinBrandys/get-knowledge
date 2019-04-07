@@ -5,6 +5,7 @@ import {RestService} from "../services/rest.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Group} from "../classes/group";
 import * as _ from 'lodash';
+import {User} from "../classes/user";
 
 @Component({
   selector: 'app-dashboard',
@@ -17,6 +18,8 @@ export class DashboardComponent implements OnInit {
   groupCreationForm: FormGroup;
   groupName = new FormControl('', [Validators.required]);
   groups: Group[] = [];
+  students: User[] = [];
+  studentsOfGroup: User[] = [];
 
   constructor(private auth: AuthService, private restService: RestService, private fb: FormBuilder) { }
 
@@ -26,6 +29,7 @@ export class DashboardComponent implements OnInit {
     });
     this.getUserInfo();
     this.getGroups();
+    this.getStudents();
   }
 
   getUserInfo() {
@@ -64,9 +68,72 @@ export class DashboardComponent implements OnInit {
         for (let group of data['groups']) {
           const groupId = _.get(group, '_id', null);
           const groupName = _.get(group, 'groupName', null);
-          this.groups.push(new Group(groupId, groupName));
+          const owner = _.get(group, 'owner', null);
+          const students = _.get(group, 'students', null);
+          this.groups.push(new Group(groupId, groupName, owner, students));
         }
+        this.getStudentsOfGroup();
         console.log(this.groups);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  addStudentToGroup(studentId: string) {
+    if (this.groups.length > 0) {
+      this.restService.addStudentToGroup(this.groups[0].id, studentId).subscribe(
+        data => {
+          console.log(data);
+          this.getGroups();
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
+  }
+
+  getStudents() {
+    this.students = [];
+    this.restService.getStudents().subscribe(
+      data => {
+        for (let student of data['students']) {
+          const id = _.get(student, '_id', null);
+          const role = _.get(student, 'role', null);
+          const firstName = _.get(student, 'firstName', null);
+          const lastName = _.get(student, 'lastName', null);
+          const nick = _.get(student, 'nick', null);
+          const email = _.get(student, 'email', null);
+          const gender = _.get(student, 'gender', null);
+          const age = _.get(student, 'age', null);
+          this.students.push(new User(id, role, firstName, lastName, nick, email, gender, age));
+        }
+        console.log(this.students);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  getStudentsOfGroup() {
+    this.studentsOfGroup = [];
+    this.restService.getStudentsOfGroup(this.groups[0].id).subscribe(
+      data => {
+        for (let student of data['students']) {
+          const id = _.get(student, '_id', null);
+          const role = _.get(student, 'role', null);
+          const firstName = _.get(student, 'firstName', null);
+          const lastName = _.get(student, 'lastName', null);
+          const nick = _.get(student, 'nick', null);
+          const email = _.get(student, 'email', null);
+          const gender = _.get(student, 'gender', null);
+          const age = _.get(student, 'age', null);
+          this.studentsOfGroup.push(new User(id, role, firstName, lastName, nick, email, gender, age));
+        }
+        console.log(this.studentsOfGroup);
       },
       error => {
         console.log(error);

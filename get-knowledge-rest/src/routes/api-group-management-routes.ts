@@ -10,4 +10,10 @@ router.route('/create')
 router.route('/groups')
     .get(authService.validateUser, authService.requireTeacher, groupController.getGroups);
 
+router.route('/studentsOfGroup/:id')
+    .get(authService.validateUser, authService.requireTeacher, groupController.getStudentsOfGroup);
+
+router.route('/group/by_id/:id')
+    .post(authService.validateUser, authService.requireTeacher, groupController.addStudentToGroup);
+
 module.exports = router;

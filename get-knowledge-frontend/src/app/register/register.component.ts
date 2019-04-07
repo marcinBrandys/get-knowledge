@@ -55,6 +55,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
+    console.log(this.form.valid);
     if (this.form.valid) {
       this.register(this.email.value, this.password.value, this.nick.value, this.firstName.value, this.lastName.value,
         this.age.value, this.gender.value, this.role.value
@@ -73,6 +74,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         this.goToLogin();
       },
       error => {
+        console.log(error);
         if (_.get(error, 'error.error.code') === 11000) {
           this.notificationService.showNotification(this.translations.REGISTER_FAIL_DUPLICATE_KEY);
         } else {

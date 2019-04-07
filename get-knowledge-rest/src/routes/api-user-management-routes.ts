@@ -8,8 +8,11 @@ router.route('/login')
     .post(userController.login);
 
 router.route('/users')
-    .get(authService.validateUser, authService.requireAdmin, userController.getAll)
+    .get(authService.validateUser, authService.requireTeacher, userController.getAll)
     .post(userController.register);
+
+router.route('/students')
+    .get(authService.validateUser, authService.requireTeacher, userController.getStudents);
 
 router.route('/user/by_id/:id')
     .get(authService.validateUser, authService.requireAdmin, userController.getUserById)

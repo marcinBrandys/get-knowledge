@@ -34,5 +34,7 @@ export enum Translations {
   TITLE_CREATE_GROUP = 'Załóż klasę',
   ACTION_CREATE_GROUP = 'Załóż klasę',
   ATTRIBUTE_GROUP_NAME = 'Nazwa klasy',
-  TITLE_GROUPS = 'Klasy'
+  TITLE_GROUPS = 'Klasy',
+  TITLE_STUDENTS = 'Uczniowie',
+  ACTION_ADD_TO_GROUP = 'Dodaj do klasy'
 }

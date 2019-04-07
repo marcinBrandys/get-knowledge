@@ -7,7 +7,14 @@ const groupSchema = mongooseGroupModel.Schema({
     owner: {
         type: mongooseGroupModel.Schema.Types.ObjectId, ref: 'user',
         require: true
-    }
+    },
+    students: [
+        {
+            type: mongooseGroupModel.Schema.Types.ObjectId, ref: 'user',
+            require: false,
+            unique: true
+        }
+    ]
 });
 
 module.exports = mongooseGroupModel.model('group', groupSchema);
