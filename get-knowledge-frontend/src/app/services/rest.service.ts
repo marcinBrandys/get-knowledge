@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment.prod";
+import {AuthService} from "./auth.service";
 
 @Injectable({
   providedIn: 'root'
@@ -10,11 +11,12 @@ export class RestService {
   private REST_API_URL: string;
   private httpOptions = {
     headers: new HttpHeaders({
-      'Content-Type':  'application/json'
+      'Content-Type':  'application/json',
+      'x-access-token': this.auth.getToken()
     })
   };
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private auth: AuthService) {
     this.REST_API_URL = environment.REST_API_URL;
   }
 
@@ -40,5 +42,9 @@ export class RestService {
     };
 
     return this.http.post(this.REST_API_URL + 'user-management/users', requestPayload, this.httpOptions);
+  }
+
+  getUserInfo() {
+    return this.http.get(this.REST_API_URL + 'user-management/user/me', this.httpOptions);
   }
 }

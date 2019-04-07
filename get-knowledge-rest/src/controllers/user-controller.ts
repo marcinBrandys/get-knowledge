@@ -31,36 +31,20 @@ export class UserController {
     }
 
     getAccountInfo(req, res) {
-        if (req.headers['x-access-token']) {
-            try {
-                const decoded = jwt.verify(req.headers['x-access-token'], userControllerConfig.SECRET_KEY_JWT);
-
-                User.findOne({_id: decoded.id}).then(function (user) {
-                    res.json({
-                        user: user
-                    });
-                }).catch(function (error) {
-                    res.statusCode = 400;
-                    res.json({
-                        error: error
-                    });
-                });
-            } catch(err) {
-                res.statusCode = 401;
-                res.json({
-                    error: 'not auth'
-                });
-            }
-        } else {
-            res.statusCode = 401;
+        User.findOne({_id: req.body.userId}).then(function (user) {
             res.json({
-                error: 'not auth'
+                user: user
             });
-        }
+        }).catch(function (error) {
+            res.statusCode = 400;
+            res.json({
+                error: error
+            });
+        });
     }
 
     updateData(req, res) {
-        User.findOne({_id: req.params.id}).then(function (user) {
+        User.findOne({_id: req.body.userId}).then(function (user) {
             user.firstName = req.body.firstName;
             user.lastName = req.body.lastName;
             user.email = req.body.email;
@@ -83,7 +67,7 @@ export class UserController {
     }
 
     updatePassword(req, res) {
-        User.findOne({_id: req.params.id}).then(function (user) {
+        User.findOne({_id: req.body.userId}).then(function (user) {
             user.password = cryptoService.hashPassword(req.body.password);
             user.save().then(function () {
                 res.json({
@@ -148,8 +132,16 @@ export class UserController {
             if (cryptoService.comparePassword(req.body.password, user.password)) {
                 const token = jwt.sign(
                     {
-                        id: user._id,
-                        role: user.role
+                        user: {
+                            id: user._id,
+                            role: user.role,
+                            firstName: user.firstName,
+                            lastName: user.lastName,
+                            nick: user.nick,
+                            email: user.email,
+                            gender: user.gender,
+                            age: user.age
+                        }
                     },
                     userControllerConfig.SECRET_KEY_JWT,
                     {
