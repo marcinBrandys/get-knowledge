@@ -2,3 +2,46 @@
   dashboard works!
 </p>
 <button type="button" mat-raised-button color="primary" class="text-uppercase" (click)="logout()">{{translations.ACTION_LOGOUT}}</button>
+<form id="group-creation-form" (ngSubmit)="createGroup()">
+  <mat-card-title>
+    <h4 class="my-0">{{translations.TITLE_CREATE_GROUP}}</h4>
+  </mat-card-title>
+  <mat-card-content>
+    <mat-form-field class="w-100 mb-2">
+      <input matInput placeholder="{{translations.ATTRIBUTE_GROUP_NAME}}" [formControl]="groupName" required>
+    </mat-form-field>
+  </mat-card-content>
+  <mat-card-actions class="p-0 mb-0">
+    <button type="submit" mat-raised-button color="primary" class="text-uppercase" [disabled]="groupCreationForm.invalid">{{translations.ACTION_CREATE_GROUP}}</button>
+  </mat-card-actions>
+</form>
+<div class="container" *ngIf="groups.length > 0">
+  <h4 class="my-0">{{translations.TITLE_GROUPS}}</h4>
+  <div class="row" *ngFor="let group of groups">
+    <div class="col-12">
+      <span>{{group.groupName}}</span>
+    </div>
+    <div class="col-12" *ngFor="let student of group[students]">
+      <span>{{student}}</span>
+    </div>
+  </div>
+</div>
+<div class="container" *ngIf="students.length > 0">
+  <h4 class="my-0">{{translations.TITLE_STUDENTS}}</h4>
+  <div class="row" *ngFor="let student of students">
+    <div class="col-6">
+      <span>{{student.nick}}</span>
+    </div>
+    <div class="col-6">
+      <button type="button" mat-raised-button color="primary" class="text-uppercase" (click)="addStudentToGroup(student.id)">{{translations.ACTION_ADD_TO_GROUP}}</button>
+    </div>
+  </div>
+</div>
+<div class="container" *ngIf="studentsOfGroup.length > 0">
+  <h4 class="my-0">{{translations.TITLE_STUDENTS}} {{groups[0].groupName}}</h4>
+  <div class="row" *ngFor="let student of studentsOfGroup">
+    <div class="col-12">
+      <span>{{student.firstName}} {{student.lastName}} {{student.email}} {{student.nick}}</span>
+    </div>
+  </div>
+</div>

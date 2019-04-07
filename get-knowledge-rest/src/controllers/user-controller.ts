@@ -8,7 +8,22 @@ const _ = require('lodash');
 export class UserController {
     getAll(req, res) {
         User.find({}).then(function (users) {
-            res.send(users);
+            res.json({
+                users: users
+            });
+        }).catch(function (error) {
+            res.statusCode = 400;
+            res.json({
+                error: error
+            });
+        });
+    }
+
+    getStudents(req, res) {
+        User.find({role: 'student'}).then(function (users) {
+            res.json({
+                students: users
+            });
         }).catch(function (error) {
             res.statusCode = 400;
             res.json({
