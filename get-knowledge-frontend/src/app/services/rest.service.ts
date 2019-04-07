@@ -47,4 +47,12 @@ export class RestService {
   getUserInfo() {
     return this.http.get(this.REST_API_URL + 'user-management/user/me', this.httpOptions);
   }
+
+  createGroup(groupName: string) {
+    const requestPayload = {
+      groupName: groupName
+    };
+
+    return this.http.post(this.REST_API_URL + 'group-management/create', requestPayload, this.httpOptions)
+  }
 }

@@ -30,5 +30,8 @@ export enum Translations {
   REGISTER_SUCCESS = 'Konto zostało utworzone. Możesz się zalogować.',
   REGISTER_FAIL = 'Rejestracja nie powiodła się, spróbuj ponownie.',
   REGISTER_FAIL_DUPLICATE_KEY = 'Podany adres email lub nick jest zajęty',
-  ACTION_LOGOUT = 'Wyloguj'
+  ACTION_LOGOUT = 'Wyloguj',
+  TITLE_CREATE_GROUP = 'Załóż klasę',
+  ACTION_CREATE_GROUP = 'Załóż klasę',
+  ATTRIBUTE_GROUP_NAME = 'Nazwa klasy'
 }
