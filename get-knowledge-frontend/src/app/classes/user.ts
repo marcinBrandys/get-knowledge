@@ -8,7 +8,9 @@ export class User {
   private _gender: string;
   private _age: number;
 
-  constructor(role: string, firstName: string, lastName: string, nick: string, email: string, gender: string, age: number) {
+
+  constructor(id: string, role: string, firstName: string, lastName: string, nick: string, email: string, gender: string, age: number) {
+    this._id = id;
     this._role = role;
     this._firstName = firstName;
     this._lastName = lastName;
@@ -18,9 +20,12 @@ export class User {
     this._age = age;
   }
 
-
   get id(): string {
     return this._id;
+  }
+
+  set id(value: string) {
+    this._id = value;
   }
 
   get role(): string {
