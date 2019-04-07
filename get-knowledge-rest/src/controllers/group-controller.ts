@@ -26,6 +26,19 @@ export class GroupController {
         });
     }
 
+    getGroups(req, res) {
+        Group.find({owner: req.body.userId}).then(function (groups) {
+            res.json({
+                groups: groups
+            });
+        }).catch(function (error) {
+            res.statusCode = 400;
+            res.json({
+                error: error
+            });
+        });
+    }
+
     createGroup(req, res) {
         const groupName = _.get(req, 'body.groupName');
         const ownerId = req.body.userId;

@@ -33,5 +33,6 @@ export enum Translations {
   ACTION_LOGOUT = 'Wyloguj',
   TITLE_CREATE_GROUP = 'Załóż klasę',
   ACTION_CREATE_GROUP = 'Załóż klasę',
-  ATTRIBUTE_GROUP_NAME = 'Nazwa klasy'
+  ATTRIBUTE_GROUP_NAME = 'Nazwa klasy',
+  TITLE_GROUPS = 'Klasy'
 }

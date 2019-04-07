@@ -15,3 +15,11 @@
     <button type="submit" mat-raised-button color="primary" class="text-uppercase" [disabled]="groupCreationForm.invalid">{{translations.ACTION_CREATE_GROUP}}</button>
   </mat-card-actions>
 </form>
+<div class="container" *ngIf="groups.length > 0">
+  <h4 class="my-0">{{translations.TITLE_GROUPS}}</h4>
+  <div class="row" *ngFor="let group of groups">
+    <div class="col-md-12">
+      <span>{{group.groupName}}</span>
+    </div>
+  </div>
+</div>

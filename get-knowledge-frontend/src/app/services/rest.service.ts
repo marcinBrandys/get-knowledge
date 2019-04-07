@@ -55,4 +55,8 @@ export class RestService {
 
     return this.http.post(this.REST_API_URL + 'group-management/create', requestPayload, this.httpOptions)
   }
+
+  getGroups() {
+    return this.http.get(this.REST_API_URL + 'group-management/groups', this.httpOptions);
+  }
 }
