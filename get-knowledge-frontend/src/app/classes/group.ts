@@ -2,10 +2,10 @@ export class Group {
   private _id: string;
   private _groupName: string;
   private _owner: string;
-  private _students: string;
+  private _students: string[];
 
 
-  constructor(id: string, groupName: string, owner: string, students: string) {
+  constructor(id: string, groupName: string, owner: string, students: string[]) {
     this._id = id;
     this._groupName = groupName;
     this._owner = owner;
@@ -36,11 +36,11 @@ export class Group {
     this._owner = value;
   }
 
-  get students(): string {
+  get students(): string[] {
     return this._students;
   }
 
-  set students(value: string) {
+  set students(value: string[]) {
     this._students = value;
   }
 }

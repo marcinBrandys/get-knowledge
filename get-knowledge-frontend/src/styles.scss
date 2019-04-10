@@ -4,13 +4,22 @@
 @import '~bootstrap/scss/utilities/sizing';
 @import '~bootstrap/scss/utilities/spacing';
 @import '~bootstrap/scss/utilities/text';
-@import "~@angular/material/prebuilt-themes/pink-bluegrey.css";
+@import '~bootstrap/scss/utilities/align';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+// custom colors
+$custom-shadow-color: #efefef;
+// custom colors
 
 @import '~@angular/material/theming';
 $custom-typography: mat-typography-config(
   $font-family: 'Lato, sans-serif'
 );
 @include mat-core($custom-typography);
+
+* {
+  font-family: Lato, sans-serif;
+}
 
 @mixin center($horizontal: true, $vertical: true) {
   position: absolute;
@@ -39,6 +48,10 @@ $custom-typography: mat-typography-config(
   @include center(false, true);
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 mat-card.mat-card {
   &.form-wrapper {
     max-width: 400px;
@@ -47,4 +60,12 @@ mat-card.mat-card {
 
 mat-form-field.mat-form-field {
   font-size: 16px;
+}
+
+.main-container {
+  background-color: $white;
+  box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
+  border-radius: 4px;
+  @extend .my-5;
+  @extend .p-4;
 }

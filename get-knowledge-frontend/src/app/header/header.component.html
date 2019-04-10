@@ -1,0 +1,17 @@
+<div>
+  <mat-toolbar color="primary" class="justify-content-between">
+    <span></span>
+    <span class="cursor-pointer" routerLink="dashboard"><mat-icon class="align-text-bottom">school</mat-icon> {{translations.APP_TITLE}}</span>
+    <button mat-icon-button [mat-menu-trigger-for]="menu">
+      <mat-icon>more_vert</mat-icon>
+    </button>
+  </mat-toolbar>
+  <mat-menu xPosition="before" #menu="matMenu">
+    <button mat-menu-item routerLink="dashboard"><mat-icon class="align-middle mr-2">home</mat-icon> {{translations.MENU_ITEM_DASHBOARD}}</button>
+    <button mat-menu-item routerLink="learn"><mat-icon class="align-middle mr-2">school</mat-icon> {{translations.MENU_ITEM_LEARN}}</button>
+    <button mat-menu-item routerLink="test"><mat-icon class="align-middle mr-2">edit</mat-icon> {{translations.MENU_ITEM_TEST}}</button>
+    <button mat-menu-item routerLink="groups" *ngIf="teacherRequirementFulfilled()"><mat-icon class="align-middle mr-2">group</mat-icon> {{translations.MENU_ITEM_GROUPS}}</button>
+    <button mat-menu-item routerLink="creator" *ngIf="teacherRequirementFulfilled()"><mat-icon class="align-middle mr-2">note_add</mat-icon> {{translations.MENU_ITEM_TASK_GENERATOR}}</button>
+    <button mat-menu-item (click)="logout()"><mat-icon class="align-middle mr-2">power_settings_new</mat-icon> {{translations.MENU_ITEM_LOGOUT}}</button>
+  </mat-menu>
+</div>
