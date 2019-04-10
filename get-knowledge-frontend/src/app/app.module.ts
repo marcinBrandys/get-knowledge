@@ -12,13 +12,18 @@ import {
   MatCardModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatSelectModule, MatSliderModule,
-  MatSnackBarModule, MatStepperModule
+  MatInputModule, MatMenuModule, MatSelectModule, MatSliderModule,
+  MatSnackBarModule, MatStepperModule, MatToolbarModule
 } from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
 import {RestService} from "./services/rest.service";
 import { JwtModule } from '@auth0/angular-jwt';
+import { HeaderComponent } from './header/header.component';
+import { GroupsComponent } from './groups/groups.component';
+import { CreatorComponent } from './creator/creator.component';
+import { TestComponent } from './test/test.component';
+import { LearnComponent } from './learn/learn.component';
 
 export function tokenGetter() {
   return localStorage.getItem('auth_token');
@@ -29,7 +34,12 @@ export function tokenGetter() {
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    DashboardComponent
+    DashboardComponent,
+    HeaderComponent,
+    GroupsComponent,
+    CreatorComponent,
+    TestComponent,
+    LearnComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +63,9 @@ export function tokenGetter() {
         whitelistedDomains: [],
         blacklistedRoutes: []
       }
-    })
+    }),
+    MatToolbarModule,
+    MatMenuModule
   ],
   providers: [RestService],
   bootstrap: [AppComponent]

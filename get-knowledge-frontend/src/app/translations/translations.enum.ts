@@ -1,4 +1,11 @@
 export enum Translations {
+  APP_TITLE = 'Get Knowledge',
+  MENU_ITEM_DASHBOARD = 'Strona główna',
+  MENU_ITEM_LEARN = 'Nauka',
+  MENU_ITEM_TEST = 'Testy',
+  MENU_ITEM_GROUPS = 'Klasy',
+  MENU_ITEM_TASK_GENERATOR = 'Kreator zadań',
+  MENU_ITEM_LOGOUT = 'Wyloguj',
   TITLE_LOGIN = 'Logowanie',
   ENTER_EMAIL = 'Adres email',
   EMAIL_REQUIRED = 'Wprowadź adres email',
