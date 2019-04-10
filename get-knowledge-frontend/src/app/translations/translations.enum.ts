@@ -21,6 +21,7 @@ export enum Translations {
   ATTRIBUTE_FIRST_NAME = 'Imię',
   ATTRIBUTE_LAST_NAME = 'Nazwisko',
   ATTRIBUTE_NICK = 'Nazwa użytkownika',
+  ATTRIBUTE_EMAIL = 'Adres email',
   ATTRIBUTE_AGE = 'Wiek',
   ATTRIBUTE_GENDER = 'Płeć',
   ATTRIBUTE_GENDER_MALE = 'Mężczyzna',
@@ -42,6 +43,11 @@ export enum Translations {
   ACTION_CREATE_GROUP = 'Załóż klasę',
   ATTRIBUTE_GROUP_NAME = 'Nazwa klasy',
   TITLE_GROUPS = 'Klasy',
+  TITLE_GROUP = 'Klasa',
   TITLE_STUDENTS = 'Uczniowie',
-  ACTION_ADD_TO_GROUP = 'Dodaj do klasy'
+  TITLE_STUDENT = 'Uczeń',
+  ACTION_ADD_STUDENT_TO_GROUP = 'Dodaj ucznia do klasy',
+  ACTION_ADD = 'Dodaj',
+  EMPTY_GROUP = 'Klasa jest pusta. Dodaj uczniów do klasy.',
+  ATTRIBUTE_ACTIONS = 'Czynności'
 }

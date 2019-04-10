@@ -52,6 +52,11 @@ $custom-typography: mat-typography-config(
   cursor: pointer;
 }
 
+.list-unstyled {
+  padding-left: 0;
+  list-style: none;
+}
+
 mat-card.mat-card {
   &.form-wrapper {
     max-width: 400px;
@@ -60,6 +65,10 @@ mat-card.mat-card {
 
 mat-form-field.mat-form-field {
   font-size: 16px;
+}
+
+.mat-tab-body-wrapper {
+  @extend .py-4;
 }
 
 .main-container {

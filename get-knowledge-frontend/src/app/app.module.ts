@@ -12,8 +12,8 @@ import {
   MatCardModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatMenuModule, MatSelectModule, MatSliderModule,
-  MatSnackBarModule, MatStepperModule, MatToolbarModule
+  MatInputModule, MatMenuModule, MatPaginatorModule, MatSelectModule, MatSliderModule,
+  MatSnackBarModule, MatStepperModule, MatTableModule, MatTabsModule, MatToolbarModule
 } from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HttpClientModule} from "@angular/common/http";
@@ -65,7 +65,10 @@ export function tokenGetter() {
       }
     }),
     MatToolbarModule,
-    MatMenuModule
+    MatMenuModule,
+    MatTabsModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   providers: [RestService],
   bootstrap: [AppComponent]

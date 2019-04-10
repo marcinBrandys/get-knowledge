@@ -11,8 +11,7 @@ const groupSchema = mongooseGroupModel.Schema({
     students: [
         {
             type: mongooseGroupModel.Schema.Types.ObjectId, ref: 'user',
-            require: false,
-            unique: true
+            require: false
         }
     ]
 });

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment.prod";
 import {AuthService} from "./auth.service";
+import * as _ from 'lodash';
 
 @Injectable({
   providedIn: 'root'
@@ -68,11 +69,17 @@ export class RestService {
     return this.http.post(this.REST_API_URL + 'group-management/group/by_id/' + groupId, requestPayload, this.httpOptions)
   }
 
-  getStudents() {
-    return this.http.get(this.REST_API_URL + 'user-management/students', this.httpOptions);
+  removeStudentFromGroup(groupId: string, studentId: string) {
+    const requestPayload = {
+      studentId: studentId
+    };
+    let httpOptionsCopy = _.clone(this.httpOptions);
+    httpOptionsCopy['body'] = requestPayload;
+
+    return this.http.delete(this.REST_API_URL + 'group-management/group/by_id/' + groupId, httpOptionsCopy);
   }
 
-  getStudentsOfGroup(groupId: string) {
-    return this.http.get(this.REST_API_URL + 'group-management/studentsOfGroup/' + groupId, this.httpOptions)
+  getStudents() {
+    return this.http.get(this.REST_API_URL + 'user-management/students', this.httpOptions);
   }
 }
