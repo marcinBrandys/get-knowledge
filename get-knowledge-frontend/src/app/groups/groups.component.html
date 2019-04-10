@@ -69,7 +69,7 @@
 
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>{{translations.ATTRIBUTE_ACTIONS}}</th>
-          <td mat-cell *matCellDef="let element"><mat-icon class="cursor-pointer mr-2" (click)="removeStudentFromGroup(element.id)">school</mat-icon><mat-icon class="cursor-pointer" (click)="removeStudentFromGroup(element.id)">delete</mat-icon></td>
+          <td mat-cell *matCellDef="let element"><mat-icon class="cursor-pointer mr-2" (click)="removeStudentFromGroup(element.id)">school</mat-icon><mat-icon class="cursor-pointer" (click)="removeStudentFromGroup(group.id, element.id)">delete</mat-icon></td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

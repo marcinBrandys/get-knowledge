@@ -56,7 +56,6 @@ export class GroupsComponent implements OnInit {
     if (this.groupStudentAddForm.valid) {
       this.restService.addStudentToGroup(this.selectGroup.value, this.selectStudent.value).subscribe(
         data => {
-          console.log(data);
           this.getGroups();
         },
         error => {
@@ -67,29 +66,9 @@ export class GroupsComponent implements OnInit {
   }
 
   getGroups() {
-    this.groups = [];
     this.restService.getGroups().subscribe(
       data => {
-        for (let group of data['groups']) {
-          const groupId = _.get(group, '_id', null);
-          const groupName = _.get(group, 'groupName', null);
-          const owner = _.get(group, 'owner', null);
-          const students = _.get(group, 'students', null);
-          let studentsList: User[] = [];
-          for (let student of students) {
-            const id = _.get(student, '_id', null);
-            const role = _.get(student, 'role', null);
-            const firstName = _.get(student, 'firstName', null);
-            const lastName = _.get(student, 'lastName', null);
-            const nick = _.get(student, 'nick', null);
-            const email = _.get(student, 'email', null);
-            const gender = _.get(student, 'gender', null);
-            const age = _.get(student, 'age', null);
-            studentsList.push(new User(id, role, firstName, lastName, nick, email, gender, age));
-          }
-          this.groups.push(new Group(groupId, groupName, owner, studentsList));
-        }
-        console.log(this.groups);
+        this.bindGroups(data);
       },
       error => {
         console.log(error);
@@ -112,7 +91,6 @@ export class GroupsComponent implements OnInit {
           const age = _.get(student, 'age', null);
           this.students.push(new User(id, role, firstName, lastName, nick, email, gender, age));
         }
-        console.log(this.students);
       },
       error => {
         console.log(error);
@@ -120,7 +98,37 @@ export class GroupsComponent implements OnInit {
     )
   }
 
-  removeStudentFromGroup(id: string) {
-    console.log(id);
+  bindGroups(data: any) {
+    this.groups = [];
+    for (let group of data['groups']) {
+      const groupId = _.get(group, '_id', null);
+      const groupName = _.get(group, 'groupName', null);
+      const owner = _.get(group, 'owner', null);
+      const students = _.get(group, 'students', null);
+      let studentsList: User[] = [];
+      for (let student of students) {
+        const id = _.get(student, '_id', null);
+        const role = _.get(student, 'role', null);
+        const firstName = _.get(student, 'firstName', null);
+        const lastName = _.get(student, 'lastName', null);
+        const nick = _.get(student, 'nick', null);
+        const email = _.get(student, 'email', null);
+        const gender = _.get(student, 'gender', null);
+        const age = _.get(student, 'age', null);
+        studentsList.push(new User(id, role, firstName, lastName, nick, email, gender, age));
+      }
+      this.groups.push(new Group(groupId, groupName, owner, studentsList));
+    }
+  };
+
+  removeStudentFromGroup(groupId: string, studentId: string) {
+    this.restService.removeStudentFromGroup(groupId, studentId).subscribe(
+      data => {
+        this.getGroups();
+      },
+      error => {
+        console.log(error);
+      }
+    )
   }
 }

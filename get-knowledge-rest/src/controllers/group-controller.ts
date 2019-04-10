@@ -39,19 +39,6 @@ export class GroupController {
         });
     }
 
-    getStudentsOfGroup(req, res) {
-        Group.findOne({_id: req.params.id, owner: req.body.userId}).populate({path: 'students'}).then(function (group) {
-            res.json({
-                students: group.students
-            });
-        }).catch(function (error) {
-            res.statusCode = 400;
-            res.json({
-                error: error
-            });
-        });
-    }
-
     createGroup(req, res) {
         const groupName = _.get(req, 'body.groupName');
         const ownerId = req.body.userId;
@@ -86,6 +73,29 @@ export class GroupController {
 
         Group.findOne({_id: req.params.id, owner: req.body.userId}).then(function (group) {
             group.students.addToSet(studentId);
+            group.save().then(function () {
+                res.json({
+                    group: group
+                });
+            }).catch(function (error) {
+                res.statusCode = 400;
+                res.json({
+                    error: error
+                });
+            });
+        }).catch(function (error) {
+            res.statusCode = 400;
+            res.json({
+                error: error
+            });
+        });
+    }
+
+    removeStudentFromGroup(req, res) {
+        const studentId = _.get(req, 'body.studentId');
+
+        Group.findOne({_id: req.params.id, owner: req.body.userId}).then(function (group) {
+            group.students.remove(studentId);
             group.save().then(function () {
                 res.json({
                     group: group
