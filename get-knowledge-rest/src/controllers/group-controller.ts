@@ -27,7 +27,7 @@ export class GroupController {
     }
 
     getGroups(req, res) {
-        Group.find({owner: req.body.userId}).then(function (groups) {
+        Group.find({owner: req.body.userId}).populate({path: 'students'}).then(function (groups) {
             res.json({
                 groups: groups
             });
