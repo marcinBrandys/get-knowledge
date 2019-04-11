@@ -16,7 +16,7 @@ import {
   MatSnackBarModule, MatStepperModule, MatTableModule, MatTabsModule, MatToolbarModule
 } from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {RestService} from "./services/rest.service";
 import { JwtModule } from '@auth0/angular-jwt';
 import { HeaderComponent } from './header/header.component';
@@ -24,9 +24,10 @@ import { GroupsComponent } from './groups/groups.component';
 import { CreatorComponent } from './creator/creator.component';
 import { TestComponent } from './test/test.component';
 import { LearnComponent } from './learn/learn.component';
+import {RestInterceptorService} from "./services/rest-interceptor.service";
 
 export function tokenGetter() {
-  return localStorage.getItem('auth_token');
+  return localStorage.getItem('auth_token') || '';
 }
 
 @NgModule({
@@ -70,7 +71,11 @@ export function tokenGetter() {
     MatTableModule,
     MatPaginatorModule
   ],
-  providers: [RestService],
+  providers: [RestService, {
+    provide: HTTP_INTERCEPTORS,
+    useClass: RestInterceptorService,
+    multi: true
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
