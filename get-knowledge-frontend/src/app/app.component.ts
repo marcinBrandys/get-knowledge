@@ -18,6 +18,6 @@ export class AppComponent {
   constructor(private authService: AuthService, private router: Router) {}
 
   isHeaderVisible(): boolean {
-    return this.authService.isAuthenticated() && (!_.includes(this.headerHiddenRoutes, this.router.url));
+    return !_.includes(this.headerHiddenRoutes, this.router.url);
   }
 }
