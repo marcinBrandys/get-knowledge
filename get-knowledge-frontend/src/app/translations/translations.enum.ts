@@ -52,4 +52,5 @@ export enum Translations {
   ATTRIBUTE_ACTIONS = 'Czynności',
   TITLE_CREATE_TASK_GROUP = 'Dodawanie grupy zadań',
   ATTRIBUTE_TASK_GROUP_NAME = 'Nazwa grupy zadań',
+  ATTRIBUTE_TASK_IS_TEST_GROUP = 'Grupa pytań testowych?'
 }

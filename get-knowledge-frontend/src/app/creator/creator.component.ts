@@ -15,6 +15,7 @@ export class CreatorComponent implements OnInit {
   translations = Translations;
   taskGroupCreationForm: FormGroup;
   taskGroupName = new FormControl('', [Validators.required]);
+  isTestTaskGroup: boolean = false;
 
   taskGroups: TaskGroup[] = [];
 
@@ -29,7 +30,7 @@ export class CreatorComponent implements OnInit {
 
   createTaskGroup() {
     if (this.taskGroupCreationForm.valid) {
-      this.restService.createTaskGroup(this.taskGroupName.value).subscribe(
+      this.restService.createTaskGroup(this.taskGroupName.value, this.isTestTaskGroup).subscribe(
         data => {
           console.log(data);
           this.getTaskGroups();

@@ -2,18 +2,21 @@
   <div class="row">
     <div class="col-4">
       <div class="col-12 content-wrapper">
-        <h4 class="mt-0 mb-2 text-center">{{translations.TITLE_CREATE_TASK_GROUP}}</h4>
+        <h4 class="mt-0 mb-4 text-center">{{translations.TITLE_CREATE_TASK_GROUP}}</h4>
         <form id="group-creation-form" class="d-flex flex-column mx-auto w-75" (ngSubmit)="createTaskGroup()">
           <mat-form-field class="w-100 mb-2">
             <input matInput placeholder="{{translations.ATTRIBUTE_TASK_GROUP_NAME}}" [formControl]="taskGroupName" required>
           </mat-form-field>
+          <div class="w-100 mb-4">
+            <mat-checkbox [(ngModel)]="isTestTaskGroup" name="isTestTaskGroup">{{translations.ATTRIBUTE_TASK_IS_TEST_GROUP}}</mat-checkbox>
+          </div>
           <button type="submit" mat-raised-button color="primary" class="text-uppercase" [disabled]="taskGroupCreationForm.invalid">{{translations.ACTION_ADD}}</button>
         </form>
       </div>
     </div>
     <div class="col-8">
       <div class="col-12 content-wrapper">
-        <h4 class="mt-0 mb-2 text-center">Grupy zadań</h4>
+        <h4 class="mt-0 mb-4 text-center">Grupy zadań</h4>
         <span *ngFor="let taskGroup of taskGroups">{{taskGroup.taskGroupName}}</span>
       </div>
     </div>

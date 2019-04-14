@@ -2,13 +2,13 @@ export class TaskGroup {
   private _id: string;
   private _taskGroupName: string;
   private _owner: string;
-  private _isTestTask: boolean;
+  private _isTestTaskGroup: boolean;
 
-  constructor(id: string, taskGroupName: string, owner: string, isTestTask: boolean) {
+  constructor(id: string, taskGroupName: string, owner: string, isTestTaskGroup: boolean) {
     this._id = id;
     this._taskGroupName = taskGroupName;
     this._owner = owner;
-    this._isTestTask = isTestTask;
+    this._isTestTaskGroup = isTestTaskGroup;
   }
 
   get id(): string {
@@ -35,11 +35,11 @@ export class TaskGroup {
     this._owner = value;
   }
 
-  get isTestTask(): boolean {
-    return this._isTestTask;
+  get isTestTaskGroup(): boolean {
+    return this._isTestTaskGroup;
   }
 
-  set isTestTask(value: boolean) {
-    this._isTestTask = value;
+  set isTestTaskGroup(value: boolean) {
+    this._isTestTaskGroup = value;
   }
 }
