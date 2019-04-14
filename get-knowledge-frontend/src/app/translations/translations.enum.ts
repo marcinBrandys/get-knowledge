@@ -51,6 +51,17 @@ export enum Translations {
   EMPTY_GROUP = 'Klasa jest pusta. Dodaj uczniów do klasy.',
   ATTRIBUTE_ACTIONS = 'Czynności',
   TITLE_CREATE_TASK_GROUP = 'Dodawanie grupy zadań',
+  CREATE_TASK_GROUP_SUCCESS = 'Dodano grupę zadań',
+  TITLE_TASK_GROUPS = 'Twoje grupy zadań',
   ATTRIBUTE_TASK_GROUP_NAME = 'Nazwa grupy zadań',
-  ATTRIBUTE_TASK_IS_TEST_GROUP = 'Grupa pytań testowych?'
+  ATTRIBUTE_TASK_IS_TEST_GROUP = 'Grupa pytań testowych?',
+  TITLE_CREATE_TASK = 'Dodawanie zadania',
+  ATTRIBUTE_TASK_TITLE = 'Tytuł zadania',
+  ATTRIBUTE_TASK_TYPE = 'Typ zadania #TODO',
+  ATTRIBUTE_TASK_CONTENT = 'Treść zadania',
+  ATTRIBUTE_TASK_ELEMENTS = 'Elementy dodatkowe #TODO',
+  ATTRIBUTE_TASK_CORRECT_SOLUTION = 'Prawidłowa odpowiedź',
+  ATTRIBUTE_TASK_WEIGHT = 'Waga zadania',
+  ATTRIBUTE_TASK_POINTS = 'Punktacja zadania',
+  TITLE_ATTRIBUTE_TASK_GROUP = 'Grupa zadań'
 }

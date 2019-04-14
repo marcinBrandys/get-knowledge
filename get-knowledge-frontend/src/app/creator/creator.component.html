@@ -3,7 +3,7 @@
     <div class="col-4">
       <div class="col-12 content-wrapper">
         <h4 class="mt-0 mb-4 text-center">{{translations.TITLE_CREATE_TASK_GROUP}}</h4>
-        <form id="group-creation-form" class="d-flex flex-column mx-auto w-75" (ngSubmit)="createTaskGroup()">
+        <form id="task-group-creation-form" class="d-flex flex-column mx-auto w-75" (ngSubmit)="createTaskGroup()" #createTaskGroupNgForm="ngForm">
           <mat-form-field class="w-100 mb-2">
             <input matInput placeholder="{{translations.ATTRIBUTE_TASK_GROUP_NAME}}" [formControl]="taskGroupName" required>
           </mat-form-field>
@@ -13,11 +13,52 @@
           <button type="submit" mat-raised-button color="primary" class="text-uppercase" [disabled]="taskGroupCreationForm.invalid">{{translations.ACTION_ADD}}</button>
         </form>
       </div>
+      <div class="col-12 content-wrapper mt-4" *ngIf="taskGroups.length > 0">
+        <h4 class="mt-0 mb-2 text-center">{{translations.TITLE_TASK_GROUPS}}</h4>
+        <ul class="list-unstyled w-75 mx-auto">
+          <li class="mb-1" *ngFor="let taskGroup of taskGroups" [ngClass]="{'font-weight-bold font-italic': taskGroup.isTestTaskGroup}">{{taskGroup.taskGroupName}}</li>
+        </ul>
+      </div>
     </div>
     <div class="col-8">
       <div class="col-12 content-wrapper">
-        <h4 class="mt-0 mb-4 text-center">Grupy zadań</h4>
-        <span *ngFor="let taskGroup of taskGroups">{{taskGroup.taskGroupName}}</span>
+        <h4 class="mt-0 mb-4 text-center">{{translations.TITLE_CREATE_TASK}}</h4>
+        <form id="task-creation-form" class="d-flex flex-column mx-auto w-75" (ngSubmit)="createTask()">
+          <mat-form-field class="w-100 mb-2">
+            <input matInput placeholder="{{translations.ATTRIBUTE_TASK_TITLE}}" [formControl]="taskTitle" required>
+          </mat-form-field>
+          <mat-form-field class="w-100 mb-2">
+            <input matInput placeholder="{{translations.ATTRIBUTE_TASK_TYPE}}" [formControl]="taskType" required>
+          </mat-form-field>
+          <mat-form-field class="w-100 mb-2">
+            <mat-select placeholder="{{translations.TITLE_ATTRIBUTE_TASK_GROUP}}" [formControl]="selectTaskGroup" required>
+              <mat-option *ngFor="let taskGroup of taskGroups" [value]="taskGroup.id">
+                {{taskGroup.taskGroupName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-100 mb-2">
+            <textarea matInput
+                      placeholder="{{translations.ATTRIBUTE_TASK_CONTENT}}" [formControl]="taskContent"
+                      cdkTextareaAutosize
+                      cdkAutosizeMinRows="2"
+                      cdkAutosizeMaxRows="5"
+                      required></textarea>
+          </mat-form-field>
+          <mat-form-field class="w-100 mb-2">
+            <input matInput placeholder="{{translations.ATTRIBUTE_TASK_ELEMENTS}}" [formControl]="taskElements">
+          </mat-form-field>
+          <mat-form-field class="w-100 mb-2">
+            <input matInput placeholder="{{translations.ATTRIBUTE_TASK_CORRECT_SOLUTION}}" [formControl]="taskCorrectSolution">
+          </mat-form-field>
+          <mat-form-field class="w-100 mb-2">
+            <input matInput placeholder="{{translations.ATTRIBUTE_TASK_WEIGHT}}" [formControl]="taskWeight" type="number" [min]="1" [max]="10" required>
+          </mat-form-field>
+          <mat-form-field class="w-100 mb-2">
+            <input matInput placeholder="{{translations.ATTRIBUTE_TASK_POINTS}}" [formControl]="taskPoints" type="number" [min]="1" [max]="20" required>
+          </mat-form-field>
+          <button type="submit" mat-raised-button color="primary" class="text-uppercase mx-auto w-50" [disabled]="taskCreationForm.invalid">{{translations.ACTION_ADD}}</button>
+        </form>
       </div>
     </div>
   </div>

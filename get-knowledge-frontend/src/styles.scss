@@ -67,6 +67,10 @@ mat-form-field.mat-form-field {
   font-size: 16px;
 }
 
+.mat-checkbox-layout, .mat-radio-label {
+  white-space: normal !important;
+}
+
 .mat-tab-body-wrapper {
   @extend .py-4;
 }
