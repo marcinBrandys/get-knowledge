@@ -49,5 +49,7 @@ export enum Translations {
   ACTION_ADD_STUDENT_TO_GROUP = 'Dodaj ucznia do klasy',
   ACTION_ADD = 'Dodaj',
   EMPTY_GROUP = 'Klasa jest pusta. Dodaj uczniów do klasy.',
-  ATTRIBUTE_ACTIONS = 'Czynności'
+  ATTRIBUTE_ACTIONS = 'Czynności',
+  TITLE_CREATE_TASK_GROUP = 'Dodawanie grupy zadań',
+  ATTRIBUTE_TASK_GROUP_NAME = 'Nazwa grupy zadań',
 }
