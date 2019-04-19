@@ -111,8 +111,10 @@ export class UserController {
         const gender = _.get(req, 'body.gender');
         const age = _.get(req, 'body.age');
         const role = _.get(req, 'body.role');
+        const accessCode = _.get(req, 'body.accessCode');
 
-        if (validatorService.isEmailValid(email) && validatorService.isGenderValid(gender) && validatorService.isRoleValid(role)) {
+        if (validatorService.isEmailValid(email) && validatorService.isGenderValid(gender) && validatorService.isRoleValid(role) && validatorService.isAccessCodeValid(role, accessCode)) {
+
             let user = new User({
                 firstName: firstName,
                 lastName: lastName,
