@@ -1,4 +1,5 @@
 const generic_validator = require('validator');
+const validatorConfig = require('../config/config');
 
 const supportedGenders = ['male', 'female'];
 const supportedRoles = ['admin', 'teacher', 'student'];
@@ -12,6 +13,14 @@ const validatorService = {
     },
     isRoleValid(role: string) {
         return generic_validator.isIn(role, supportedRoles);
+    },
+    isAccessCodeValid(role: string, accessCode: string) {
+        let isValid: boolean = true;
+        if (role === 'teacher' && accessCode !== validatorConfig.ACCESS_CODE) {
+            isValid = false;
+        }
+
+        return isValid;
     }
 };
 
