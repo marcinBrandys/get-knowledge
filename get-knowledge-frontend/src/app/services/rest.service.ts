@@ -54,7 +54,7 @@ export class RestService {
       groupName: groupName
     };
 
-    return this.http.post(this.REST_API_URL + 'group-management/create', requestPayload, this.httpOptions)
+    return this.http.post(this.REST_API_URL + 'group-management/create', requestPayload, this.httpOptions);
   }
 
   getGroups() {
@@ -66,7 +66,7 @@ export class RestService {
       studentId: studentId
     };
 
-    return this.http.post(this.REST_API_URL + 'group-management/group/by_id/' + groupId, requestPayload, this.httpOptions)
+    return this.http.post(this.REST_API_URL + 'group-management/group/by_id/' + groupId, requestPayload, this.httpOptions);
   }
 
   removeStudentFromGroup(groupId: string, studentId: string) {
@@ -81,5 +81,18 @@ export class RestService {
 
   getStudents() {
     return this.http.get(this.REST_API_URL + 'user-management/students', this.httpOptions);
+  }
+
+  createTaskGroup(taskGroupName: string, isTestTaskGroup: boolean = false) {
+    const requestPayload = {
+      taskGroupName: taskGroupName,
+      isTestTaskGroup: isTestTaskGroup
+    };
+
+    return this.http.post(this.REST_API_URL + 'task-group-management/create', requestPayload, this.httpOptions);
+  }
+
+  getTaskGroups() {
+    return this.http.get(this.REST_API_URL + 'task-group-management/task-groups', this.httpOptions);
   }
 }
