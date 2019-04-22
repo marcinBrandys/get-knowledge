@@ -6,6 +6,7 @@ const appConfig = require('./config/config');
 const userManagementRoutes = require('./routes/api-user-management-routes');
 const groupManagementRoutes = require('./routes/api-group-management-routes');
 const taskGroupManagementRoutes = require('./routes/api-task-group-management-routes');
+const taskManagementRoutes = require('./routes/api-task-management-routes');
 
 mongoose.connect(appConfig.DB_PATH, {
         useNewUrlParser: true, useCreateIndex: true
@@ -27,6 +28,7 @@ app.options('*', cors());
 app.use('/api/user-management', userManagementRoutes);
 app.use('/api/group-management', groupManagementRoutes);
 app.use('/api/task-group-management', taskGroupManagementRoutes);
+app.use('/api/task-management', taskManagementRoutes);
 
 app.listen(appConfig.PORT, function () {
     console.log('app is working')

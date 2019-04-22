@@ -24,12 +24,10 @@ const taskSchema = mongooseTaskModel.Schema({
         type: String,
         require: true
     },
-    taskElements: [
-        {
-            type: String,
-            require: false
-        }
-    ],
+    taskPresentedValue: {
+        type: String,
+        require: true
+    },
     taskCorrectSolution: {
         type: String,
         require: true
