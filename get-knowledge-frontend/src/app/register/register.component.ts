@@ -24,6 +24,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   age = new FormControl('', [Validators.required, Validators.min(1), Validators.max(150)]);
   gender = new FormControl('', [Validators.required]);
   role = new FormControl('', [Validators.required]);
+  accessCode = new FormControl('');
   genders = [
     {value: 'female', viewValue: this.translations.ATTRIBUTE_GENDER_FEMALE},
     {value: 'male', viewValue: this.translations.ATTRIBUTE_GENDER_MALE}
@@ -32,7 +33,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     {value: 'teacher', viewValue: this.translations.ATTRIBUTE_ROLE_TEACHER},
     {value: 'student', viewValue: this.translations.ATTRIBUTE_ROLE_STUDENT}
   ];
-  passwordVisibilityState = true;
+  passwordInvisibilityState = true;
+  accessCodeInvisibilityState = true;
   @ViewChild(MatVerticalStepper) stepper: MatVerticalStepper;
 
   constructor(private restService: RestService, private notificationService: NotificationService, private fb: FormBuilder, private router: Router) { }
@@ -46,7 +48,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       lastName: this.lastName,
       age: this.age,
       gender: this.gender,
-      role: this.role
+      role: this.role,
+      accessCode: this.accessCode
     });
   }
 
@@ -55,10 +58,9 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    console.log(this.form.valid);
     if (this.form.valid) {
       this.register(this.email.value, this.password.value, this.nick.value, this.firstName.value, this.lastName.value,
-        this.age.value, this.gender.value, this.role.value
+        this.age.value, this.gender.value, this.role.value, this.accessCode.value
       );
     }
   }
@@ -67,8 +69,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/login']);
   }
 
-  register(email: string, password: string, nick: string, firstName: string, lastName: string, age: number, gender: string, role: string) {
-    this.restService.register(firstName, lastName, email, nick, password, gender, age, role).subscribe(
+  register(email: string, password: string, nick: string, firstName: string, lastName: string, age: number, gender: string, role: string, accessCode: string) {
+    this.restService.register(firstName, lastName, email, nick, password, gender, age, role, accessCode).subscribe(
       data => {
         this.notificationService.showNotification(this.translations.REGISTER_SUCCESS);
         this.goToLogin();

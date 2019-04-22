@@ -13,8 +13,8 @@
               <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
             </mat-form-field>
             <mat-form-field class="w-100 mb-2">
-              <input matInput placeholder="{{translations.ENTER_PASSWORD}}" [type]="passwordVisibilityState ? 'password' : 'text'" [formControl]="password" required>
-              <mat-icon matSuffix (click)="passwordVisibilityState = !passwordVisibilityState">{{passwordVisibilityState ? 'visibility_off' : 'visibility'}}</mat-icon>
+              <input matInput placeholder="{{translations.ENTER_PASSWORD}}" [type]="passwordInvisibilityState ? 'password' : 'text'" [formControl]="password" required>
+              <mat-icon matSuffix (click)="passwordInvisibilityState = !passwordInvisibilityState">{{passwordInvisibilityState ? 'visibility_off' : 'visibility'}}</mat-icon>
               <mat-error *ngIf="password.invalid">{{translations.PASSWORD_REQUIRED}}</mat-error>
             </mat-form-field>
             <mat-form-field class="w-100">
@@ -50,6 +50,10 @@
                 </mat-option>
               </mat-select>
               <mat-error *ngIf="role.hasError('required')">{{translations.ATTRIBUTE_ROLE_INVALID}}</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100 mb-2" *ngIf="role.value === 'teacher'">
+              <input matInput placeholder="{{translations.ATTRIBUTE_ROLE_TEACHER_ACCESS_CODE}}" [type]="accessCodeInvisibilityState ? 'password' : 'text'" [formControl]="accessCode">
+              <mat-icon matSuffix (click)="accessCodeInvisibilityState = !accessCodeInvisibilityState">{{accessCodeInvisibilityState ? 'visibility_off' : 'visibility'}}</mat-icon>
             </mat-form-field>
           </mat-step>
         </mat-vertical-stepper>

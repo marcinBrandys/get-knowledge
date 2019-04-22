@@ -28,6 +28,7 @@ export enum Translations {
   ATTRIBUTE_GENDER_FEMALE = 'Kobieta',
   ATTRIBUTE_GENDER_INVALID = 'Wybierz płeć',
   ATTRIBUTE_ROLE = 'Rodzaj konta',
+  ATTRIBUTE_ROLE_TEACHER_ACCESS_CODE = 'Kod nauczycielski',
   ATTRIBUTE_ROLE_ADMIN = 'Administrator',
   ATTRIBUTE_ROLE_TEACHER = 'Nauczyciel',
   ATTRIBUTE_ROLE_STUDENT = 'Uczeń',

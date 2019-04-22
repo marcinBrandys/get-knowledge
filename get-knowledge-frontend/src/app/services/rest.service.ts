@@ -29,7 +29,7 @@ export class RestService {
     return this.http.post(this.REST_API_URL + 'user-management/login', requestPayload, this.httpOptions);
   }
 
-  register(firstName: string, lastName: string, email: string, nick: string, password: string, gender: string, age: number, role: string) {
+  register(firstName: string, lastName: string, email: string, nick: string, password: string, gender: string, age: number, role: string, accessCode: string) {
     const requestPayload = {
       firstName: firstName,
       lastName: lastName,
@@ -38,7 +38,8 @@ export class RestService {
       password: password,
       gender: gender,
       age: age,
-      role: role
+      role: role,
+      accessCode: accessCode
     };
 
     return this.http.post(this.REST_API_URL + 'user-management/users', requestPayload, this.httpOptions);
