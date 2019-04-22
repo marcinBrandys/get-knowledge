@@ -40,6 +40,7 @@ export class TaskController {
         const owner = _.get(req, 'body.userId');
         const creationTs = +new Date();
         const taskContent = _.get(req, 'body.taskContent');
+        const taskTip = _.get(req, 'body.taskTip');
         const taskPresentedValue = _.get(req, 'body.taskPresentedValue');
         const taskCorrectSolution = _.get(req, 'body.taskCorrectSolution');
         const taskWeight = _.get(req, 'body.taskWeight');
@@ -53,6 +54,7 @@ export class TaskController {
                 owner: owner,
                 creationTs: creationTs,
                 taskContent: taskContent,
+                taskTip: taskTip,
                 taskPresentedValue: taskPresentedValue,
                 taskCorrectSolution: taskCorrectSolution,
                 taskWeight: taskWeight,

@@ -2,7 +2,7 @@ const generic_validator = require('validator');
 
 const supportedGenders = ['male', 'female'];
 const supportedRoles = ['admin', 'teacher', 'student'];
-const supportedTaskTypes = ['T_01'];
+const supportedTaskTypes = ['T_01', 'T_02'];
 
 const validatorService = {
     isEmailValid(email: string) {

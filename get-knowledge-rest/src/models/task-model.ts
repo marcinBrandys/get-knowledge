@@ -24,6 +24,10 @@ const taskSchema = mongooseTaskModel.Schema({
         type: String,
         require: true
     },
+    taskTip: {
+        type: String,
+        require: false
+    },
     taskPresentedValue: {
         type: String,
         require: true

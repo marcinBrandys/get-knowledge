@@ -23,6 +23,7 @@ export class CreatorComponent implements OnInit {
   selectTaskType = new FormControl('', [Validators.required]);
   selectTaskGroup = new FormControl('', [Validators.required]);
   taskContent = new FormControl('', [Validators.required]);
+  taskTip = new FormControl('');
   taskPresentedValue = new FormControl('');
   taskCorrectSolution = new FormControl('', [Validators.required]);
   taskWeight = new FormControl('', [Validators.required, Validators.min(1), Validators.max(10)]);
@@ -44,6 +45,7 @@ export class CreatorComponent implements OnInit {
       taskType: this.selectTaskType,
       taskGroup: this.selectTaskGroup,
       taskContent: this.taskContent,
+      taskTip: this.taskTip,
       taskPresentedValue: this.taskPresentedValue,
       taskCorrectSolution: this.taskCorrectSolution
     });
@@ -97,7 +99,7 @@ export class CreatorComponent implements OnInit {
   createTask() {
     console.log(this.taskCreationForm);
     if (this.taskCreationForm.valid) {
-      this.restService.createTask(this.taskTitle.value, this.selectTaskGroup.value, this.selectTaskType.value, this.taskContent.value, this.taskCorrectSolution.value, this.taskCorrectSolution.value, this.taskWeight.value, this.taskPoints.value).subscribe(
+      this.restService.createTask(this.taskTitle.value, this.selectTaskGroup.value, this.selectTaskType.value, this.taskContent.value, this.taskTip.value, this.taskCorrectSolution.value, this.taskCorrectSolution.value, this.taskWeight.value, this.taskPoints.value).subscribe(
         data => {
           console.log(data);
         },
