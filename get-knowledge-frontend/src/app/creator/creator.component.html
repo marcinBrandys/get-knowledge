@@ -28,14 +28,24 @@
             <input matInput placeholder="{{translations.ATTRIBUTE_TASK_TITLE}}" [formControl]="taskTitle" required>
           </mat-form-field>
           <mat-form-field class="w-100 mb-2">
-            <input matInput placeholder="{{translations.ATTRIBUTE_TASK_TYPE}}" [formControl]="taskType" required>
-          </mat-form-field>
-          <mat-form-field class="w-100 mb-2">
             <mat-select placeholder="{{translations.TITLE_ATTRIBUTE_TASK_GROUP}}" [formControl]="selectTaskGroup" required>
               <mat-option *ngFor="let taskGroup of taskGroups" [value]="taskGroup.id">
                 {{taskGroup.taskGroupName}}
               </mat-option>
             </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-100 mb-2">
+            <mat-select placeholder="{{translations.ATTRIBUTE_TASK_TYPE}}" [formControl]="selectTaskType" required>
+              <mat-option *ngFor="let taskType of taskTypes" [value]="taskType['code']">
+                {{taskType['translation']}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field class="w-100 mb-2">
+            <input matInput placeholder="{{translations.ATTRIBUTE_TASK_WEIGHT}}" [formControl]="taskWeight" type="number" [min]="1" [max]="10" required>
+          </mat-form-field>
+          <mat-form-field class="w-100 mb-2">
+            <input matInput placeholder="{{translations.ATTRIBUTE_TASK_POINTS}}" [formControl]="taskPoints" type="number" [min]="1" [max]="20" required>
           </mat-form-field>
           <mat-form-field class="w-100 mb-2">
             <textarea matInput
@@ -45,18 +55,16 @@
                       cdkAutosizeMaxRows="5"
                       required></textarea>
           </mat-form-field>
-          <mat-form-field class="w-100 mb-2">
-            <input matInput placeholder="{{translations.ATTRIBUTE_TASK_ELEMENTS}}" [formControl]="taskElements">
-          </mat-form-field>
-          <mat-form-field class="w-100 mb-2">
-            <input matInput placeholder="{{translations.ATTRIBUTE_TASK_CORRECT_SOLUTION}}" [formControl]="taskCorrectSolution">
-          </mat-form-field>
-          <mat-form-field class="w-100 mb-2">
-            <input matInput placeholder="{{translations.ATTRIBUTE_TASK_WEIGHT}}" [formControl]="taskWeight" type="number" [min]="1" [max]="10" required>
-          </mat-form-field>
-          <mat-form-field class="w-100 mb-2">
-            <input matInput placeholder="{{translations.ATTRIBUTE_TASK_POINTS}}" [formControl]="taskPoints" type="number" [min]="1" [max]="20" required>
-          </mat-form-field>
+          <!-- T_01 -->
+          <div *ngIf="selectTaskType.value === 'T_01'">
+<!--            <mat-form-field class="w-100 mb-2">-->
+<!--              <input matInput placeholder="{{translations.ATTRIBUTE_TASK_PRESENTED_VALUE}}" [formControl]="taskPresentedValue">-->
+<!--            </mat-form-field>-->
+            <mat-form-field class="w-100 mb-2">
+              <input matInput placeholder="{{translations.ATTRIBUTE_TASK_CORRECT_SOLUTION}}" [formControl]="taskCorrectSolution">
+            </mat-form-field>
+          </div>
+          <!-- T_01 -->
           <button type="submit" mat-raised-button color="primary" class="text-uppercase mx-auto w-50" [disabled]="taskCreationForm.invalid">{{translations.ACTION_ADD}}</button>
         </form>
       </div>

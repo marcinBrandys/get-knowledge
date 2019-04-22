@@ -20,6 +20,19 @@ export class TaskController {
         });
     }
 
+    getTasks(req, res) {
+        Task.find({}).then(function (tasks) {
+            res.json({
+                tasks: tasks
+            });
+        }).catch(function (error) {
+            res.statusCode = 400;
+            res.json({
+                error: error
+            });
+        });
+    }
+
     createTask(req, res) {
         const taskTitle = _.get(req, 'body.taskTitle');
         const taskGroup = _.get(req, 'body.taskGroup');
@@ -33,7 +46,18 @@ export class TaskController {
         const taskPoints = _.get(req, 'body.taskPoints');
 
         if (validatorService.isTaskTypeValid(taskType)) {
-            let task = new Task(taskTitle, taskGroup, taskType, owner, creationTs, taskContent, taskPresentedValue, taskCorrectSolution, taskWeight, taskPoints);
+            let task = new Task({
+                taskTitle: taskTitle,
+                taskGroup: taskGroup,
+                taskType: taskType,
+                owner: owner,
+                creationTs: creationTs,
+                taskContent: taskContent,
+                taskPresentedValue: taskPresentedValue,
+                taskCorrectSolution: taskCorrectSolution,
+                taskWeight: taskWeight,
+                taskPoints: taskPoints
+            });
 
             task.save().then(function () {
                 res.json({

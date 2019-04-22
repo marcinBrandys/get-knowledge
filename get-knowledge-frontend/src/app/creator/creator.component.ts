@@ -5,6 +5,7 @@ import {RestService} from "../services/rest.service";
 import {TaskGroup} from "../classes/task-group";
 import * as _ from "lodash";
 import {NotificationService} from "../services/notification.service";
+import {MappingsService} from "../services/mappings.service";
 
 @Component({
   selector: 'app-creator',
@@ -19,19 +20,20 @@ export class CreatorComponent implements OnInit {
   isTestTaskGroup: boolean = false;
   taskCreationForm: FormGroup;
   taskTitle = new FormControl('', [Validators.required]);
-  taskType = new FormControl('', [Validators.required]);
+  selectTaskType = new FormControl('', [Validators.required]);
   selectTaskGroup = new FormControl('', [Validators.required]);
   taskContent = new FormControl('', [Validators.required]);
-  taskElements = new FormControl('');
+  taskPresentedValue = new FormControl('');
   taskCorrectSolution = new FormControl('', [Validators.required]);
   taskWeight = new FormControl('', [Validators.required, Validators.min(1), Validators.max(10)]);
   taskPoints = new FormControl('', [Validators.required, Validators.min(1), Validators.max(20)]);
 
   taskGroups: TaskGroup[] = [];
+  taskTypes: object[] = this.mappingsService.taskTypes;
 
   @ViewChild('createTaskGroupNgForm') createTaskGroupNgForm;
 
-  constructor(private restService: RestService, private notificationService: NotificationService, private fb: FormBuilder) { }
+  constructor(private restService: RestService, private notificationService: NotificationService, private fb: FormBuilder, private mappingsService: MappingsService) { }
 
   ngOnInit() {
     this.taskGroupCreationForm = this.fb.group({
@@ -39,10 +41,10 @@ export class CreatorComponent implements OnInit {
     });
     this.taskCreationForm = this.fb.group({
       taskTitle: this.taskTitle,
-      taskType: this.taskType,
+      taskType: this.selectTaskType,
       taskGroup: this.selectTaskGroup,
       taskContent: this.taskContent,
-      taskElements: this.taskElements,
+      taskPresentedValue: this.taskPresentedValue,
       taskCorrectSolution: this.taskCorrectSolution
     });
     this.getTaskGroups();
@@ -87,13 +89,23 @@ export class CreatorComponent implements OnInit {
     }
   }
 
-  createTask() {
-    console.log(this.taskCreationForm);
-  }
-
   resetCreateTaskGroupForm() {
     this.taskGroupCreationForm.reset();
     this.createTaskGroupNgForm.resetForm();
+  }
+
+  createTask() {
+    console.log(this.taskCreationForm);
+    if (this.taskCreationForm.valid) {
+      this.restService.createTask(this.taskTitle.value, this.selectTaskGroup.value, this.selectTaskType.value, this.taskContent.value, this.taskCorrectSolution.value, this.taskCorrectSolution.value, this.taskWeight.value, this.taskPoints.value).subscribe(
+        data => {
+          console.log(data);
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
   }
 
 }
