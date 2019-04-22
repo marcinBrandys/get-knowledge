@@ -95,4 +95,20 @@ export class RestService {
   getTaskGroups() {
     return this.http.get(this.REST_API_URL + 'task-group-management/task-groups', this.httpOptions);
   }
+
+  createTask(taskTitle: string, taskGroup: string, taskType: string, taskContent: string, taskTip: string, taskPresentedValue: string, taskCorrectSolution: string, taskWeight: number, taskPoints: number) {
+    const requestPayload = {
+      taskTitle: taskTitle,
+      taskGroup: taskGroup,
+      taskType: taskType,
+      taskContent: taskContent,
+      taskTip: taskTip,
+      taskPresentedValue: taskPresentedValue,
+      taskCorrectSolution: taskCorrectSolution,
+      taskWeight: taskWeight,
+      taskPoints: taskPoints
+    };
+
+    return this.http.post(this.REST_API_URL + 'task-management/create', requestPayload, this.httpOptions);
+  }
 }

@@ -3,7 +3,9 @@ const _ = require('lodash');
 
 export class TaskGroupController {
     getTaskGroups(req, res) {
-        TaskGroup.find({}).then(function (taskGroups) {
+        const ownerId = req.body.userId;
+
+        TaskGroup.find({owner: ownerId}).then(function (taskGroups) {
             res.json({
                 taskGroups: taskGroups
             });

@@ -58,11 +58,14 @@ export enum Translations {
   ATTRIBUTE_TASK_IS_TEST_GROUP = 'Grupa pytań testowych?',
   TITLE_CREATE_TASK = 'Dodawanie zadania',
   ATTRIBUTE_TASK_TITLE = 'Tytuł zadania',
-  ATTRIBUTE_TASK_TYPE = 'Typ zadania #TODO',
+  ATTRIBUTE_TASK_TYPE = 'Typ zadania',
   ATTRIBUTE_TASK_CONTENT = 'Treść zadania',
-  ATTRIBUTE_TASK_ELEMENTS = 'Elementy dodatkowe #TODO',
+  ATTRIBUTE_TASK_TIP = 'Podpowiedź',
+  ATTRIBUTE_TASK_PRESENTED_VALUE = 'Zawartość prezentowana',
   ATTRIBUTE_TASK_CORRECT_SOLUTION = 'Prawidłowa odpowiedź',
   ATTRIBUTE_TASK_WEIGHT = 'Waga zadania',
   ATTRIBUTE_TASK_POINTS = 'Punktacja zadania',
-  TITLE_ATTRIBUTE_TASK_GROUP = 'Grupa zadań'
+  TITLE_ATTRIBUTE_TASK_GROUP = 'Grupa zadań',
+  TASK_TYPE_T_01 = 'Otwarte',
+  TASK_TYPE_T_02 = 'Otwarte z podpowiedzią'
 }

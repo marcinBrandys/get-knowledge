@@ -3,6 +3,7 @@ const validatorConfig = require('../config/config');
 
 const supportedGenders = ['male', 'female'];
 const supportedRoles = ['admin', 'teacher', 'student'];
+const supportedTaskTypes = ['T_01', 'T_02'];
 
 const validatorService = {
     isEmailValid(email: string) {
@@ -13,6 +14,9 @@ const validatorService = {
     },
     isRoleValid(role: string) {
         return generic_validator.isIn(role, supportedRoles);
+    },
+    isTaskTypeValid(taskType: string) {
+        return generic_validator.isIn(taskType, supportedTaskTypes);
     },
     isAccessCodeValid(role: string, accessCode: string) {
         let isValid: boolean = true;
