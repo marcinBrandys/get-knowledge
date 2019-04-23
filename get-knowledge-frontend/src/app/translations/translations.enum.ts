@@ -54,6 +54,8 @@ export enum Translations {
   TITLE_CREATE_TASK_GROUP = 'Dodawanie grupy zadań',
   CREATE_TASK_GROUP_SUCCESS = 'Dodano grupę zadań',
   TITLE_TASK_GROUPS = 'Twoje grupy zadań',
+  TITLE_SELECT_TASK_GROUPS = 'Wybierz grupę zadań z listy',
+  TITLE_SELECT_TASK_TYPES = 'Wybierz typ zadań z listy',
   ATTRIBUTE_TASK_GROUP_NAME = 'Nazwa grupy zadań',
   ATTRIBUTE_TASK_IS_TEST_GROUP = 'Grupa pytań testowych?',
   TITLE_CREATE_TASK = 'Dodawanie zadania',
@@ -65,6 +67,9 @@ export enum Translations {
   ATTRIBUTE_TASK_CORRECT_SOLUTION = 'Prawidłowa odpowiedź',
   ATTRIBUTE_TASK_WEIGHT = 'Waga zadania',
   ATTRIBUTE_TASK_POINTS = 'Punktacja zadania',
+  ATTRIBUTE_TASK_SOLUTION = 'Odpowiedź',
+  ACTION_SKIP_TASK = 'Pomiń zadanie',
+  ACTION_SUBMIT_TASK_SOLUTION = 'Zatwierdź odpowiedź',
   TITLE_ATTRIBUTE_TASK_GROUP = 'Grupa zadań',
   TASK_TYPE_T_01 = 'Otwarte',
   TASK_TYPE_T_02 = 'Otwarte z podpowiedzią'

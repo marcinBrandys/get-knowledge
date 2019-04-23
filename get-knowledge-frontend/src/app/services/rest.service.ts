@@ -96,6 +96,10 @@ export class RestService {
     return this.http.get(this.REST_API_URL + 'task-group-management/task-groups', this.httpOptions);
   }
 
+  getStudentTaskGroups() {
+    return this.http.get(this.REST_API_URL + 'task-group-management/student-task-groups', this.httpOptions);
+  }
+
   createTask(taskTitle: string, taskGroup: string, taskType: string, taskContent: string, taskTip: string, taskPresentedValue: string, taskCorrectSolution: string, taskWeight: number, taskPoints: number) {
     const requestPayload = {
       taskTitle: taskTitle,
@@ -110,5 +114,9 @@ export class RestService {
     };
 
     return this.http.post(this.REST_API_URL + 'task-management/create', requestPayload, this.httpOptions);
+  }
+
+  getTask(taskGroup: string, taskType: string) {
+    return this.http.get(this.REST_API_URL + 'task-management/task/' + taskGroup + '/' + taskType, this.httpOptions);
   }
 }

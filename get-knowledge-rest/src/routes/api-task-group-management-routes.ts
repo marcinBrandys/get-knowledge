@@ -10,4 +10,7 @@ router.route('/create')
 router.route('/task-groups')
     .get(authService.validateUser, authService.requireTeacher, taskGroupController.getTaskGroups);
 
+router.route('/student-task-groups')
+    .get(authService.validateUser, taskGroupController.getStudentTaskGroups);
+
 module.exports = router;

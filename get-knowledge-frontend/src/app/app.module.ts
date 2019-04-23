@@ -12,7 +12,7 @@ import {
   MatCardModule, MatCheckboxModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatMenuModule, MatPaginatorModule, MatSelectModule, MatSliderModule,
+  MatInputModule, MatListModule, MatMenuModule, MatPaginatorModule, MatSelectModule, MatSliderModule,
   MatSnackBarModule, MatStepperModule, MatTableModule, MatTabsModule, MatToolbarModule
 } from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -70,7 +70,8 @@ export function tokenGetter() {
     MatTabsModule,
     MatTableModule,
     MatPaginatorModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatListModule
   ],
   providers: [RestService, {
     provide: HTTP_INTERCEPTORS,
