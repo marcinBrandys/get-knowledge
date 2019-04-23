@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {environment} from "../../environments/environment.prod";
 import {AuthService} from "./auth.service";
 import * as _ from 'lodash';
+import {Solution} from "../classes/solution";
 
 @Injectable({
   providedIn: 'root'
@@ -118,5 +119,9 @@ export class RestService {
 
   getTask(taskGroup: string, taskType: string) {
     return this.http.get(this.REST_API_URL + 'task-management/task/' + taskGroup + '/' + taskType, this.httpOptions);
+  }
+
+  submitSolution(solution: Solution) {
+    return this.http.post(this.REST_API_URL + 'solution-management/solution', solution, this.httpOptions);
   }
 }

@@ -63,6 +63,7 @@ export enum Translations {
   ATTRIBUTE_TASK_TYPE = 'Typ zadania',
   ATTRIBUTE_TASK_CONTENT = 'Treść zadania',
   ATTRIBUTE_TASK_TIP = 'Podpowiedź',
+  ATTRIBUTE_TASK_TIP_SHOW = 'Rozwiń aby skorzystać z podpowiedzi',
   ATTRIBUTE_TASK_PRESENTED_VALUE = 'Zawartość prezentowana',
   ATTRIBUTE_TASK_CORRECT_SOLUTION = 'Prawidłowa odpowiedź',
   ATTRIBUTE_TASK_WEIGHT = 'Waga zadania',
@@ -72,5 +73,7 @@ export enum Translations {
   ACTION_SUBMIT_TASK_SOLUTION = 'Zatwierdź odpowiedź',
   TITLE_ATTRIBUTE_TASK_GROUP = 'Grupa zadań',
   TASK_TYPE_T_01 = 'Otwarte',
-  TASK_TYPE_T_02 = 'Otwarte z podpowiedzią'
+  TASK_TYPE_T_02 = 'Otwarte z podpowiedzią',
+  TITLE_CORRECT_ANSWER = 'Odpowiedź prawidłowa!',
+  TITLE_INCORRECT_ANSWER = 'Odpowiedź błędna!'
 }

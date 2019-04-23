@@ -9,7 +9,7 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {
   MatButtonModule,
-  MatCardModule, MatCheckboxModule,
+  MatCardModule, MatCheckboxModule, MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
   MatInputModule, MatListModule, MatMenuModule, MatPaginatorModule, MatSelectModule, MatSliderModule,
@@ -71,7 +71,8 @@ export function tokenGetter() {
     MatTableModule,
     MatPaginatorModule,
     MatCheckboxModule,
-    MatListModule
+    MatListModule,
+    MatExpansionModule
   ],
   providers: [RestService, {
     provide: HTTP_INTERCEPTORS,
