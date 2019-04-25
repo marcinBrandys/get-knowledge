@@ -74,6 +74,9 @@ export enum Translations {
   TITLE_ATTRIBUTE_TASK_GROUP = 'Grupa zadań',
   TASK_TYPE_T_01 = 'Otwarte',
   TASK_TYPE_T_02 = 'Otwarte z podpowiedzią',
+  TASK_TYPE_W_03 = 'Prawda / Fałsz',
   TITLE_CORRECT_ANSWER = 'Odpowiedź prawidłowa!',
-  TITLE_INCORRECT_ANSWER = 'Odpowiedź błędna!'
+  TITLE_INCORRECT_ANSWER = 'Odpowiedź błędna!',
+  TITLE_TRUE = 'Prawda',
+  TITLE_FALSE = 'Fałsz'
 }

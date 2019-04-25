@@ -23,8 +23,8 @@ export class CreatorComponent implements OnInit {
   selectTaskType = new FormControl('', [Validators.required]);
   selectTaskGroup = new FormControl('', [Validators.required]);
   taskContent = new FormControl('', [Validators.required]);
-  taskTip = new FormControl('');
-  taskPresentedValue = new FormControl('');
+  taskTip = new FormControl('', [Validators.required]);
+  taskPresentedValue = new FormControl('', [Validators.required]);
   taskCorrectSolution = new FormControl('', [Validators.required]);
   taskWeight = new FormControl('', [Validators.required, Validators.min(1), Validators.max(10)]);
   taskPoints = new FormControl('', [Validators.required, Validators.min(1), Validators.max(20)]);
@@ -40,15 +40,7 @@ export class CreatorComponent implements OnInit {
     this.taskGroupCreationForm = this.fb.group({
       taskGroupName: this.taskGroupName
     });
-    this.taskCreationForm = this.fb.group({
-      taskTitle: this.taskTitle,
-      taskType: this.selectTaskType,
-      taskGroup: this.selectTaskGroup,
-      taskContent: this.taskContent,
-      taskTip: this.taskTip,
-      taskPresentedValue: this.taskPresentedValue,
-      taskCorrectSolution: this.taskCorrectSolution
-    });
+    this.initTaskCreationForm();
     this.getTaskGroups();
   }
 
@@ -108,6 +100,24 @@ export class CreatorComponent implements OnInit {
         }
       )
     }
+  }
+
+  initTaskCreationForm() {
+    let config = {
+      taskTitle: this.taskTitle,
+      taskType: this.selectTaskType,
+      taskGroup: this.selectTaskGroup,
+      taskContent: this.taskContent,
+      taskCorrectSolution: this.taskCorrectSolution
+    };
+    if (this.selectTaskType.value === 'T_02') {
+      config['taskTip'] = this.taskTip;
+    }
+    this.taskCreationForm = this.fb.group(config);
+  }
+
+  onTaskTypeSelect() {
+    this.initTaskCreationForm();
   }
 
 }
