@@ -17,6 +17,21 @@ export class TaskGroupController {
         });
     }
 
+    getStudentTaskGroups(req, res) {
+        const studentId = req.body.userId;
+
+        TaskGroup.find({}).then(function (taskGroups) {
+            res.json({
+                taskGroups: taskGroups
+            });
+        }).catch(function (error) {
+            res.statusCode = 400;
+            res.json({
+                error: error
+            });
+        });
+    }
+
     createTaskGroup(req, res) {
         const taskGroupName = _.get(req, 'body.taskGroupName');
         const isTestTaskGroup = _.get(req, 'body.isTestTaskGroup');

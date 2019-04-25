@@ -9,10 +9,10 @@ import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {
   MatButtonModule,
-  MatCardModule, MatCheckboxModule,
+  MatCardModule, MatCheckboxModule, MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatMenuModule, MatPaginatorModule, MatSelectModule, MatSliderModule,
+  MatInputModule, MatListModule, MatMenuModule, MatPaginatorModule, MatSelectModule, MatSliderModule,
   MatSnackBarModule, MatStepperModule, MatTableModule, MatTabsModule, MatToolbarModule
 } from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
@@ -70,7 +70,9 @@ export function tokenGetter() {
     MatTabsModule,
     MatTableModule,
     MatPaginatorModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatListModule,
+    MatExpansionModule
   ],
   providers: [RestService, {
     provide: HTTP_INTERCEPTORS,

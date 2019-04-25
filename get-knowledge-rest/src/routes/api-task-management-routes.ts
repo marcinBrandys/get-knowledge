@@ -7,7 +7,7 @@ const taskController = new TaskController();
 router.route('/create')
     .post(authService.validateUser, authService.requireTeacher, taskController.createTask);
 
-router.route('/task/:taskGroup/:selectTaskType')
+router.route('/task/:taskGroup/:taskType')
     .get(authService.validateUser, taskController.getTask);
 
 router.route('/tasks')

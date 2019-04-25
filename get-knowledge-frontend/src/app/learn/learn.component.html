@@ -1,5 +1,66 @@
-<div class="container content-wrapper my-5">
-  <p>
-    learn works!
-  </p>
+<div class="container my-5">
+  <div class="row">
+    <div class="col-4">
+      <div class="col-12 content-wrapper">
+        <h4 class="mt-0 mb-2 text-center">{{translations.TITLE_TASK_GROUPS}}</h4>
+        <mat-selection-list #taskGroupSelection (selectionChange)="onTaskGroupSelection($event, taskGroupSelection.selectedOptions)">
+          <mat-list-option *ngFor="let taskGroup of taskGroups" [value]='taskGroup'>
+            {{taskGroup.taskGroupName}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+      <div class="col-12 content-wrapper mt-4">
+        <h4 class="mt-0 mb-2 text-center">{{translations.TITLE_SELECT_TASK_TYPES}}</h4>
+        <mat-selection-list #taskTypeSelection (selectionChange)="onTaskTypeSelection($event, taskGroupSelection.selectedOptions)">
+          <mat-list-option *ngFor="let taskType of taskTypes" [value]='taskType'>
+            {{taskType['translation']}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+    </div>
+    <div class="col-8">
+      <div class="col-12 content-wrapper" *ngIf="selectedTaskGroup === null || selectedTaskType === null">
+        <h4 class="mt-0 mb-2 text-center" *ngIf="selectedTaskGroup === null">{{translations.TITLE_SELECT_TASK_GROUPS}}</h4>
+        <h4 class="mt-0 mb-2 text-center" *ngIf="selectedTaskType === null">{{translations.TITLE_SELECT_TASK_TYPES}}</h4>
+      </div>
+      <div class="col-12 content-wrapper" *ngIf="selectedTaskGroup && selectedTaskType && task">
+        <h4 class="mt-0 mb-2 text-center">{{task.taskTitle}}</h4>
+        <form id="task-creation-form" class="d-flex flex-column mx-auto w-100" (ngSubmit)="submitSolution()" #ngForm="ngForm">
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'T_01'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <mat-form-field class="w-100 mb-2">
+              <input matInput placeholder="{{translations.ATTRIBUTE_TASK_SOLUTION}}" [formControl]="taskSolution" required>
+            </mat-form-field>
+          </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'T_02'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <mat-form-field class="w-100 mb-2">
+              <input matInput placeholder="{{translations.ATTRIBUTE_TASK_SOLUTION}}" [formControl]="taskSolution" required>
+            </mat-form-field>
+            <mat-accordion *ngIf="task.taskTip">
+              <mat-expansion-panel (opened)="onTipOpen()">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{translations.ATTRIBUTE_TASK_TIP}}
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    {{translations.ATTRIBUTE_TASK_TIP_SHOW}}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p class="text-justify">{{task.taskTip}}</p>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+          <div class="row">
+            <div class="col-6 text-right">
+              <button type="button" mat-raised-button color="accent" class="text-uppercase d-inline-block" (click)="resetTask()">{{translations.ACTION_SKIP_TASK}}</button>
+            </div>
+            <div class="col-6 text-left">
+              <button type="submit" mat-raised-button color="primary" class="text-uppercase d-inline-block" [disabled]="form.invalid">{{translations.ACTION_SUBMIT_TASK_SOLUTION}}</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
