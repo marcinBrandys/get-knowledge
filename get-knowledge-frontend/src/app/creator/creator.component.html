@@ -23,7 +23,7 @@
     <div class="col-8">
       <div class="col-12 content-wrapper">
         <h4 class="mt-0 mb-4 text-center">{{translations.TITLE_CREATE_TASK}}</h4>
-        <form id="task-creation-form" class="d-flex flex-column mx-auto w-75" (ngSubmit)="createTask()">
+        <form id="task-creation-form" class="d-flex flex-column mx-auto w-75" (ngSubmit)="createTask()" #createTaskNgForm="ngForm">
           <mat-form-field class="w-100 mb-2">
             <input matInput placeholder="{{translations.ATTRIBUTE_TASK_TITLE}}" [formControl]="taskTitle" required>
           </mat-form-field>
@@ -88,7 +88,16 @@
             </mat-radio-group>
           </div>
           <!-- W_03 -->
-          <button type="submit" mat-raised-button color="primary" class="text-uppercase mx-auto w-50" [disabled]="taskCreationForm.invalid">{{translations.ACTION_ADD}}</button>
+
+
+          <div class="row">
+            <div class="col-6 text-right">
+              <button type="button" mat-raised-button color="accent" class="text-uppercase d-inline-block" (click)="resetCreateTaskForm()">{{translations.TITLE_TASK_ADD_CANCEL}}</button>
+            </div>
+            <div class="col-6 text-left">
+              <button type="submit" mat-raised-button color="primary" class="text-uppercase mx-auto w-50" [disabled]="taskCreationForm.invalid">{{translations.ACTION_ADD}}</button>
+            </div>
+          </div>
         </form>
       </div>
     </div>
