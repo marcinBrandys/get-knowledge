@@ -71,6 +71,7 @@ export enum Translations {
   ATTRIBUTE_TASK_SOLUTION = 'Odpowiedź',
   ACTION_SKIP_TASK = 'Pomiń zadanie',
   ACTION_SUBMIT_TASK_SOLUTION = 'Zatwierdź odpowiedź',
+  ACTION_NEXT_TASK = 'Kolejne zadanie',
   TITLE_ATTRIBUTE_TASK_GROUP = 'Grupa zadań',
   TASK_TYPE_T_01 = 'Otwarte',
   TASK_TYPE_T_02 = 'Otwarte z podpowiedzią',

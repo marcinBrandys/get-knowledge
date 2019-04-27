@@ -50,6 +50,14 @@
               </mat-expansion-panel>
             </mat-accordion>
           </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'W_01'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <mat-radio-group [formControl]="taskSolution">
+              <ul class="list-unstyled">
+                <li class="mb-3" *ngFor="let wTypeSolution of wTypeSolutions"><mat-radio-button [value]="wTypeSolution">{{wTypeSolution}}</mat-radio-button></li>
+              </ul>
+            </mat-radio-group>
+          </div>
           <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'W_03'">
             <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
             <mat-radio-group [formControl]="taskSolution">
@@ -61,10 +69,11 @@
           </div>
           <div class="row">
             <div class="col-6 text-right">
-              <button type="button" mat-raised-button color="accent" class="text-uppercase d-inline-block" (click)="resetTask()">{{translations.ACTION_SKIP_TASK}}</button>
+              <button *ngIf="!isTaskSubmitted" type="button" mat-raised-button color="accent" class="text-uppercase d-inline-block" (click)="resetTask()">{{translations.ACTION_SKIP_TASK}}</button>
             </div>
             <div class="col-6 text-left">
-              <button type="submit" mat-raised-button color="primary" class="text-uppercase d-inline-block" [disabled]="form.invalid">{{translations.ACTION_SUBMIT_TASK_SOLUTION}}</button>
+              <button *ngIf="!isTaskSubmitted" type="submit" mat-raised-button color="primary" class="text-uppercase d-inline-block" [disabled]="form.invalid">{{translations.ACTION_SUBMIT_TASK_SOLUTION}}</button>
+              <button *ngIf="isTaskSubmitted" type="button" mat-raised-button color="primary" class="text-uppercase d-inline-block" (click)="resetTask()">{{translations.ACTION_NEXT_TASK}}</button>
             </div>
           </div>
         </form>

@@ -29,6 +29,9 @@ export class LearnComponent implements OnInit {
   taskSolution = new FormControl('', [Validators.required]);
 
   solution: Solution = null;
+  isTaskSubmitted: boolean = false;
+
+  wTypeSolutions: string[] = [];
 
   @ViewChild('taskGroupSelection') taskGroupSelection: MatSelectionList;
   @ViewChild('taskTypeSelection') taskTypeSelection: MatSelectionList;
@@ -105,11 +108,18 @@ export class LearnComponent implements OnInit {
 
           this.task = new Task(id, taskTitle, taskGroup, taskType, owner, creationTs, taskContent, taskTip, taskPresentedValue, taskCorrectSolution, taskWeight, taskPoints);
           this.solution = new Solution(this.task.id);
+          this.prepareTaskView();
         },
         error => {
           console.log(error);
         }
       )
+    }
+  }
+
+  prepareTaskView() {
+    if (this.task && this.task.taskType === 'W_01') {
+      this.wTypeSolutions = _.split(this.task.taskPresentedValue, this.mappingsService.wTypeSeparator);
     }
   }
 
@@ -130,6 +140,9 @@ export class LearnComponent implements OnInit {
         },
         error => {
           console.log(error);
+        },
+        () => {
+          this.isTaskSubmitted = true;
         }
       )
     }
@@ -140,6 +153,8 @@ export class LearnComponent implements OnInit {
     this.ngForm.resetForm();
     this.task = null;
     this.solution = null;
+    this.wTypeSolutions = [];
+    this.isTaskSubmitted = false;
     this.bindTask();
   }
 }
