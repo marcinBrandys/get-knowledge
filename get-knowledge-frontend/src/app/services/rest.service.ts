@@ -114,7 +114,7 @@ export class RestService {
       taskPoints: taskPoints
     };
 
-    return this.http.post(this.REST_API_URL + 'task-management/create', requestPayload, this.httpOptions);
+    return this.http.post(this.REST_API_URL + 'task-management/createe', requestPayload, this.httpOptions);
   }
 
   getTask(taskGroup: string, taskType: string) {
