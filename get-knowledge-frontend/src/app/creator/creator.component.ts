@@ -32,6 +32,7 @@ export class CreatorComponent implements OnInit {
   taskTypes: object[] = this.mappingsService.taskTypes;
 
   wTypeSolutions: string[] = [];
+  wTypeCheckboxSolutions: object[] = [];
 
   @ViewChild('createTaskGroupNgForm') createTaskGroupNgForm;
   @ViewChild('createTaskNgForm') createTaskNgForm;
@@ -94,13 +95,15 @@ export class CreatorComponent implements OnInit {
     this.taskCreationForm.reset();
     this.createTaskNgForm.resetForm();
     this.wTypeSolutions = [];
+    this.wTypeCheckboxSolutions = [];
   }
 
   createTask() {
     console.log(this.taskCreationForm);
     if (this.taskCreationForm.valid) {
       const taskPresentedValue: string = this.prepareTaskPresentedValue();
-      this.restService.createTask(this.taskTitle.value, this.selectTaskGroup.value, this.selectTaskType.value, this.taskContent.value, this.taskTip.value, taskPresentedValue, this.taskCorrectSolution.value, this.taskWeight.value, this.taskPoints.value).subscribe(
+      const solution: string = this.taskCorrectSolution.value ? this.taskCorrectSolution.value : this.prepareSolution();
+      this.restService.createTask(this.taskTitle.value, this.selectTaskGroup.value, this.selectTaskType.value, this.taskContent.value, this.taskTip.value, taskPresentedValue, solution, this.taskWeight.value, this.taskPoints.value).subscribe(
         data => {
           console.log(data);
           this.notificationService.showNotification(this.translations.TITLE_TASK_ADDED);
@@ -125,8 +128,12 @@ export class CreatorComponent implements OnInit {
     if (this.selectTaskType.value === 'T_02') {
       config['taskTip'] = this.taskTip;
     }
+    if (this.selectTaskType.value === 'W_02') {
+      delete config.taskCorrectSolution;
+    }
     this.taskCreationForm = this.fb.group(config);
     this.wTypeSolutions = [];
+    this.wTypeCheckboxSolutions = [];
   }
 
   onTaskTypeSelect() {
@@ -134,13 +141,44 @@ export class CreatorComponent implements OnInit {
   }
 
   addWTypeSolution(wTypeSolution: string) {
-    this.wTypeSolutions.push(wTypeSolution);
+    if (this.selectTaskType.value === 'W_01') {
+      this.wTypeSolutions.push(wTypeSolution);
+    } else if (this.selectTaskType.value === 'W_02') {
+      this.wTypeCheckboxSolutions.push({
+        text: wTypeSolution,
+        check: false
+      });
+    }
+  }
+
+  prepareSolution(): string {
+    let solution: string = '';
+    if (this.selectTaskType.value === 'W_02') {
+      const checkedSolutions = _.filter(this.wTypeCheckboxSolutions, function (o) {
+        return o['check'];
+      });
+      let checkedTexts: string[] = [];
+      for (let solution of checkedSolutions) {
+        checkedTexts.push(solution['text']);
+      }
+      checkedTexts = checkedTexts.sort();
+      solution = _.join(checkedTexts, this.mappingsService.wTypeSeparator);
+    }
+
+    return solution;
   }
 
   prepareTaskPresentedValue(): string {
     let taskPresentedValue: string = '';
     if (this.selectTaskType.value === 'W_01') {
       taskPresentedValue = _.join(this.wTypeSolutions, this.mappingsService.wTypeSeparator);
+    } else if (this.selectTaskType.value === 'W_02') {
+      let texts: string[] = [];
+      for (let solution of this.wTypeCheckboxSolutions) {
+        texts.push(solution['text']);
+      }
+      texts = texts.sort();
+      taskPresentedValue = _.join(texts, this.mappingsService.wTypeSeparator);
     }
 
     return taskPresentedValue;

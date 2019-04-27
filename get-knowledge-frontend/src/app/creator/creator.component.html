@@ -86,11 +86,27 @@
             </mat-form-field>
             <mat-radio-group [formControl]="taskCorrectSolution">
               <ul class="list-unstyled">
-                <li class="mb-3" *ngFor="let wTypeSolution of wTypeSolutions"><mat-radio-button [value]="wTypeSolution">{{wTypeSolution}}</mat-radio-button></li>
+                <li class="mb-3" *ngFor="let wTypeSolution of wTypeSolutions">
+                  <mat-radio-button [value]="wTypeSolution">{{wTypeSolution}}</mat-radio-button>
+                </li>
               </ul>
             </mat-radio-group>
           </div>
           <!-- W_01 -->
+
+          <!-- W_02 -->
+          <div *ngIf="selectTaskType.value === 'W_02'">
+            <mat-form-field class="w-100 mb-2">
+              <input matInput #itemValue [placeholder]="translations.TITLE_ADD_SOLUTION_PLACEHOLDER">
+              <mat-icon class="cursor-pointer" matSuffix (click)="addWTypeSolution(itemValue.value); itemValue.value = ''">add_circle_outline</mat-icon>
+            </mat-form-field>
+            <ul class="list-unstyled">
+              <li class="mb-3" *ngFor="let wTypeCheckboxSolution of wTypeCheckboxSolutions">
+                <mat-checkbox [(ngModel)]="wTypeCheckboxSolution['check']" [ngModelOptions]="{standalone: true}" value="true">{{wTypeCheckboxSolution['text']}}</mat-checkbox>
+              </li>
+            </ul>
+          </div>
+          <!-- W_02 -->
 
           <!-- W_03 -->
           <div *ngIf="selectTaskType.value === 'W_03'">
