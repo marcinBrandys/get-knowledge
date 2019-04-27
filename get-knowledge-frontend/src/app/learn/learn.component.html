@@ -75,6 +75,35 @@
               </ul>
             </mat-radio-group>
           </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'W_04'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <div class="row">
+              <div class="col-6">
+                <div class="col-12">
+                  <h5 *ngIf="wTypeFirstPartOfSolutions.length > 0" class="mt-0 mb-2 text-center">{{translations.TITLE_FIRST_PART_OF_SOLUTION}}</h5>
+                  <mat-radio-group [formControl]="taskCorrectFirstPartOfSolution">
+                    <ul class="list-unstyled">
+                      <li class="mb-3" *ngFor="let wTypeSolution of wTypeFirstPartOfSolutions">
+                        <mat-radio-button [value]="wTypeSolution">{{wTypeSolution}}</mat-radio-button>
+                      </li>
+                    </ul>
+                  </mat-radio-group>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="col-12">
+                  <h5 *ngIf="wTypeSecondPartOfSolutions.length > 0" class="mt-0 mb-2 text-center">{{translations.TITLE_SECOND_PART_OF_SOLUTION}}</h5>
+                  <mat-radio-group [formControl]="taskCorrectSecondPartOfSolution">
+                    <ul class="list-unstyled">
+                      <li class="mb-3" *ngFor="let wTypeSolution of wTypeSecondPartOfSolutions">
+                        <mat-radio-button [value]="wTypeSolution">{{wTypeSolution}}</mat-radio-button>
+                      </li>
+                    </ul>
+                  </mat-radio-group>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="col-6 text-right">
               <button *ngIf="!isTaskSubmitted" type="button" mat-raised-button color="accent" class="text-uppercase d-inline-block" (click)="resetTask()">{{translations.ACTION_SKIP_TASK}}</button>

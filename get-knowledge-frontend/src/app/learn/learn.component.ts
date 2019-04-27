@@ -27,11 +27,15 @@ export class LearnComponent implements OnInit {
   task: Task = null;
   form: FormGroup;
   taskSolution = new FormControl('', [Validators.required]);
+  taskCorrectFirstPartOfSolution = new FormControl('', [Validators.required]);
+  taskCorrectSecondPartOfSolution = new FormControl('', [Validators.required]);
 
   solution: Solution = null;
   isTaskSubmitted: boolean = false;
 
   wTypeSolutions: string[] = [];
+  wTypeFirstPartOfSolutions: string[] = [];
+  wTypeSecondPartOfSolutions: string[] = [];
   wTypeCheckboxSolutions: object[] = [];
 
   @ViewChild('taskGroupSelection') taskGroupSelection: MatSelectionList;
@@ -53,6 +57,11 @@ export class LearnComponent implements OnInit {
     };
     if (this.task && this.task.taskType === 'W_02') {
       delete config.taskSolution;
+    }
+    if (this.task && this.task.taskType === 'W_04') {
+      delete config.taskSolution;
+      config['taskCorrectFirstPartOfSolution'] = this.taskCorrectFirstPartOfSolution;
+      config['taskCorrectSecondPartOfSolution'] = this.taskCorrectSecondPartOfSolution;
     }
     this.form = this.fb.group(config);
     this.taskSolution.reset();
@@ -142,6 +151,12 @@ export class LearnComponent implements OnInit {
           check: false
         });
       }
+    } else if (this.task && this.task.taskType === 'W_04') {
+      const parts: string[] = _.split(this.task.taskPresentedValue, this.mappingsService.wTypePartsSeparator);
+      this.wTypeFirstPartOfSolutions = _.split(parts[0], this.mappingsService.wTypeSeparator);
+      this.wTypeSecondPartOfSolutions = _.split(parts[1], this.mappingsService.wTypeSeparator);
+      this.wTypeFirstPartOfSolutions = _.shuffle(this.wTypeFirstPartOfSolutions);
+      this.wTypeSecondPartOfSolutions = _.shuffle(this.wTypeSecondPartOfSolutions);
     }
   }
 
@@ -157,6 +172,8 @@ export class LearnComponent implements OnInit {
       }
       checkedTexts = checkedTexts.sort();
       solution = _.join(checkedTexts, this.mappingsService.wTypeSeparator);
+    } else if (this.task && this.task.taskType === 'W_04') {
+      solution = this.taskCorrectFirstPartOfSolution.value + this.mappingsService.wTypePartsSeparator + this.taskCorrectSecondPartOfSolution.value;
     }
 
     return solution;
@@ -194,6 +211,8 @@ export class LearnComponent implements OnInit {
     this.task = null;
     this.solution = null;
     this.wTypeSolutions = [];
+    this.wTypeFirstPartOfSolutions = [];
+    this.wTypeSecondPartOfSolutions = [];
     this.wTypeCheckboxSolutions = [];
     this.isTaskSubmitted = false;
     this.bindTask();
