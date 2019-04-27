@@ -120,6 +120,7 @@ export class LearnComponent implements OnInit {
   prepareTaskView() {
     if (this.task && this.task.taskType === 'W_01') {
       this.wTypeSolutions = _.split(this.task.taskPresentedValue, this.mappingsService.wTypeSeparator);
+      this.wTypeSolutions = _.shuffle(this.wTypeSolutions);
     }
   }
 
