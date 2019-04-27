@@ -32,6 +32,7 @@ export class LearnComponent implements OnInit {
   isTaskSubmitted: boolean = false;
 
   wTypeSolutions: string[] = [];
+  wTypeCheckboxSolutions: object[] = [];
 
   @ViewChild('taskGroupSelection') taskGroupSelection: MatSelectionList;
   @ViewChild('taskTypeSelection') taskTypeSelection: MatSelectionList;
@@ -42,10 +43,19 @@ export class LearnComponent implements OnInit {
   ngOnInit() {
     this.taskGroupSelection.selectedOptions = new SelectionModel<MatListOption>(false);
     this.taskTypeSelection.selectedOptions = new SelectionModel<MatListOption>(false);
-    this.form = this.fb.group({
-      taskSolution: this.taskSolution
-    });
     this.getTaskGroups();
+    this.initTaskForm();
+  }
+
+  initTaskForm() {
+    let config = {
+      taskSolution: this.taskSolution
+    };
+    if (this.task && this.task.taskType === 'W_02') {
+      delete config.taskSolution;
+    }
+    this.form = this.fb.group(config);
+    this.taskSolution.reset();
   }
 
   onTaskGroupSelection(e, v){
@@ -88,6 +98,7 @@ export class LearnComponent implements OnInit {
   }
 
   bindTask() {
+    this.isTaskSubmitted = false;
     const taskGroup = _.get(this.selectedTaskGroup, 'id', null);
     const taskType = _.get(this.selectedTaskType, 'code', null);
     if (taskGroup && taskType) {
@@ -108,6 +119,7 @@ export class LearnComponent implements OnInit {
 
           this.task = new Task(id, taskTitle, taskGroup, taskType, owner, creationTs, taskContent, taskTip, taskPresentedValue, taskCorrectSolution, taskWeight, taskPoints);
           this.solution = new Solution(this.task.id);
+          this.initTaskForm();
           this.prepareTaskView();
         },
         error => {
@@ -121,13 +133,40 @@ export class LearnComponent implements OnInit {
     if (this.task && this.task.taskType === 'W_01') {
       this.wTypeSolutions = _.split(this.task.taskPresentedValue, this.mappingsService.wTypeSeparator);
       this.wTypeSolutions = _.shuffle(this.wTypeSolutions);
+    } else if (this.task && this.task.taskType === 'W_02') {
+      let texts: string[] = _.split(this.task.taskPresentedValue, this.mappingsService.wTypeSeparator);
+      texts = _.shuffle(texts);
+      for (let text of texts) {
+        this.wTypeCheckboxSolutions.push({
+          text: text,
+          check: false
+        });
+      }
     }
+  }
+
+  prepareSolution(): string {
+    let solution: string = '';
+    if (this.task && this.task.taskType === 'W_02') {
+      const checkedSolutions = _.filter(this.wTypeCheckboxSolutions, function (o) {
+        return o['check'];
+      });
+      let checkedTexts: string[] = [];
+      for (let solution of checkedSolutions) {
+        checkedTexts.push(solution['text']);
+      }
+      checkedTexts = checkedTexts.sort();
+      solution = _.join(checkedTexts, this.mappingsService.wTypeSeparator);
+    }
+
+    return solution;
   }
 
   submitSolution() {
     console.log(this.form);
     if (this.form.valid) {
-      this.solution.prepareToSubmit(this.taskSolution.value);
+      const solution = this.taskSolution.value ? this.taskSolution.value : this.prepareSolution();
+      this.solution.prepareToSubmit(solution);
       console.log(this.solution);
       this.restService.submitSolution(this.solution).subscribe(
         data => {
@@ -155,6 +194,7 @@ export class LearnComponent implements OnInit {
     this.task = null;
     this.solution = null;
     this.wTypeSolutions = [];
+    this.wTypeCheckboxSolutions = [];
     this.isTaskSubmitted = false;
     this.bindTask();
   }

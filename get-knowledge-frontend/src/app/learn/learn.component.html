@@ -58,6 +58,14 @@
               </ul>
             </mat-radio-group>
           </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'W_02'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <ul class="list-unstyled">
+              <li class="mb-3" *ngFor="let wTypeCheckboxSolution of wTypeCheckboxSolutions">
+                <mat-checkbox [(ngModel)]="wTypeCheckboxSolution['check']" [ngModelOptions]="{standalone: true}" value="true">{{wTypeCheckboxSolution['text']}}</mat-checkbox>
+              </li>
+            </ul>
+          </div>
           <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'W_03'">
             <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
             <mat-radio-group [formControl]="taskSolution">
