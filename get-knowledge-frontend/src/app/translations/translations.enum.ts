@@ -74,6 +74,7 @@ export enum Translations {
   TITLE_ATTRIBUTE_TASK_GROUP = 'Grupa zadań',
   TASK_TYPE_T_01 = 'Otwarte',
   TASK_TYPE_T_02 = 'Otwarte z podpowiedzią',
+  TASK_TYPE_W_01 = 'Jednokrotnego wyboru',
   TASK_TYPE_W_03 = 'Prawda / Fałsz',
   TITLE_CORRECT_ANSWER = 'Odpowiedź prawidłowa!',
   TITLE_INCORRECT_ANSWER = 'Odpowiedź błędna!',
@@ -81,5 +82,6 @@ export enum Translations {
   TITLE_FALSE = 'Fałsz',
   TITLE_TASK_ADDED = 'Dodano zadanie',
   TITLE_TASK_ADDING_ERROR = 'Wystąpił błąd podczas dodawania zadania, spróbuj ponownie',
-  TITLE_TASK_ADD_CANCEL = 'Anuluj'
+  TITLE_TASK_ADD_CANCEL = 'Anuluj',
+  TITLE_ADD_SOLUTION_PLACEHOLDER = 'Możliwa odpowiedź'
 }
