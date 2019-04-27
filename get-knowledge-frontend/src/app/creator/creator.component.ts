@@ -24,13 +24,14 @@ export class CreatorComponent implements OnInit {
   selectTaskGroup = new FormControl('', [Validators.required]);
   taskContent = new FormControl('', [Validators.required]);
   taskTip = new FormControl('', [Validators.required]);
-  taskPresentedValue = new FormControl('', [Validators.required]);
   taskCorrectSolution = new FormControl('', [Validators.required]);
   taskWeight = new FormControl('', [Validators.required, Validators.min(1), Validators.max(10)]);
   taskPoints = new FormControl('', [Validators.required, Validators.min(1), Validators.max(20)]);
 
   taskGroups: TaskGroup[] = [];
   taskTypes: object[] = this.mappingsService.taskTypes;
+
+  wTypeSolutions: string[] = [];
 
   @ViewChild('createTaskGroupNgForm') createTaskGroupNgForm;
   @ViewChild('createTaskNgForm') createTaskNgForm;
@@ -92,12 +93,14 @@ export class CreatorComponent implements OnInit {
   resetCreateTaskForm() {
     this.taskCreationForm.reset();
     this.createTaskNgForm.resetForm();
+    this.wTypeSolutions = [];
   }
 
   createTask() {
     console.log(this.taskCreationForm);
     if (this.taskCreationForm.valid) {
-      this.restService.createTask(this.taskTitle.value, this.selectTaskGroup.value, this.selectTaskType.value, this.taskContent.value, this.taskTip.value, this.taskCorrectSolution.value, this.taskCorrectSolution.value, this.taskWeight.value, this.taskPoints.value).subscribe(
+      const taskPresentedValue: string = this.prepareTaskPresentedValue();
+      this.restService.createTask(this.taskTitle.value, this.selectTaskGroup.value, this.selectTaskType.value, this.taskContent.value, this.taskTip.value, taskPresentedValue, this.taskCorrectSolution.value, this.taskWeight.value, this.taskPoints.value).subscribe(
         data => {
           console.log(data);
           this.notificationService.showNotification(this.translations.TITLE_TASK_ADDED);
@@ -123,10 +126,24 @@ export class CreatorComponent implements OnInit {
       config['taskTip'] = this.taskTip;
     }
     this.taskCreationForm = this.fb.group(config);
+    this.wTypeSolutions = [];
   }
 
   onTaskTypeSelect() {
     this.initTaskCreationForm();
+  }
+
+  addWTypeSolution(wTypeSolution: string) {
+    this.wTypeSolutions.push(wTypeSolution);
+  }
+
+  prepareTaskPresentedValue(): string {
+    let taskPresentedValue: string = '';
+    if (this.selectTaskType.value === 'W_01') {
+      taskPresentedValue = _.join(this.wTypeSolutions, this.mappingsService.wTypeSeparator);
+    }
+
+    return taskPresentedValue;
   }
 
 }
