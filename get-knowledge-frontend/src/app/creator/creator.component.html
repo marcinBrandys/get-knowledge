@@ -119,6 +119,44 @@
           </div>
           <!-- W_03 -->
 
+          <!-- W_04 -->
+          <div *ngIf="selectTaskType.value === 'W_04'">
+            <mat-form-field class="w-100 mb-2">
+              <input matInput #firstPartItemValue [placeholder]="translations.TITLE_ADD_SOLUTION_PLACEHOLDER">
+              <mat-icon class="cursor-pointer" matSuffix (click)="addWTypeToPartOfSolution(firstPartItemValue.value, 1); firstPartItemValue.value = ''">add_circle_outline</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="w-100 mb-2">
+              <input matInput #secondPartItemValue [placeholder]="translations.TITLE_ADD_SOLUTION_REASON_PLACEHOLDER">
+              <mat-icon class="cursor-pointer" matSuffix (click)="addWTypeToPartOfSolution(secondPartItemValue.value, 2); secondPartItemValue.value = ''">add_circle_outline</mat-icon>
+            </mat-form-field>
+            <div class="row">
+              <div class="col-6">
+                <div class="col-12">
+                  <h5 *ngIf="wTypeFirstPartOfSolutions.length > 0" class="mt-0 mb-2 text-center">{{translations.TITLE_FIRST_PART_OF_SOLUTION}}</h5>
+                  <mat-radio-group [formControl]="taskCorrectFirstPartOfSolution">
+                    <ul class="list-unstyled">
+                      <li class="mb-3" *ngFor="let wTypeSolution of wTypeFirstPartOfSolutions">
+                        <mat-radio-button [value]="wTypeSolution">{{wTypeSolution}}</mat-radio-button>
+                      </li>
+                    </ul>
+                  </mat-radio-group>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="col-12">
+                  <h5 *ngIf="wTypeSecondPartOfSolutions.length > 0" class="mt-0 mb-2 text-center">{{translations.TITLE_SECOND_PART_OF_SOLUTION}}</h5>
+                  <mat-radio-group [formControl]="taskCorrectSecondPartOfSolution">
+                    <ul class="list-unstyled">
+                      <li class="mb-3" *ngFor="let wTypeSolution of wTypeSecondPartOfSolutions">
+                        <mat-radio-button [value]="wTypeSolution">{{wTypeSolution}}</mat-radio-button>
+                      </li>
+                    </ul>
+                  </mat-radio-group>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- W_04 -->
 
           <div class="row">
             <div class="col-6 text-right">

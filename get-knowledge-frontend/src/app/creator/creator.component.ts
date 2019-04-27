@@ -25,6 +25,8 @@ export class CreatorComponent implements OnInit {
   taskContent = new FormControl('', [Validators.required]);
   taskTip = new FormControl('', [Validators.required]);
   taskCorrectSolution = new FormControl('', [Validators.required]);
+  taskCorrectFirstPartOfSolution = new FormControl('', [Validators.required]);
+  taskCorrectSecondPartOfSolution = new FormControl('', [Validators.required]);
   taskWeight = new FormControl('', [Validators.required, Validators.min(1), Validators.max(10)]);
   taskPoints = new FormControl('', [Validators.required, Validators.min(1), Validators.max(20)]);
 
@@ -32,6 +34,8 @@ export class CreatorComponent implements OnInit {
   taskTypes: object[] = this.mappingsService.taskTypes;
 
   wTypeSolutions: string[] = [];
+  wTypeFirstPartOfSolutions: string[] = [];
+  wTypeSecondPartOfSolutions: string[] = [];
   wTypeCheckboxSolutions: object[] = [];
 
   @ViewChild('createTaskGroupNgForm') createTaskGroupNgForm;
@@ -95,6 +99,8 @@ export class CreatorComponent implements OnInit {
     this.taskCreationForm.reset();
     this.createTaskNgForm.resetForm();
     this.wTypeSolutions = [];
+    this.wTypeFirstPartOfSolutions = [];
+    this.wTypeSecondPartOfSolutions = [];
     this.wTypeCheckboxSolutions = [];
   }
 
@@ -128,11 +134,17 @@ export class CreatorComponent implements OnInit {
     if (this.selectTaskType.value === 'T_02') {
       config['taskTip'] = this.taskTip;
     }
-    if (this.selectTaskType.value === 'W_02') {
+    if (this.selectTaskType.value === 'W_02' || this.selectTaskType.value === 'W_04') {
       delete config.taskCorrectSolution;
+    }
+    if (this.selectTaskType.value === 'W_04') {
+      config['taskCorrectFirstPartOfSolution'] = this.taskCorrectFirstPartOfSolution;
+      config['taskCorrectSecondPartOfSolution'] = this.taskCorrectSecondPartOfSolution;
     }
     this.taskCreationForm = this.fb.group(config);
     this.wTypeSolutions = [];
+    this.wTypeFirstPartOfSolutions = [];
+    this.wTypeSecondPartOfSolutions = [];
     this.wTypeCheckboxSolutions = [];
   }
 
@@ -151,6 +163,14 @@ export class CreatorComponent implements OnInit {
     }
   }
 
+  addWTypeToPartOfSolution(wTypeSolution: string, partNumber: number) {
+    if (partNumber === 1) {
+      this.wTypeFirstPartOfSolutions.push(wTypeSolution);
+    } else {
+      this.wTypeSecondPartOfSolutions.push(wTypeSolution);
+    }
+  }
+
   prepareSolution(): string {
     let solution: string = '';
     if (this.selectTaskType.value === 'W_02') {
@@ -163,6 +183,8 @@ export class CreatorComponent implements OnInit {
       }
       checkedTexts = checkedTexts.sort();
       solution = _.join(checkedTexts, this.mappingsService.wTypeSeparator);
+    } else if (this.selectTaskType.value === 'W_04') {
+      solution = this.taskCorrectFirstPartOfSolution.value + this.mappingsService.wTypePartsSeparator + this.taskCorrectSecondPartOfSolution.value;
     }
 
     return solution;
@@ -179,6 +201,10 @@ export class CreatorComponent implements OnInit {
       }
       texts = texts.sort();
       taskPresentedValue = _.join(texts, this.mappingsService.wTypeSeparator);
+    } else if (this.selectTaskType.value === 'W_04') {
+      const firstPartOfSolution: string = _.join(this.wTypeFirstPartOfSolutions, this.mappingsService.wTypeSeparator);
+      const secondPartOfSolution: string = _.join(this.wTypeSecondPartOfSolutions, this.mappingsService.wTypeSeparator);
+      taskPresentedValue = firstPartOfSolution + this.mappingsService.wTypePartsSeparator + secondPartOfSolution;
     }
 
     return taskPresentedValue;
