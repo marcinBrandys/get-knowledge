@@ -5,7 +5,6 @@ import {User} from "../classes/user";
 import * as _ from "lodash";
 import {Router} from "@angular/router";
 import {ChartOptions} from "chart.js";
-import * as pluginDataLabels from 'chartjs-plugin-datalabels';
 
 @Component({
   selector: 'app-dashboard',
@@ -34,7 +33,6 @@ export class DashboardComponent implements OnInit {
   public pieChartData: number[] = [];
   public pieChartType: any = 'pie';
   public pieChartLegend = true;
-  public pieChartPlugins = [pluginDataLabels];
   public pieChartColors = [
     {
       backgroundColor: ['rgb(92, 184, 92, 0.8)', 'rgb(217, 83, 79, 0.8)']
