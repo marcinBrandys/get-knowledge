@@ -5,7 +5,7 @@ const taskSchema = mongooseTaskModel.Schema({
         required: true
     },
     taskGroup: {
-        type: mongooseTaskModel.Schema.Types.ObjectId, ref: 'task-group',
+        type: mongooseTaskModel.Schema.Types.ObjectId, ref: 'taskGroup',
         require: true
     },
     taskType: {

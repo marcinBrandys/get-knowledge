@@ -1,4 +1,7 @@
 let User = require('../models/user-model');
+let Solution = require('../models/solution-model');
+let Task = require('../models/task-model');
+let TaskGroup = require('../models/task-group-model');
 const userControllerConfig = require('../config/config');
 const cryptoService = require('../services/crypto-service');
 const validatorService = require('../services/validator-service');
@@ -46,10 +49,85 @@ export class UserController {
     }
 
     getAccountInfo(req, res) {
-        User.findOne({_id: req.body.userId}).then(function (user) {
-            res.json({
-                user: user
-            });
+        const userId = _.get(req, 'body.userId');
+        User.findOne({_id: userId}).then(function (user) {
+            if (_.get(user, 'role') === 'student') {
+                Solution.find({student: userId}).then(function (solutions) {
+                    let points: number = 0;
+                    let correctSolutions: number = 0;
+                    let invalidSolutions: number = 0;
+                    let durationOfAllSolutions: number = 0;
+                    for (let solution of solutions) {
+                        const isSolutionCorrect: boolean = _.get(solution, 'isCorrect', false);
+                        const solutionPoints: number = _.get(solution, 'points', 0);
+                        const solutionDuration: number = _.get(solution, 'duration', 0);
+                        isSolutionCorrect ? correctSolutions++ : invalidSolutions++;
+                        points += solutionPoints;
+                        durationOfAllSolutions += solutionDuration;
+                    }
+                    let allSolutions: number = correctSolutions + invalidSolutions;
+                    let avgSolutionDuration: number = allSolutions > 0 ? Math.round(durationOfAllSolutions/allSolutions) : null;
+
+                    Task.find({}).then(function (tasks) {
+                        const numberOfAllAvailableTasks: number = _.get(tasks, 'length', 0);
+
+                        TaskGroup.find({}).then(function (taskGroups) {
+                            let numberOfTaskGroups: number = 0;
+                            let numberOfTests: number = 0;
+
+                            for (let taskGroup of taskGroups) {
+                                const isTestTaskGroup = _.get(taskGroup, 'isTestTaskGroup', false);
+                                isTestTaskGroup ? numberOfTests++ : numberOfTaskGroups++;
+                            }
+
+                            res.json({
+                                user: user,
+                                stats: {
+                                    points: points,
+                                    correctSolutions: correctSolutions,
+                                    invalidSolutions: invalidSolutions,
+                                    allSolutions: allSolutions,
+                                    avgSolutionDuration: avgSolutionDuration,
+                                    numberOfAllAvailableTasks: numberOfAllAvailableTasks,
+                                    numberOfTaskGroups: numberOfTaskGroups,
+                                    numberOfTests: numberOfTests
+                                }
+                            });
+                        }).catch(function () {
+                            res.json({
+                                user: user,
+                                stats: {
+                                    points: points,
+                                    correctSolutions: correctSolutions,
+                                    invalidSolutions: invalidSolutions,
+                                    allSolutions: allSolutions,
+                                    avgSolutionDuration: avgSolutionDuration,
+                                    numberOfAllAvailableTasks: numberOfAllAvailableTasks
+                                }
+                            });
+                        });
+                    }).catch(function () {
+                        res.json({
+                            user: user,
+                            stats: {
+                                points: points,
+                                correctSolutions: correctSolutions,
+                                invalidSolutions: invalidSolutions,
+                                allSolutions: allSolutions,
+                                avgSolutionDuration: avgSolutionDuration
+                            }
+                        });
+                    });
+                }).catch(function () {
+                    res.json({
+                        user: user
+                    });
+                });
+            } else {
+                res.json({
+                    user: user
+                });
+            }
         }).catch(function (error) {
             res.statusCode = 400;
             res.json({

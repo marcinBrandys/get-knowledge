@@ -100,6 +100,7 @@ export class CreatorComponent implements OnInit {
   resetCreateTaskForm() {
     this.taskCreationForm.reset();
     this.createTaskNgForm.resetForm();
+    this.isTestTaskGroup = false;
     this.wTypeSolutions = [];
     this.wTypeFirstPartOfSolutions = [];
     this.wTypeSecondPartOfSolutions = [];
