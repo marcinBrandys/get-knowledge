@@ -158,6 +158,18 @@
           </div>
           <!-- W_04 -->
 
+          <!-- S_01 -->
+          <div *ngIf="selectTaskType.value === 'S_01'">
+            <mat-form-field class="w-100 mb-2">
+              <input matInput #verticalElementValue [placeholder]="translations.TITLE_ADD_SOLUTION_ELEMENT_PLACEHOLDER">
+              <mat-icon class="cursor-pointer" matSuffix (click)="addSTypeSolution(verticalElementValue.value); verticalElementValue.value = ''">add_circle_outline</mat-icon>
+            </mat-form-field>
+            <div *ngIf="sTypeSolutions.length > 0" cdkDropList class="swap-list mb-4" (cdkDropListDropped)="swapSTypeSolution($event)">
+              <div class="swap-list-box" *ngFor="let sTypeSolution of sTypeSolutions" cdkDrag>{{sTypeSolution}}</div>
+            </div>
+          </div>
+          <!-- S_01 -->
+
           <div class="row">
             <div class="col-6 text-right">
               <button type="button" mat-raised-button color="accent" class="text-uppercase d-inline-block" (click)="resetCreateTaskForm()">{{translations.TITLE_TASK_ADD_CANCEL}}</button>

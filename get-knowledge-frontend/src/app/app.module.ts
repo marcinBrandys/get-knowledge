@@ -25,6 +25,7 @@ import { CreatorComponent } from './creator/creator.component';
 import { TestComponent } from './test/test.component';
 import { LearnComponent } from './learn/learn.component';
 import {RestInterceptorService} from "./services/rest-interceptor.service";
+import {DragDropModule} from "@angular/cdk/drag-drop";
 
 export function tokenGetter() {
   return localStorage.getItem('auth_token') || '';
@@ -73,7 +74,8 @@ export function tokenGetter() {
     MatCheckboxModule,
     MatListModule,
     MatExpansionModule,
-    MatRadioModule
+    MatRadioModule,
+    DragDropModule
   ],
   providers: [RestService, {
     provide: HTTP_INTERCEPTORS,

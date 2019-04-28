@@ -79,6 +79,7 @@ export enum Translations {
   TASK_TYPE_W_02 = 'Wielokrotnego wyboru',
   TASK_TYPE_W_03 = 'Prawda / Fałsz',
   TASK_TYPE_W_04 = 'Wybór z uzasadnieniem',
+  TASK_TYPE_S_01 = 'Sortowanie pionowe',
   TITLE_CORRECT_ANSWER = 'Odpowiedź prawidłowa!',
   TITLE_INCORRECT_ANSWER = 'Odpowiedź błędna!',
   TITLE_TRUE = 'Prawda',
@@ -89,5 +90,6 @@ export enum Translations {
   TITLE_ADD_SOLUTION_PLACEHOLDER = 'Możliwa odpowiedź',
   TITLE_ADD_SOLUTION_REASON_PLACEHOLDER = 'Możliwe uzasadnienie',
   TITLE_FIRST_PART_OF_SOLUTION = 'Odpowiedź',
-  TITLE_SECOND_PART_OF_SOLUTION = 'Uzasadnienie'
+  TITLE_SECOND_PART_OF_SOLUTION = 'Uzasadnienie',
+  TITLE_ADD_SOLUTION_ELEMENT_PLACEHOLDER = 'Element do sortowania'
 }
