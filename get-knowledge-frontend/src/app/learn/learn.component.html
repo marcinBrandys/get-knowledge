@@ -104,6 +104,12 @@
               </div>
             </div>
           </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'S_01'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <div *ngIf="sTypeSolutions.length > 0" cdkDropList class="swap-list mb-4" (cdkDropListDropped)="swapSTypeSolution($event)">
+              <div class="swap-list-box" *ngFor="let sTypeSolution of sTypeSolutions" cdkDrag>{{sTypeSolution}}</div>
+            </div>
+          </div>
           <div class="row">
             <div class="col-6 text-right">
               <button *ngIf="!isTaskSubmitted" type="button" mat-raised-button color="accent" class="text-uppercase d-inline-block" (click)="resetTask()">{{translations.ACTION_SKIP_TASK}}</button>

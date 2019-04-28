@@ -10,6 +10,7 @@ import {Task} from "../classes/task";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Solution} from "../classes/solution";
 import {NotificationService} from "../services/notification.service";
+import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'app-learn',
@@ -37,6 +38,7 @@ export class LearnComponent implements OnInit {
   wTypeFirstPartOfSolutions: string[] = [];
   wTypeSecondPartOfSolutions: string[] = [];
   wTypeCheckboxSolutions: object[] = [];
+  sTypeSolutions: string[] = [];
 
   @ViewChild('taskGroupSelection') taskGroupSelection: MatSelectionList;
   @ViewChild('taskTypeSelection') taskTypeSelection: MatSelectionList;
@@ -63,6 +65,9 @@ export class LearnComponent implements OnInit {
       config['taskCorrectFirstPartOfSolution'] = this.taskCorrectFirstPartOfSolution;
       config['taskCorrectSecondPartOfSolution'] = this.taskCorrectSecondPartOfSolution;
     }
+    if (this.task && this.task.taskType === 'S_01') {
+      delete config.taskSolution;
+    }
     this.form = this.fb.group(config);
     this.taskSolution.reset();
   }
@@ -81,6 +86,10 @@ export class LearnComponent implements OnInit {
     if (this.solution) {
       this.solution.useTip();
     }
+  }
+
+  swapSTypeSolution(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.sTypeSolutions, event.previousIndex, event.currentIndex);
   }
 
   getTaskGroups() {
@@ -157,6 +166,9 @@ export class LearnComponent implements OnInit {
       this.wTypeSecondPartOfSolutions = _.split(parts[1], this.mappingsService.wTypeSeparator);
       this.wTypeFirstPartOfSolutions = _.shuffle(this.wTypeFirstPartOfSolutions);
       this.wTypeSecondPartOfSolutions = _.shuffle(this.wTypeSecondPartOfSolutions);
+    } else if (this.task && this.task.taskType === 'S_01') {
+      this.sTypeSolutions = _.split(this.task.taskPresentedValue, this.mappingsService.sTypeSeparator);
+      this.sTypeSolutions = _.shuffle(this.sTypeSolutions);
     }
   }
 
@@ -174,6 +186,8 @@ export class LearnComponent implements OnInit {
       solution = _.join(checkedTexts, this.mappingsService.wTypeSeparator);
     } else if (this.task && this.task.taskType === 'W_04') {
       solution = this.taskCorrectFirstPartOfSolution.value + this.mappingsService.wTypePartsSeparator + this.taskCorrectSecondPartOfSolution.value;
+    } else if (this.task && this.task.taskType === 'S_01') {
+      solution = _.join(this.sTypeSolutions, this.mappingsService.sTypeSeparator);
     }
 
     return solution;
@@ -214,6 +228,7 @@ export class LearnComponent implements OnInit {
     this.wTypeFirstPartOfSolutions = [];
     this.wTypeSecondPartOfSolutions = [];
     this.wTypeCheckboxSolutions = [];
+    this.sTypeSolutions = [];
     this.isTaskSubmitted = false;
     this.bindTask();
   }
