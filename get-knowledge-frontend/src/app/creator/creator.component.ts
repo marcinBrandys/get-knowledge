@@ -6,6 +6,7 @@ import {TaskGroup} from "../classes/task-group";
 import * as _ from "lodash";
 import {NotificationService} from "../services/notification.service";
 import {MappingsService} from "../services/mappings.service";
+import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'app-creator',
@@ -37,6 +38,7 @@ export class CreatorComponent implements OnInit {
   wTypeFirstPartOfSolutions: string[] = [];
   wTypeSecondPartOfSolutions: string[] = [];
   wTypeCheckboxSolutions: object[] = [];
+  sTypeSolutions: string[] = [];
 
   @ViewChild('createTaskGroupNgForm') createTaskGroupNgForm;
   @ViewChild('createTaskNgForm') createTaskNgForm;
@@ -102,6 +104,7 @@ export class CreatorComponent implements OnInit {
     this.wTypeFirstPartOfSolutions = [];
     this.wTypeSecondPartOfSolutions = [];
     this.wTypeCheckboxSolutions = [];
+    this.sTypeSolutions = [];
   }
 
   createTask() {
@@ -134,7 +137,7 @@ export class CreatorComponent implements OnInit {
     if (this.selectTaskType.value === 'T_02') {
       config['taskTip'] = this.taskTip;
     }
-    if (this.selectTaskType.value === 'W_02' || this.selectTaskType.value === 'W_04') {
+    if (this.selectTaskType.value === 'W_02' || this.selectTaskType.value === 'W_04' || this.selectTaskType.value === 'S_01') {
       delete config.taskCorrectSolution;
     }
     if (this.selectTaskType.value === 'W_04') {
@@ -146,6 +149,7 @@ export class CreatorComponent implements OnInit {
     this.wTypeFirstPartOfSolutions = [];
     this.wTypeSecondPartOfSolutions = [];
     this.wTypeCheckboxSolutions = [];
+    this.sTypeSolutions = [];
   }
 
   onTaskTypeSelect() {
@@ -171,6 +175,14 @@ export class CreatorComponent implements OnInit {
     }
   }
 
+  addSTypeSolution(sTypeSolution: string) {
+    this.sTypeSolutions.push(sTypeSolution);
+  }
+
+  swapSTypeSolution(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.sTypeSolutions, event.previousIndex, event.currentIndex);
+  }
+
   prepareSolution(): string {
     let solution: string = '';
     if (this.selectTaskType.value === 'W_02') {
@@ -185,6 +197,8 @@ export class CreatorComponent implements OnInit {
       solution = _.join(checkedTexts, this.mappingsService.wTypeSeparator);
     } else if (this.selectTaskType.value === 'W_04') {
       solution = this.taskCorrectFirstPartOfSolution.value + this.mappingsService.wTypePartsSeparator + this.taskCorrectSecondPartOfSolution.value;
+    } else if (this.selectTaskType.value === 'S_01') {
+      solution = _.join(this.sTypeSolutions, this.mappingsService.sTypeSeparator);
     }
 
     return solution;
@@ -205,6 +219,8 @@ export class CreatorComponent implements OnInit {
       const firstPartOfSolution: string = _.join(this.wTypeFirstPartOfSolutions, this.mappingsService.wTypeSeparator);
       const secondPartOfSolution: string = _.join(this.wTypeSecondPartOfSolutions, this.mappingsService.wTypeSeparator);
       taskPresentedValue = firstPartOfSolution + this.mappingsService.wTypePartsSeparator + secondPartOfSolution;
+    } else if (this.selectTaskType.value === 'S_01') {
+      taskPresentedValue = _.join(this.sTypeSolutions, this.mappingsService.sTypeSeparator);
     }
 
     return taskPresentedValue;
