@@ -57,16 +57,12 @@ export class LearnComponent implements OnInit {
     let config = {
       taskSolution: this.taskSolution
     };
-    if (this.task && this.task.taskType === 'W_02') {
+    if (this.task && (this.task.taskType === 'W_02' || this.task.taskType === 'W_04' || this.task.taskType === 'S_01' || this.task.taskType === 'S_02')) {
       delete config.taskSolution;
     }
     if (this.task && this.task.taskType === 'W_04') {
-      delete config.taskSolution;
       config['taskCorrectFirstPartOfSolution'] = this.taskCorrectFirstPartOfSolution;
       config['taskCorrectSecondPartOfSolution'] = this.taskCorrectSecondPartOfSolution;
-    }
-    if (this.task && this.task.taskType === 'S_01') {
-      delete config.taskSolution;
     }
     this.form = this.fb.group(config);
     this.taskSolution.reset();
@@ -166,7 +162,7 @@ export class LearnComponent implements OnInit {
       this.wTypeSecondPartOfSolutions = _.split(parts[1], this.mappingsService.wTypeSeparator);
       this.wTypeFirstPartOfSolutions = _.shuffle(this.wTypeFirstPartOfSolutions);
       this.wTypeSecondPartOfSolutions = _.shuffle(this.wTypeSecondPartOfSolutions);
-    } else if (this.task && this.task.taskType === 'S_01') {
+    } else if (this.task && (this.task.taskType === 'S_01' || this.task.taskType === 'S_02')) {
       this.sTypeSolutions = _.split(this.task.taskPresentedValue, this.mappingsService.sTypeSeparator);
       this.sTypeSolutions = _.shuffle(this.sTypeSolutions);
     }
@@ -186,7 +182,7 @@ export class LearnComponent implements OnInit {
       solution = _.join(checkedTexts, this.mappingsService.wTypeSeparator);
     } else if (this.task && this.task.taskType === 'W_04') {
       solution = this.taskCorrectFirstPartOfSolution.value + this.mappingsService.wTypePartsSeparator + this.taskCorrectSecondPartOfSolution.value;
-    } else if (this.task && this.task.taskType === 'S_01') {
+    } else if (this.task && (this.task.taskType === 'S_01' || this.task.taskType === 'S_02')) {
       solution = _.join(this.sTypeSolutions, this.mappingsService.sTypeSeparator);
     }
 

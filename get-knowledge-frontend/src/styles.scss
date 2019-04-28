@@ -90,7 +90,7 @@ mat-form-field.mat-form-field {
   @extend .p-4;
 }
 
-.swap-list {
+.swap-list-vertical {
   width: 100%;
   border: solid 1px #ccc;
   min-height: 60px;
@@ -100,7 +100,7 @@ mat-form-field.mat-form-field {
   overflow: hidden;
 }
 
-.swap-list-box {
+.swap-list-vertical-box {
   padding: 20px 10px;
   border-bottom: solid 1px #ccc;
   color: rgba(0, 0, 0, 0.87);
@@ -112,6 +112,49 @@ mat-form-field.mat-form-field {
   cursor: move;
   background: white;
   font-size: 14px;
+}
+
+.swap-list-vertical-box:last-child {
+  border: none;
+}
+
+.swap-list-vertical.cdk-drop-list-dragging .swap-list-vertical-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.swap-list-horizontal {
+  width: 100%;
+  border: solid 1px #ccc;
+  min-height: 60px;
+  display: flex;
+  flex-direction: row;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.swap-list-horizontal-box {
+  padding: 20px 10px;
+  border-right: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  cursor: move;
+  background: white;
+  font-size: 14px;
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+.swap-list-horizontal-box:last-child {
+  border: none;
+}
+
+.swap-list-horizontal.cdk-drop-list-dragging .swap-list-horizontal-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
 
 .cdk-drag-preview {
@@ -127,13 +170,5 @@ mat-form-field.mat-form-field {
 }
 
 .cdk-drag-animating {
-  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
-}
-
-.swap-list-box:last-child {
-  border: none;
-}
-
-.swap-list.cdk-drop-list-dragging .swap-list-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

@@ -137,7 +137,7 @@ export class CreatorComponent implements OnInit {
     if (this.selectTaskType.value === 'T_02') {
       config['taskTip'] = this.taskTip;
     }
-    if (this.selectTaskType.value === 'W_02' || this.selectTaskType.value === 'W_04' || this.selectTaskType.value === 'S_01') {
+    if (this.selectTaskType.value === 'W_02' || this.selectTaskType.value === 'W_04' || this.selectTaskType.value === 'S_01' || this.selectTaskType.value === 'S_02') {
       delete config.taskCorrectSolution;
     }
     if (this.selectTaskType.value === 'W_04') {
@@ -197,7 +197,7 @@ export class CreatorComponent implements OnInit {
       solution = _.join(checkedTexts, this.mappingsService.wTypeSeparator);
     } else if (this.selectTaskType.value === 'W_04') {
       solution = this.taskCorrectFirstPartOfSolution.value + this.mappingsService.wTypePartsSeparator + this.taskCorrectSecondPartOfSolution.value;
-    } else if (this.selectTaskType.value === 'S_01') {
+    } else if (this.selectTaskType.value === 'S_01' || this.selectTaskType.value === 'S_02') {
       solution = _.join(this.sTypeSolutions, this.mappingsService.sTypeSeparator);
     }
 
@@ -219,7 +219,7 @@ export class CreatorComponent implements OnInit {
       const firstPartOfSolution: string = _.join(this.wTypeFirstPartOfSolutions, this.mappingsService.wTypeSeparator);
       const secondPartOfSolution: string = _.join(this.wTypeSecondPartOfSolutions, this.mappingsService.wTypeSeparator);
       taskPresentedValue = firstPartOfSolution + this.mappingsService.wTypePartsSeparator + secondPartOfSolution;
-    } else if (this.selectTaskType.value === 'S_01') {
+    } else if (this.selectTaskType.value === 'S_01' || this.selectTaskType.value === 'S_02') {
       taskPresentedValue = _.join(this.sTypeSolutions, this.mappingsService.sTypeSeparator);
     }
 
