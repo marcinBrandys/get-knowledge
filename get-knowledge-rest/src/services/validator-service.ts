@@ -3,7 +3,7 @@ const validatorConfig = require('../config/config');
 
 const supportedGenders = ['male', 'female'];
 const supportedRoles = ['admin', 'teacher', 'student'];
-const supportedTaskTypes = ['T_01', 'T_02', 'W_01', 'W_02', 'W_03', 'W_04', 'S_01'];
+const supportedTaskTypes = ['T_01', 'T_02', 'W_01', 'W_02', 'W_03', 'W_04', 'S_01', 'S_02'];
 
 const validatorService = {
     isEmailValid(email: string) {
