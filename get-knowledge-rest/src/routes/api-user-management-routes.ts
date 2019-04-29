@@ -22,4 +22,7 @@ router.route('/user/by_id/:id')
 router.route('/user/me')
     .get(authService.validateUser, userController.getAccountInfo);
 
+router.route('/ranking')
+    .get(authService.validateUser, userController.getRanking);
+
 module.exports = router;

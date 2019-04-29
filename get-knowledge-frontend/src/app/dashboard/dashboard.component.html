@@ -1,15 +1,11 @@
 <div class="container my-5">
   <div class="row mb-4">
-    <div class="col-12">
-      <div class="content-wrapper">
+    <div class="col-sm-4 col-xs-12" *ngIf="stats.numberOfTests !== null || stats.numberOfTaskGroups !== null">
+      <div class="col-12 content-wrapper mb-4">
         <h3 class="text-center w-100 my-2" *ngIf="!user">{{translations.TITLE_WELCOME}}!</h3>
         <h3 class="text-center w-100 my-2" *ngIf="user">{{translations.TITLE_WELCOME}} {{user.firstName}}!</h3>
         <p class="text-justify w-100 my-2">{{translations.TITLE_WELCOME_TEXT}}</p>
       </div>
-    </div>
-  </div>
-  <div class="row mb-4">
-    <div class="col-sm-4 col-xs-12" *ngIf="stats.numberOfTests !== null || stats.numberOfTaskGroups !== null">
       <div class="col-12 content-wrapper">
         <h4 class="text-center w-100 mt-2 mb-4">{{translations.TITLE_AVAILABLE_TASK_GROUPS}}</h4>
         <ul class="list-unstyled">
@@ -43,9 +39,9 @@
             </ul>
           </div>
         </div>
-        <div class="row" *ngIf="pieChartData.length > 0">
+        <div class="row" *ngIf="pieChartData.length > 0 && stats && stats.allSolutions > 0">
           <div class="col-12">
-            <div class="chart">
+            <div class="chart mx-auto w-75">
               <canvas baseChart
                       [data]="pieChartData"
                       [labels]="pieChartLabels"
@@ -56,6 +52,39 @@
               </canvas>
             </div>
           </div>
+        </div>
+        <div class="row my-2" *ngIf="ranking.length > 0">
+          <h4 class="text-center w-100 my-2">{{translations.TITLE_RANK}}</h4>
+          <table mat-table [dataSource]="ranking" class="w-100">
+
+            <ng-container matColumnDef="index">
+              <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_PLACE}}</th>
+              <td mat-cell *matCellDef="let i = index;">{{i + 1}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="studentNick">
+              <th mat-header-cell *matHeaderCellDef>{{translations.ATTRIBUTE_NICK}}</th>
+              <td mat-cell *matCellDef="let element">{{element.studentNick}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="studentPoints">
+              <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_STATS_POINTS}}</th>
+              <td mat-cell *matCellDef="let element">{{element.studentPoints}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="avgStudentSolutionDuration">
+              <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_STATS_AVG_SOLUTION_DUR}}</th>
+              <td mat-cell *matCellDef="let element">{{(element.avgStudentSolutionDuration / 1000).toFixed(2)}} s</td>
+            </ng-container>
+
+            <ng-container matColumnDef="studentGroupNames">
+              <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_GROUPS}}</th>
+              <td mat-cell *matCellDef="let element">{{element.studentGroupNames.length > 0 ? element.studentGroupNames : '---'}}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
         </div>
       </div>
     </div>

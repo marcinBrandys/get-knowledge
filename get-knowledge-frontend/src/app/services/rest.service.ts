@@ -124,4 +124,8 @@ export class RestService {
   submitSolution(solution: Solution) {
     return this.http.post(this.REST_API_URL + 'solution-management/solution', solution, this.httpOptions);
   }
+
+  getRanking() {
+    return this.http.get(this.REST_API_URL + 'user-management/ranking', this.httpOptions);
+  }
 }

@@ -21,5 +21,8 @@ export class MappingsService {
   public wTypePartsSeparator: string = '$$$';
   public sTypeSeparator: string = '###';
 
+  public successChartColor: string = 'rgb(92, 184, 92, 0.8)';
+  public failChartColor: string = 'rgb(217, 83, 79, 0.8)';
+
   constructor() { }
 }
