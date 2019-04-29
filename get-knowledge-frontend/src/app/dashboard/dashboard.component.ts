@@ -123,6 +123,10 @@ export class DashboardComponent implements OnInit {
     this.ranking = _.get(data, 'ranking', []);
   }
 
+  isLoggedUserNick(nick: string): boolean {
+    return this.user.nick === nick;
+  }
+
   goToLearn() {
     this.router.navigate(['/learn']);
   }
