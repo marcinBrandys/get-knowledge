@@ -44,7 +44,7 @@ app.get('/status', function(req,res) {
 // app.listen(appConfig.PORT, function () {
 //     console.log('app is working')
 // });
-const httpServer = http.createServer(app);
+// const httpServer = http.createServer(app);
 const httpsServer = https.createServer(credentials, app);
-httpServer.listen(8080);
+// httpServer.listen(8080);
 httpsServer.listen(8443);
