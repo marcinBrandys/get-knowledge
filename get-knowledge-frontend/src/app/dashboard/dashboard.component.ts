@@ -5,6 +5,7 @@ import {User} from "../classes/user";
 import * as _ from "lodash";
 import {Router} from "@angular/router";
 import {ChartOptions} from "chart.js";
+import {MappingsService} from "../services/mappings.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -25,6 +26,8 @@ export class DashboardComponent implements OnInit {
     numberOfTaskGroups: null,
     numberOfTests: null
   };
+  ranking: any[] = [];
+  displayedColumns: string[] = ['index', 'studentNick', 'studentPoints', 'avgStudentSolutionDuration', 'studentGroupNames'];
 
   public pieChartLabels: string[] = [
     this.translations.TITLE_STATS_CORRECT_SOLUTIONS,
@@ -35,7 +38,7 @@ export class DashboardComponent implements OnInit {
   public pieChartLegend = true;
   public pieChartColors = [
     {
-      backgroundColor: ['rgb(92, 184, 92, 0.8)', 'rgb(217, 83, 79, 0.8)']
+      backgroundColor: [this.mappingService.successChartColor, this.mappingService.failChartColor]
     },
   ];
   public pieChartOptions: ChartOptions = {
@@ -52,10 +55,11 @@ export class DashboardComponent implements OnInit {
     }
   };
 
-  constructor(private restService: RestService, private router: Router) { }
+  constructor(private restService: RestService, private router: Router, private mappingService: MappingsService) { }
 
   ngOnInit() {
     this.getUserInfo();
+    this.getRanking();
   }
 
   getUserInfo() {
@@ -64,6 +68,18 @@ export class DashboardComponent implements OnInit {
         console.log(data);
         this.bindUser(data);
         this.bindStats(data);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  getRanking() {
+    this.restService.getRanking().subscribe(
+      data => {
+        console.log(data);
+        this.bindRanking(data);
       },
       error => {
         console.log(error);
@@ -101,6 +117,14 @@ export class DashboardComponent implements OnInit {
       this.pieChartData.push(this.stats.correctSolutions);
       this.pieChartData.push(this.stats.invalidSolutions);
     }
+  }
+
+  bindRanking(data: any) {
+    this.ranking = _.get(data, 'ranking', []);
+  }
+
+  isLoggedUserNick(nick: string): boolean {
+    return this.user.nick === nick;
   }
 
   goToLearn() {
