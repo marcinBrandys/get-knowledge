@@ -8,6 +8,7 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {
+  MatBadgeModule,
   MatButtonModule,
   MatCardModule, MatCheckboxModule, MatExpansionModule,
   MatFormFieldModule,
@@ -26,6 +27,7 @@ import { TestComponent } from './test/test.component';
 import { LearnComponent } from './learn/learn.component';
 import {RestInterceptorService} from "./services/rest-interceptor.service";
 import {DragDropModule} from "@angular/cdk/drag-drop";
+import { ChartsModule } from 'ng2-charts';
 
 export function tokenGetter() {
   return localStorage.getItem('auth_token') || '';
@@ -75,7 +77,9 @@ export function tokenGetter() {
     MatListModule,
     MatExpansionModule,
     MatRadioModule,
-    DragDropModule
+    DragDropModule,
+    MatBadgeModule,
+    ChartsModule
   ],
   providers: [RestService, {
     provide: HTTP_INTERCEPTORS,

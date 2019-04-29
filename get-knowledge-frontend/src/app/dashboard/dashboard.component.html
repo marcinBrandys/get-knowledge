@@ -1,5 +1,63 @@
-<div class="container content-wrapper my-5">
-  <p>
-    dashboard works!
-  </p>
+<div class="container my-5">
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="content-wrapper">
+        <h3 class="text-center w-100 my-2" *ngIf="!user">{{translations.TITLE_WELCOME}}!</h3>
+        <h3 class="text-center w-100 my-2" *ngIf="user">{{translations.TITLE_WELCOME}} {{user.firstName}}!</h3>
+        <p class="text-justify w-100 my-2">{{translations.TITLE_WELCOME_TEXT}}</p>
+      </div>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-sm-4 col-xs-12" *ngIf="stats.numberOfTests !== null || stats.numberOfTaskGroups !== null">
+      <div class="col-12 content-wrapper">
+        <h4 class="text-center w-100 mt-2 mb-4">{{translations.TITLE_AVAILABLE_TASK_GROUPS}}</h4>
+        <ul class="list-unstyled">
+          <li class="mb-4 cursor-pointer" (click)="goToLearn()">
+            <span *ngIf="stats.numberOfTaskGroups !== null" matBadge="{{stats.numberOfTaskGroups}}" matBadgeOverlap="false" matBadgePosition="above after">{{translations.TITLE_AVAILABLE_TASK_GROUPS_TASKS}}</span>
+          </li>
+          <li class="cursor-pointer" (click)="goToTest()">
+            <span *ngIf="stats.numberOfTests !== null" matBadge="{{stats.numberOfTests}}" matBadgeOverlap="false" matBadgePosition="above after">{{translations.TITLE_AVAILABLE_TASK_GROUPS_TESTS}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col-sm-8 col-xs-12">
+      <div class="col-12 content-wrapper">
+        <h4 class="text-center w-100 my-2">{{translations.TITLE_STATS}}</h4>
+        <div class="row mb-2">
+          <div class="col-6">
+            <ul class="list-unstyled">
+              <li class="mb-2"><span>{{translations.TITLE_STATS_POINTS}}:</span></li>
+              <li class="mb-2"><span>{{translations.TITLE_STATS_CORRECT_SOLUTIONS}}:</span></li>
+              <li class="mb-2"><span>{{translations.TITLE_STATS_INVALID_SOLUTIONS}}:</span></li>
+              <li class="mb-2"><span>{{translations.TITLE_STATS_AVG_SOLUTION_DURATION}}:</span></li>
+            </ul>
+          </div>
+          <div class="col-6">
+            <ul class="list-unstyled">
+              <li class="mb-2"><span>{{stats.points}}</span></li>
+              <li class="mb-2"><span>{{stats.correctSolutions}}</span></li>
+              <li class="mb-2"><span>{{stats.invalidSolutions}}</span></li>
+              <li class="mb-2"><span>{{(stats.avgSolutionDuration / 1000).toFixed(2)}} s</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="row" *ngIf="pieChartData.length > 0">
+          <div class="col-12">
+            <div class="chart">
+              <canvas baseChart
+                      [data]="pieChartData"
+                      [labels]="pieChartLabels"
+                      [chartType]="pieChartType"
+                      [options]="pieChartOptions"
+                      [colors]="pieChartColors"
+                      [legend]="pieChartLegend">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
