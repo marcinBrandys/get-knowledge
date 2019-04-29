@@ -95,6 +95,7 @@ export enum Translations {
   TITLE_ADD_SOLUTION_ELEMENT_PLACEHOLDER = 'Element do sortowania',
   TITLE_WELCOME = 'Witaj',
   TITLE_WELCOME_TEXT = 'Zachęcamy do korzystania z systemu, rozwiązywania zadań i pogłębiania swojej wiedzy.',
+  TITLE_WELCOME_TEXT_TEACHER = 'Zachęcamy do korzystania z systemu, układaj zadania i sprawdzaj wiedzę uczniów.',
   TITLE_AVAILABLE_TASK_GROUPS = 'Możesz rozwiązywać zadania z grup:',
   TITLE_AVAILABLE_TASK_GROUPS_TASKS = 'Działy ćwiczeniowe',
   TITLE_AVAILABLE_TASK_GROUPS_TESTS = 'Testy',
