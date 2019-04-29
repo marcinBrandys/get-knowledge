@@ -2,7 +2,6 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const appConfig = require('./config/config');
 const fs = require('fs');
 const http = require('http');
 const https = require('https');
