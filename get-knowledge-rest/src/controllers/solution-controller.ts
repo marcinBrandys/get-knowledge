@@ -42,7 +42,6 @@ export class SolutionController {
         if (taskId && startTs && endTs && answer) {
 
             Task.findOne({_id: taskId}).then(function (task) {
-                console.log(task);
 
                 const duration = endTs - startTs;
                 const isCorrect = task.taskCorrectSolution === answer;
