@@ -7,7 +7,7 @@
       </ng-template>
       <form id="group-creation-form" class="d-flex flex-column mx-auto w-25" (ngSubmit)="createGroup()">
           <mat-form-field class="w-100 mb-2">
-            <input matInput placeholder="{{translations.ATTRIBUTE_GROUP_NAME}}" [formControl]="groupName" required>
+            <input matInput placeholder="{{translations.ATTRIBUTE_GROUP_NAME}}" [formControl]="groupName" autocomplete="off" required>
           </mat-form-field>
           <button type="submit" mat-raised-button color="primary" class="text-uppercase" [disabled]="groupCreationForm.invalid">{{translations.ACTION_CREATE_GROUP}}</button>
       </form>

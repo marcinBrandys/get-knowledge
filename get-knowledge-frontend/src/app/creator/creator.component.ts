@@ -6,7 +6,7 @@ import {TaskGroup} from "../classes/task-group";
 import * as _ from "lodash";
 import {NotificationService} from "../services/notification.service";
 import {MappingsService} from "../services/mappings.service";
-import {CdkDragDrop, moveItemInArray} from "@angular/cdk/drag-drop";
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 
 @Component({
   selector: 'app-creator',
@@ -39,6 +39,7 @@ export class CreatorComponent implements OnInit {
   wTypeSecondPartOfSolutions: string[] = [];
   wTypeCheckboxSolutions: object[] = [];
   sTypeSolutions: string[] = [];
+  gTypeGroups: object = {};
 
   @ViewChild('createTaskGroupNgForm') createTaskGroupNgForm;
   @ViewChild('createTaskNgForm') createTaskNgForm;
@@ -106,6 +107,7 @@ export class CreatorComponent implements OnInit {
     this.wTypeSecondPartOfSolutions = [];
     this.wTypeCheckboxSolutions = [];
     this.sTypeSolutions = [];
+    this.gTypeGroups = {};
   }
 
   createTask() {
@@ -138,7 +140,7 @@ export class CreatorComponent implements OnInit {
     if (this.selectTaskType.value === 'T_02') {
       config['taskTip'] = this.taskTip;
     }
-    if (this.selectTaskType.value === 'W_02' || this.selectTaskType.value === 'W_04' || this.selectTaskType.value === 'S_01' || this.selectTaskType.value === 'S_02') {
+    if (this.selectTaskType.value === 'W_02' || this.selectTaskType.value === 'W_04' || this.selectTaskType.value === 'S_01' || this.selectTaskType.value === 'S_02' || this.selectTaskType.value === 'G_01') {
       delete config.taskCorrectSolution;
     }
     if (this.selectTaskType.value === 'W_04') {
@@ -151,6 +153,7 @@ export class CreatorComponent implements OnInit {
     this.wTypeSecondPartOfSolutions = [];
     this.wTypeCheckboxSolutions = [];
     this.sTypeSolutions = [];
+    this.gTypeGroups = {};
   }
 
   onTaskTypeSelect() {
@@ -184,6 +187,34 @@ export class CreatorComponent implements OnInit {
     moveItemInArray(this.sTypeSolutions, event.previousIndex, event.currentIndex);
   }
 
+  addGTypeGroup(gTypeGroupName: string) {
+    this.gTypeGroups[gTypeGroupName] = [];
+  }
+
+  addGTypeElement(gTypeElementName: string) {
+    if (_.has(this.gTypeGroups, this.mappingsService.gTypeAvailableElements)) {
+      this.gTypeGroups[this.mappingsService.gTypeAvailableElements].push(gTypeElementName);
+    } else {
+      this.addGTypeGroup(this.mappingsService.gTypeAvailableElements);
+      this.gTypeGroups[this.mappingsService.gTypeAvailableElements].push(gTypeElementName);
+    }
+  }
+
+  getGTypeGroupKeys() {
+    return _.keys(this.gTypeGroups);
+  }
+
+  dropGTypeElement(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
+  }
+
   prepareSolution(): string {
     let solution: string = '';
     if (this.selectTaskType.value === 'W_02') {
@@ -200,6 +231,22 @@ export class CreatorComponent implements OnInit {
       solution = this.taskCorrectFirstPartOfSolution.value + this.mappingsService.wTypePartsSeparator + this.taskCorrectSecondPartOfSolution.value;
     } else if (this.selectTaskType.value === 'S_01' || this.selectTaskType.value === 'S_02') {
       solution = _.join(this.sTypeSolutions, this.mappingsService.sTypeSeparator);
+    } else if (this.selectTaskType.value === 'G_01') {
+      let solutions: string[] = [];
+      let groupNames: string[] = _.keys(this.gTypeGroups);
+      groupNames = groupNames.sort();
+      if (_.has(groupNames, this.mappingsService.gTypeAvailableElements)) {
+        delete groupNames[this.mappingsService.gTypeAvailableElements];
+      }
+      for (let groupKey of groupNames) {
+        for (let element of this.gTypeGroups[groupKey]) {
+          this.gTypeGroups[groupKey] = this.gTypeGroups[groupKey].sort();
+        }
+      }
+      for (let groupKey of groupNames) {
+        solutions.push(_.join(this.gTypeGroups[groupKey], this.mappingsService.gTypeElementSeparator));
+      }
+      solution = _.join(solutions, this.mappingsService.gTypeGroupAndElementSeparator);
     }
 
     return solution;
@@ -222,6 +269,20 @@ export class CreatorComponent implements OnInit {
       taskPresentedValue = firstPartOfSolution + this.mappingsService.wTypePartsSeparator + secondPartOfSolution;
     } else if (this.selectTaskType.value === 'S_01' || this.selectTaskType.value === 'S_02') {
       taskPresentedValue = _.join(this.sTypeSolutions, this.mappingsService.sTypeSeparator);
+    } else if (this.selectTaskType.value === 'G_01') {
+      let groupNames: string[] = [];
+      let elementsToGroup: string[] = [];
+      for (let groupKey of _.keys(this.gTypeGroups)) {
+        if (groupKey !== this.mappingsService.gTypeAvailableElements) {
+          groupNames.push(groupKey);
+        }
+        for (let element of this.gTypeGroups[groupKey]) {
+          elementsToGroup.push(element);
+        }
+      }
+      const groupNamesS: string = _.join(groupNames, this.mappingsService.gTypeGroupSeparator);
+      const elementsToGroupS: string = _.join(elementsToGroup, this.mappingsService.gTypeElementSeparator);
+      taskPresentedValue = groupNamesS + this.mappingsService.gTypeGroupAndElementSeparator + elementsToGroupS;
     }
 
     return taskPresentedValue;
