@@ -28,13 +28,13 @@
           <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'T_01'">
             <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
             <mat-form-field class="w-100 mb-2">
-              <input matInput placeholder="{{translations.ATTRIBUTE_TASK_SOLUTION}}" [formControl]="taskSolution" required>
+              <input matInput placeholder="{{translations.ATTRIBUTE_TASK_SOLUTION}}" [formControl]="taskSolution" autocomplete="off" required>
             </mat-form-field>
           </div>
           <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'T_02'">
             <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
             <mat-form-field class="w-100 mb-2">
-              <input matInput placeholder="{{translations.ATTRIBUTE_TASK_SOLUTION}}" [formControl]="taskSolution" required>
+              <input matInput placeholder="{{translations.ATTRIBUTE_TASK_SOLUTION}}" [formControl]="taskSolution" autocomplete="off" required>
             </mat-form-field>
             <mat-accordion *ngIf="task.taskTip">
               <mat-expansion-panel (opened)="onTipOpen()">

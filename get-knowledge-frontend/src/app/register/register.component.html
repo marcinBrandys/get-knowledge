@@ -18,19 +18,19 @@
               <mat-error *ngIf="password.invalid">{{translations.PASSWORD_REQUIRED}}</mat-error>
             </mat-form-field>
             <mat-form-field class="w-100">
-              <input matInput placeholder="{{translations.ATTRIBUTE_NICK}}" [formControl]="nick" required>
+              <input matInput placeholder="{{translations.ATTRIBUTE_NICK}}" [formControl]="nick" autocomplete="off" required>
             </mat-form-field>
           </mat-step>
           <mat-step>
             <ng-template matStepLabel>{{translations.REGISTER_STEP_2}}</ng-template>
             <mat-form-field class="w-100 mb-2">
-              <input matInput placeholder="{{translations.ATTRIBUTE_FIRST_NAME}}" [formControl]="firstName" required>
+              <input matInput placeholder="{{translations.ATTRIBUTE_FIRST_NAME}}" [formControl]="firstName" autocomplete="off" required>
             </mat-form-field>
             <mat-form-field class="w-100 mb-2">
-              <input matInput placeholder="{{translations.ATTRIBUTE_LAST_NAME}}" [formControl]="lastName" required>
+              <input matInput placeholder="{{translations.ATTRIBUTE_LAST_NAME}}" [formControl]="lastName" autocomplete="off" required>
             </mat-form-field>
             <mat-form-field class="w-100 mb-2">
-              <input matInput placeholder="{{translations.ATTRIBUTE_AGE}}" [formControl]="age" type="number" [min]="1" [max]="150" required>
+              <input matInput placeholder="{{translations.ATTRIBUTE_AGE}}" [formControl]="age" type="number" [min]="1" [max]="150" autocomplete="off" required>
             </mat-form-field>
           </mat-step>
           <mat-step>
@@ -52,7 +52,7 @@
               <mat-error *ngIf="role.hasError('required')">{{translations.ATTRIBUTE_ROLE_INVALID}}</mat-error>
             </mat-form-field>
             <mat-form-field class="w-100 mb-2" *ngIf="role.value === 'teacher'">
-              <input matInput placeholder="{{translations.ATTRIBUTE_ROLE_TEACHER_ACCESS_CODE}}" [type]="accessCodeInvisibilityState ? 'password' : 'text'" [formControl]="accessCode">
+              <input matInput placeholder="{{translations.ATTRIBUTE_ROLE_TEACHER_ACCESS_CODE}}" [type]="accessCodeInvisibilityState ? 'password' : 'text'" [formControl]="accessCode" autocomplete="off">
               <mat-icon matSuffix (click)="accessCodeInvisibilityState = !accessCodeInvisibilityState">{{accessCodeInvisibilityState ? 'visibility_off' : 'visibility'}}</mat-icon>
             </mat-form-field>
           </mat-step>

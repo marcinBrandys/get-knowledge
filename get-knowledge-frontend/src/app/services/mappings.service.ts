@@ -15,11 +15,17 @@ export class MappingsService {
     {code: 'W_04', translation: Translations.TASK_TYPE_W_04},
     {code: 'S_01', translation: Translations.TASK_TYPE_S_01},
     {code: 'S_02', translation: Translations.TASK_TYPE_S_02},
+    {code: 'G_01', translation: Translations.TASK_TYPE_G_01}
   ];
 
   public wTypeSeparator: string = '###';
   public wTypePartsSeparator: string = '$$$';
   public sTypeSeparator: string = '###';
+  public gTypeGroupSeparator: string = '$$$';
+  public gTypeElementSeparator: string = '###';
+  public gTypeGroupAndElementSeparator: string = '@@@';
+
+  public gTypeAvailableElements: string = 'availableElements';
 
   public successChartColor: string = 'rgb(92, 184, 92, 0.8)';
   public failChartColor: string = 'rgb(217, 83, 79, 0.8)';
