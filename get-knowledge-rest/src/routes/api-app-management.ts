@@ -4,6 +4,6 @@ let router = require('express').Router();
 const appController = new AppController();
 
 router.route('/status')
-    .post(appController.getAppStatus);
+    .get(appController.getAppStatus);
 
 module.exports = router;
