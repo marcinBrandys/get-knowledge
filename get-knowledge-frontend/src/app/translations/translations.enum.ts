@@ -104,7 +104,7 @@ export enum Translations {
   TITLE_AVAILABLE_TASK_GROUPS_TASKS = 'Działy ćwiczeniowe',
   TITLE_AVAILABLE_TASK_GROUPS_TESTS = 'Testy',
   TITLE_STATS = 'Statystyki',
-  TITLE_STATS_POINTS = 'Zbodyte punkty',
+  TITLE_STATS_POINTS = 'Zbobyte punkty',
   TITLE_STATS_CORRECT_SOLUTIONS = 'Poprawne odpowiedzi',
   TITLE_STATS_INVALID_SOLUTIONS = 'Błędne odpowiedzi',
   TITLE_STATS_AVG_SOLUTION_DURATION = 'Średni czas trawania rozwiązywania zadania',
