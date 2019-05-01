@@ -221,6 +221,33 @@
           </div>
           <!-- G_01 -->
 
+          <!-- G_02 -->
+          <div *ngIf="selectTaskType.value === 'G_02'">
+            <mat-form-field class="w-100 mb-2">
+              <input matInput #gSelectNameValue [placeholder]="translations.TITLE_ADD_SOLUTION_GROUP_ELEMENT_PLACEHOLDER" autocomplete="off">
+              <mat-icon class="cursor-pointer" matSuffix (click)="addGSelectElement(gSelectNameValue.value); gSelectNameValue.value = ''">add_circle_outline</mat-icon>
+            </mat-form-field>
+            <mat-form-field class="w-100 mb-2">
+              <input matInput #gSelectGroupNameValue [placeholder]="translations.TITLE_ADD_SOLUTION_GROUP_PLACEHOLDER" autocomplete="off">
+              <mat-icon class="cursor-pointer" matSuffix (click)="addGSelectGroup(gSelectGroupNameValue.value); gSelectGroupNameValue.value = ''">add_circle_outline</mat-icon>
+            </mat-form-field>
+            <div class="row" *ngFor="let gSelectElement of gSelectElements">
+              <div class="col-6 pt-3">
+                <span>{{gSelectElement['name']}}</span>
+              </div>
+              <div class="col-6">
+                <mat-form-field class="w-100">
+                  <mat-select [(ngModel)]="gSelectElement['value']" [ngModelOptions]="{standalone: true}">
+                    <mat-option *ngFor="let gSelectGroup of gSelectGroups" [value]="gSelectGroup">
+                      {{gSelectGroup}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <!-- G_02 -->
+
           <div class="row">
             <div class="col-6 text-right">
               <button type="button" mat-raised-button color="accent" class="text-uppercase d-inline-block" (click)="resetCreateTaskForm()">{{translations.TITLE_TASK_ADD_CANCEL}}</button>

@@ -40,6 +40,8 @@ export class CreatorComponent implements OnInit {
   wTypeCheckboxSolutions: object[] = [];
   sTypeSolutions: string[] = [];
   gTypeGroups: object = {};
+  gSelectElements: object[] = [];
+  gSelectGroups: string[] = [];
 
   @ViewChild('createTaskGroupNgForm') createTaskGroupNgForm;
   @ViewChild('createTaskNgForm') createTaskNgForm;
@@ -108,6 +110,8 @@ export class CreatorComponent implements OnInit {
     this.wTypeCheckboxSolutions = [];
     this.sTypeSolutions = [];
     this.gTypeGroups = {};
+    this.gSelectElements = [];
+    this.gSelectGroups = [];
   }
 
   createTask() {
@@ -140,7 +144,7 @@ export class CreatorComponent implements OnInit {
     if (this.selectTaskType.value === 'T_02') {
       config['taskTip'] = this.taskTip;
     }
-    if (this.selectTaskType.value === 'W_02' || this.selectTaskType.value === 'W_04' || this.selectTaskType.value === 'S_01' || this.selectTaskType.value === 'S_02' || this.selectTaskType.value === 'G_01') {
+    if (this.selectTaskType.value === 'W_02' || this.selectTaskType.value === 'W_04' || this.selectTaskType.value === 'S_01' || this.selectTaskType.value === 'S_02' || this.selectTaskType.value === 'G_01' || this.selectTaskType.value === 'G_02') {
       delete config.taskCorrectSolution;
     }
     if (this.selectTaskType.value === 'W_04') {
@@ -154,6 +158,8 @@ export class CreatorComponent implements OnInit {
     this.wTypeCheckboxSolutions = [];
     this.sTypeSolutions = [];
     this.gTypeGroups = {};
+    this.gSelectElements = [];
+    this.gSelectGroups = [];
   }
 
   onTaskTypeSelect() {
@@ -215,6 +221,17 @@ export class CreatorComponent implements OnInit {
     }
   }
 
+  addGSelectElement(element: string) {
+    this.gSelectElements.push({
+      name: element,
+      value: ''
+    });
+  }
+
+  addGSelectGroup(group: string) {
+    this.gSelectGroups.push(group);
+  }
+
   prepareSolution(): string {
     let solution: string = '';
     if (this.selectTaskType.value === 'W_02') {
@@ -247,6 +264,13 @@ export class CreatorComponent implements OnInit {
         solutions.push(_.join(this.gTypeGroups[groupKey], this.mappingsService.gTypeElementSeparator));
       }
       solution = _.join(solutions, this.mappingsService.gTypeGroupAndElementSeparator);
+    } else if (this.selectTaskType.value === 'G_02') {
+      let elementsToGroup: string[] = [];
+      for (let element of this.gSelectElements) {
+        elementsToGroup.push(element['value'] + this.mappingsService.gTypeElementSeparator + element['name']);
+      }
+      elementsToGroup.sort();
+      solution = _.join(elementsToGroup, this.mappingsService.gTypeGroupAndElementSeparator);
     }
 
     return solution;
@@ -283,6 +307,14 @@ export class CreatorComponent implements OnInit {
       const groupNamesS: string = _.join(groupNames, this.mappingsService.gTypeGroupSeparator);
       const elementsToGroupS: string = _.join(elementsToGroup, this.mappingsService.gTypeElementSeparator);
       taskPresentedValue = groupNamesS + this.mappingsService.gTypeGroupAndElementSeparator + elementsToGroupS;
+    } else if (this.selectTaskType.value === 'G_02') {
+      let elementsToGroup: string[] = [];
+      for (let element of this.gSelectElements) {
+        elementsToGroup.push(element['name']);
+      }
+      let groupName: string = _.join(this.gSelectGroups, this.mappingsService.gTypeGroupSeparator);
+      let elementsToGroupS: string = _.join(elementsToGroup, this.mappingsService.gTypeElementSeparator);
+      taskPresentedValue = groupName + this.mappingsService.gTypeGroupAndElementSeparator + elementsToGroupS;
     }
 
     return taskPresentedValue;

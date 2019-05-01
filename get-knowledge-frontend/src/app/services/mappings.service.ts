@@ -15,7 +15,8 @@ export class MappingsService {
     {code: 'W_04', translation: Translations.TASK_TYPE_W_04},
     {code: 'S_01', translation: Translations.TASK_TYPE_S_01},
     {code: 'S_02', translation: Translations.TASK_TYPE_S_02},
-    {code: 'G_01', translation: Translations.TASK_TYPE_G_01}
+    {code: 'G_01', translation: Translations.TASK_TYPE_G_01},
+    {code: 'G_02', translation: Translations.TASK_TYPE_G_02},
   ];
 
   public wTypeSeparator: string = '###';
