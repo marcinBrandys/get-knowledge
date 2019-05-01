@@ -82,6 +82,7 @@ export enum Translations {
   TASK_TYPE_S_01 = 'Sortowanie pionowe',
   TASK_TYPE_S_02 = 'Sortowanie poziome',
   TASK_TYPE_G_01 = 'Grupowanie (przeciąganie)',
+  TASK_TYPE_G_02 = 'Grupowanie (wybór)',
   TITLE_CORRECT_ANSWER = 'Odpowiedź prawidłowa!',
   TITLE_INCORRECT_ANSWER = 'Odpowiedź błędna!',
   TITLE_TRUE = 'Prawda',

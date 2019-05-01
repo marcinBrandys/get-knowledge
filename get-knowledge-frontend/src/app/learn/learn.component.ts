@@ -40,6 +40,8 @@ export class LearnComponent implements OnInit {
   wTypeCheckboxSolutions: object[] = [];
   sTypeSolutions: string[] = [];
   gTypeGroups: object = {};
+  gSelectElements: object[] = [];
+  gSelectGroups: string[] = [];
 
   @ViewChild('taskGroupSelection') taskGroupSelection: MatSelectionList;
   @ViewChild('taskTypeSelection') taskTypeSelection: MatSelectionList;
@@ -58,7 +60,7 @@ export class LearnComponent implements OnInit {
     let config = {
       taskSolution: this.taskSolution
     };
-    if (this.task && (this.task.taskType === 'W_02' || this.task.taskType === 'W_04' || this.task.taskType === 'S_01' || this.task.taskType === 'S_02' || this.task.taskType === 'G_01')) {
+    if (this.task && (this.task.taskType === 'W_02' || this.task.taskType === 'W_04' || this.task.taskType === 'S_01' || this.task.taskType === 'S_02' || this.task.taskType === 'G_01' || this.task.taskType === 'G_02')) {
       delete config.taskSolution;
     }
     if (this.task && this.task.taskType === 'W_04') {
@@ -196,7 +198,18 @@ export class LearnComponent implements OnInit {
         this.gTypeGroups[this.mappingsService.gTypeAvailableElements].push(element);
       }
       this.gTypeGroups[this.mappingsService.gTypeAvailableElements] = _.shuffle(this.gTypeGroups[this.mappingsService.gTypeAvailableElements]);
-      console.log(this.gTypeGroups);
+    } else if (this.task && (this.task.taskType === 'G_02')) {
+      const parts: string[] = _.split(this.task.taskPresentedValue, this.mappingsService.gTypeGroupAndElementSeparator);
+      const groups: string[] = _.split(parts[0], this.mappingsService.gTypeGroupSeparator);
+      let elements: string[] = _.split(parts[1], this.mappingsService.gTypeElementSeparator);
+      this.gSelectGroups = _.clone(groups);
+      elements = _.shuffle(elements);
+      for (let element of elements) {
+        this.gSelectElements.push({
+          name: element,
+          value: ''
+        });
+      }
     }
   }
 
@@ -232,6 +245,13 @@ export class LearnComponent implements OnInit {
         solutions.push(_.join(this.gTypeGroups[groupKey], this.mappingsService.gTypeElementSeparator));
       }
       solution = _.join(solutions, this.mappingsService.gTypeGroupAndElementSeparator);
+    } else if (this.task && this.task.taskType === 'G_02') {
+      let elementsToGroup: string[] = [];
+      for (let element of this.gSelectElements) {
+        elementsToGroup.push(element['value'] + this.mappingsService.gTypeElementSeparator + element['name']);
+      }
+      elementsToGroup.sort();
+      solution = _.join(elementsToGroup, this.mappingsService.gTypeGroupAndElementSeparator);
     }
 
     return solution;
@@ -274,6 +294,8 @@ export class LearnComponent implements OnInit {
     this.wTypeCheckboxSolutions = [];
     this.sTypeSolutions = [];
     this.gTypeGroups = {};
+    this.gSelectElements = [];
+    this.gSelectGroups = [];
     this.isTaskSubmitted = false;
     this.bindTask();
   }
