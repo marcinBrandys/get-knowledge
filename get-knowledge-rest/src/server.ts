@@ -3,6 +3,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const appConfig = require('./config/config');
+const appManagementRoutes = require('./routes/api-app-management');
 const userManagementRoutes = require('./routes/api-user-management-routes');
 const groupManagementRoutes = require('./routes/api-group-management-routes');
 const taskGroupManagementRoutes = require('./routes/api-task-group-management-routes');
@@ -26,6 +27,7 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 app.use(cors());
 app.options('*', cors());
+app.use('/api/app-management', appManagementRoutes);
 app.use('/api/user-management', userManagementRoutes);
 app.use('/api/group-management', groupManagementRoutes);
 app.use('/api/task-group-management', taskGroupManagementRoutes);
