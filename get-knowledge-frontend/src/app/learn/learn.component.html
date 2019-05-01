@@ -116,6 +116,33 @@
               <div class="swap-list-horizontal-box" *ngFor="let sTypeSolution of sTypeSolutions" cdkDrag>{{sTypeSolution}}</div>
             </div>
           </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'G_01'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <div cdkDropListGroup *ngIf="getGTypeGroupKeys().length > 0">
+              <div class="d-flex flex-wrap flex-sm-column flex-md-row flex-lg-row justify-content-center">
+                <div *ngFor="let gTypeGroup of getGTypeGroupKeys()">
+                  <h5 *ngIf="gTypeGroup !== mappingsService.gTypeAvailableElements" class="mt-0 mb-2 text-center">{{gTypeGroup}}</h5>
+                  <div *ngIf="gTypeGroup !== mappingsService.gTypeAvailableElements"
+                       cdkDropList
+                       [cdkDropListData]="gTypeGroups[gTypeGroup]"
+                       class="list-wrapper"
+                       (cdkDropListDropped)="dropGTypeElement($event)">
+                    <div class="list-element" *ngFor="let item of gTypeGroups[gTypeGroup]" cdkDrag>{{item}}</div>
+                  </div>
+                </div>
+                <div *ngIf="gTypeGroups[mappingsService.gTypeAvailableElements]">
+                  <h5 class="mt-0 mb-2 text-center">{{translations.TITLE_GROUP_ELEMENTS_PLACEHOLDER}}</h5>
+                  <div
+                    cdkDropList
+                    [cdkDropListData]="gTypeGroups[mappingsService.gTypeAvailableElements]"
+                    class="list-wrapper"
+                    (cdkDropListDropped)="dropGTypeElement($event)">
+                    <div class="list-element" *ngFor="let item of gTypeGroups[mappingsService.gTypeAvailableElements]" cdkDrag>{{item}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="col-6 text-right">
               <button *ngIf="!isTaskSubmitted" type="button" mat-raised-button color="accent" class="text-uppercase d-inline-block" (click)="resetTask()">{{translations.ACTION_SKIP_TASK}}</button>

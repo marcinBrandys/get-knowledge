@@ -42,12 +42,13 @@ export class SolutionController {
         if (taskId && startTs && endTs && answer) {
 
             Task.findOne({_id: taskId}).then(function (task) {
+                console.log(task);
 
                 const duration = endTs - startTs;
                 const isCorrect = task.taskCorrectSolution === answer;
                 const points = isCorrect ? task.taskPoints : 0;
                 const weight = task.taskWeight;
-                const isTipAvailable = task.taskTip && task.taskTip.length > 0;
+                let isTipAvailable = _.get(task, 'taskTip.length', 0) > 0;
 
                 let solution = new Solution({
                     student: studentId,
@@ -75,7 +76,6 @@ export class SolutionController {
                 });
 
             }).catch(function (error) {
-                console.log(1, error);
                 res.statusCode = 400;
                 res.json({
                     error: error
