@@ -143,6 +143,23 @@
               </div>
             </div>
           </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'G_02'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <div class="row" *ngFor="let gSelectElement of gSelectElements">
+              <div class="col-6 pt-3">
+                <span>{{gSelectElement['name']}}</span>
+              </div>
+              <div class="col-6">
+                <mat-form-field class="w-100">
+                  <mat-select [(ngModel)]="gSelectElement['value']" [ngModelOptions]="{standalone: true}">
+                    <mat-option *ngFor="let gSelectGroup of gSelectGroups" [value]="gSelectGroup">
+                      {{gSelectGroup}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="col-6 text-right">
               <button *ngIf="!isTaskSubmitted" type="button" mat-raised-button color="accent" class="text-uppercase d-inline-block" (click)="resetTask()">{{translations.ACTION_SKIP_TASK}}</button>
