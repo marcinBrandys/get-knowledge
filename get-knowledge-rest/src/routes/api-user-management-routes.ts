@@ -15,9 +15,7 @@ router.route('/students')
     .get(authService.validateUser, authService.requireTeacher, userController.getStudents);
 
 router.route('/user/by_id/:id')
-    .get(authService.validateUser, authService.requireAdmin, userController.getUserById)
-    .post(authService.validateUser, userController.updatePassword)
-    .put(authService.validateUser, userController.updateData);
+    .get(authService.validateUser, authService.requireAdmin, userController.getUserById);
 
 router.route('/user/me')
     .get(authService.validateUser, userController.getAccountInfo);

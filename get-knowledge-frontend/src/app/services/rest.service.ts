@@ -21,20 +21,17 @@ export class RestService {
     this.REST_API_URL = environment.REST_API_URL;
   }
 
-  login(email: string, password: string) {
+  login(nick: string, password: string) {
     const requestPayload = {
-      email: email,
+      nick: nick,
       password: password
     };
 
     return this.http.post(this.REST_API_URL + 'user-management/login', requestPayload, this.httpOptions);
   }
 
-  register(firstName: string, lastName: string, email: string, nick: string, password: string, gender: string, age: number, role: string, accessCode: string) {
+  register(nick: string, password: string, gender: string, age: number, role: string, accessCode: string) {
     const requestPayload = {
-      firstName: firstName,
-      lastName: lastName,
-      email: email,
       nick: nick,
       password: password,
       gender: gender,

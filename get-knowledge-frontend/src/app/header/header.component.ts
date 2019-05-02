@@ -22,8 +22,12 @@ export class HeaderComponent implements OnInit {
     return this.authService.getUserRole();
   }
 
-  teacherRequirementFulfilled() {
+  teacherRequirementFulfilled(): boolean {
     return this.userRole === 'teacher' || this.userRole === 'admin';
+  }
+
+  studentRequirementFulfilled(): boolean {
+    return this.userRole === 'student';
   }
 
   logout() {

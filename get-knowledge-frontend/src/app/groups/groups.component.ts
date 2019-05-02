@@ -22,7 +22,7 @@ export class GroupsComponent implements OnInit {
   selectStudent = new FormControl('', [Validators.required]);
   groups: Group[] = [];
   students: User[] = [];
-  displayedColumns: string[] = ['firstName', 'lastName', 'age', 'email', 'nick', 'action'];
+  displayedColumns: string[] = ['nick', 'age', 'action'];
 
   constructor(private auth: AuthService, private restService: RestService, private fb: FormBuilder) { }
 
@@ -83,13 +83,10 @@ export class GroupsComponent implements OnInit {
         for (let student of data['students']) {
           const id = _.get(student, '_id', null);
           const role = _.get(student, 'role', null);
-          const firstName = _.get(student, 'firstName', null);
-          const lastName = _.get(student, 'lastName', null);
           const nick = _.get(student, 'nick', null);
-          const email = _.get(student, 'email', null);
           const gender = _.get(student, 'gender', null);
           const age = _.get(student, 'age', null);
-          this.students.push(new User(id, role, firstName, lastName, nick, email, gender, age));
+          this.students.push(new User(id, role, nick, gender, age));
         }
       },
       error => {
@@ -109,13 +106,10 @@ export class GroupsComponent implements OnInit {
       for (let student of students) {
         const id = _.get(student, '_id', null);
         const role = _.get(student, 'role', null);
-        const firstName = _.get(student, 'firstName', null);
-        const lastName = _.get(student, 'lastName', null);
         const nick = _.get(student, 'nick', null);
-        const email = _.get(student, 'email', null);
         const gender = _.get(student, 'gender', null);
         const age = _.get(student, 'age', null);
-        studentsList.push(new User(id, role, firstName, lastName, nick, email, gender, age));
+        studentsList.push(new User(id, role, nick, gender, age));
       }
       this.groups.push(new Group(groupId, groupName, owner, studentsList));
     }

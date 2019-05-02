@@ -16,11 +16,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   translations = Translations;
   form: FormGroup;
-  email = new FormControl('', [Validators.required, Validators.email]);
   password = new FormControl('', [Validators.required]);
   nick = new FormControl('', [Validators.required]);
-  firstName = new FormControl('', [Validators.required]);
-  lastName = new FormControl('', [Validators.required]);
   age = new FormControl('', [Validators.required, Validators.min(1), Validators.max(150)]);
   gender = new FormControl('', [Validators.required]);
   role = new FormControl('', [Validators.required]);
@@ -41,11 +38,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      email: this.email,
       password: this.password,
       nick: this.nick,
-      firstName: this.firstName,
-      lastName: this.lastName,
       age: this.age,
       gender: this.gender,
       role: this.role,
@@ -59,8 +53,10 @@ export class RegisterComponent implements OnInit, AfterViewInit {
 
   onSubmit() {
     if (this.form.valid) {
-      this.register(this.email.value, this.password.value, this.nick.value, this.firstName.value, this.lastName.value,
-        this.age.value, this.gender.value, this.role.value, this.accessCode.value
+      this.register(
+        this.password.value, this.nick.value,
+        this.age.value, this.gender.value,
+        this.role.value, this.accessCode.value
       );
     }
   }
@@ -69,8 +65,8 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     this.router.navigate(['/login']);
   }
 
-  register(email: string, password: string, nick: string, firstName: string, lastName: string, age: number, gender: string, role: string, accessCode: string) {
-    this.restService.register(firstName, lastName, email, nick, password, gender, age, role, accessCode).subscribe(
+  register(password: string, nick: string, age: number, gender: string, role: string, accessCode: string) {
+    this.restService.register(nick, password, gender, age, role, accessCode).subscribe(
       data => {
         this.notificationService.showNotification(this.translations.REGISTER_SUCCESS);
         this.goToLogin();
@@ -84,11 +80,6 @@ export class RegisterComponent implements OnInit, AfterViewInit {
         }
       }
     );
-  }
-
-  getEmailErrorMessage() {
-    return this.email.hasError('required') ? this.translations.EMAIL_REQUIRED :
-      this.email.hasError('email') ? this.translations.EMAIL_INVALID : '';
   }
 
 }

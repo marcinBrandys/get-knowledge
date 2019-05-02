@@ -17,7 +17,7 @@ export class LoginComponent implements OnInit{
 
   translations = Translations;
   form: FormGroup;
-  email = new FormControl('', [Validators.required, Validators.email]);
+  nick = new FormControl('', [Validators.required]);
   password = new FormControl('', [Validators.required]);
   passwordVisibilityState = true;
 
@@ -25,14 +25,14 @@ export class LoginComponent implements OnInit{
 
   ngOnInit(): void {
     this.form = this.fb.group({
-      email: this.email,
+      nick: this.nick,
       password: this.password
     });
   }
 
   onSubmit() {
     if (this.form.valid) {
-      this.login(this.email.value, this.password.value);
+      this.login(this.nick.value, this.password.value);
     }
   }
 
@@ -44,8 +44,8 @@ export class LoginComponent implements OnInit{
     this.router.navigate(['/dashboard']);
   }
 
-  login(email, password) {
-    this.restService.login(email, password).subscribe(
+  login(nick, password) {
+    this.restService.login(nick, password).subscribe(
       data => {
         this.notificationService.showNotification(this.translations.LOGIN_SUCCESS);
         this.auth.saveToken(_.get(data, 'token'));
@@ -55,10 +55,5 @@ export class LoginComponent implements OnInit{
         this.notificationService.showNotification(this.translations.LOGIN_ERROR_WRONG_CREDENTIALS);
       }
     );
-  }
-
-  getEmailErrorMessage() {
-    return this.email.hasError('required') ? this.translations.EMAIL_REQUIRED :
-      this.email.hasError('email') ? this.translations.EMAIL_INVALID : '';
   }
 }

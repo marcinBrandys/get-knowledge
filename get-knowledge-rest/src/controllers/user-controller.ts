@@ -137,29 +137,6 @@ export class UserController {
         });
     }
 
-    updateData(req, res) {
-        User.findOne({_id: req.body.userId}).then(function (user) {
-            user.firstName = req.body.firstName;
-            user.lastName = req.body.lastName;
-            user.email = req.body.email;
-            user.save().then(function () {
-                res.json({
-                    data: user
-                });
-            }).catch(function (error) {
-                res.statusCode = 400;
-                res.json({
-                    error: error
-                });
-            });
-        }).catch(function (error) {
-            res.statusCode = 400;
-            res.json({
-                error: error
-            });
-        });
-    }
-
     getRanking(req, res) {
         User.find({role: 'student'}).then(function (students) {
 
@@ -241,45 +218,18 @@ export class UserController {
         });
     }
 
-    updatePassword(req, res) {
-        User.findOne({_id: req.body.userId}).then(function (user) {
-            user.password = cryptoService.hashPassword(req.body.password);
-            user.save().then(function () {
-                res.json({
-                    data: user
-                });
-            }).catch(function (error) {
-                res.statusCode = 400;
-                res.json({
-                    error: error
-                });
-            });
-        }).catch(function (error) {
-            res.statusCode = 400;
-            res.json({
-                error: error
-            });
-        });
-    }
-
     register(req, res) {
-        const firstName = _.get(req, 'body.firstName');
-        const lastName = _.get(req, 'body.lastName');
         const nick = _.get(req, 'body.nick');
-        const email = _.get(req, 'body.email');
         const password = _.get(req, 'body.password');
         const gender = _.get(req, 'body.gender');
         const age = _.get(req, 'body.age');
         const role = _.get(req, 'body.role');
         const accessCode = _.get(req, 'body.accessCode');
 
-        if (validatorService.isEmailValid(email) && validatorService.isGenderValid(gender) && validatorService.isRoleValid(role) && validatorService.isAccessCodeValid(role, accessCode)) {
+        if (nick && validatorService.isGenderValid(gender) && validatorService.isRoleValid(role) && validatorService.isAccessCodeValid(role, accessCode)) {
 
             let user = new User({
-                firstName: firstName,
-                lastName: lastName,
                 nick: nick,
-                email: email,
                 password: cryptoService.hashPassword(password),
                 gender: gender,
                 age: age,
@@ -305,17 +255,14 @@ export class UserController {
     }
 
     login(req, res) {
-        User.findOne({email: req.body.email}).select('+password').then(function (user) {
+        User.findOne({nick: req.body.nick}).select('+password').then(function (user) {
             if (cryptoService.comparePassword(req.body.password, user.password)) {
                 const token = jwt.sign(
                     {
                         user: {
                             id: user._id,
                             role: user.role,
-                            firstName: user.firstName,
-                            lastName: user.lastName,
                             nick: user.nick,
-                            email: user.email,
                             gender: user.gender,
                             age: user.age
                         }

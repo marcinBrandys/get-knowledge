@@ -30,7 +30,7 @@ export class AuthService {
     try {
       const user = jwt_decode(this.getToken()).user;
 
-      return new User(user.id, user.role, user.firstName, user.lastName, user.nick, user.email, user.gender, user.age);
+      return new User(user.id, user.role, user.nick, user.gender, user.age);
     }
     catch (Error) {
       return null;
