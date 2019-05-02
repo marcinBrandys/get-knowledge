@@ -53,39 +53,6 @@
             </div>
           </div>
         </div>
-        <div class="row my-2" *ngIf="ranking.length > 0">
-          <h4 class="text-center w-100 my-2">{{translations.TITLE_RANK}}</h4>
-          <table mat-table [dataSource]="ranking" class="w-100">
-
-            <ng-container matColumnDef="index">
-              <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_PLACE}}</th>
-              <td mat-cell *matCellDef="let i = index;">{{i + 1}}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="studentNick">
-              <th mat-header-cell *matHeaderCellDef>{{translations.ATTRIBUTE_NICK}}</th>
-              <td mat-cell *matCellDef="let element">{{element.studentNick}}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="studentPoints">
-              <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_STATS_POINTS}}</th>
-              <td mat-cell *matCellDef="let element">{{element.studentPoints}}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="avgStudentSolutionDuration">
-              <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_STATS_AVG_SOLUTION_DUR}}</th>
-              <td mat-cell *matCellDef="let element">{{(element.avgStudentSolutionDuration / 1000).toFixed(2)}} s</td>
-            </ng-container>
-
-            <ng-container matColumnDef="studentGroupNames">
-              <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_GROUPS}}</th>
-              <td mat-cell *matCellDef="let element">{{element.studentGroupNames.length > 0 ? element.studentGroupNames : '---'}}</td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns; let element" [ngClass]="{'table-checked-row': element && isLoggedUserNick(element.studentNick)}"></tr>
-          </table>
-        </div>
       </div>
     </div>
   </div>
@@ -94,9 +61,13 @@
       <h3 class="text-center w-100 my-2" *ngIf="!user">{{translations.TITLE_WELCOME}}!</h3>
       <h3 class="text-center w-100 my-2" *ngIf="user">{{translations.TITLE_WELCOME}} {{user.nick}}!</h3>
       <p class="text-center w-100 my-2">{{translations.TITLE_WELCOME_TEXT_TEACHER}}</p>
-      <div class="row my-2" *ngIf="ranking.length > 0">
-        <h4 class="text-center w-100 my-2">{{translations.TITLE_RANK}}</h4>
-        <table mat-table [dataSource]="ranking" class="w-100">
+    </div>
+  </div>
+  <div class="row mb-4" *ngIf="user && user.role && (user.role === 'teacher' || user.role === 'student') && (ranking.length > 0 || privateRanking.length > 0)">
+    <div class="col-12">
+      <div *ngIf="ranking.length > 0" class="col-12 content-wrapper mb-4">
+        <h4 class="text-center w-100 my-2" *ngIf="ranking.length > 0">{{translations.TITLE_RANK}}</h4>
+        <table mat-table [dataSource]="ranking" class="w-100" *ngIf="ranking.length > 0">
 
           <ng-container matColumnDef="index">
             <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_PLACE}}</th>
@@ -125,6 +96,35 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns; let element" [ngClass]="{'table-checked-row': element && isLoggedUserNick(element.studentNick)}"></tr>
+        </table>
+      </div>
+      <div *ngFor="let pRanking of privateRanking" class="col-12 content-wrapper mb-4">
+        <h4 class="text-center w-100 my-2" *ngIf="pRanking.ranking.length > 0">{{translations.TITLE_RANK_OF_CLASS}} {{pRanking.groupName}}</h4>
+        <h4 class="text-center w-100 my-2" *ngIf="pRanking.ranking.length < 1">{{translations.EMPTY_GROUP}} {{pRanking.groupName}}</h4>
+        <table mat-table [dataSource]="pRanking.ranking" class="w-100" *ngIf="pRanking.ranking.length > 0">
+
+          <ng-container matColumnDef="index">
+            <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_PLACE}}</th>
+            <td mat-cell *matCellDef="let i = index;">{{i + 1}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="studentNick">
+            <th mat-header-cell *matHeaderCellDef>{{translations.ATTRIBUTE_NICK}}</th>
+            <td mat-cell *matCellDef="let element">{{element.studentNick}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="studentPoints">
+            <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_STATS_POINTS}}</th>
+            <td mat-cell *matCellDef="let element">{{element.studentPoints}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="avgStudentSolutionDuration">
+            <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_STATS_AVG_SOLUTION_DUR}}</th>
+            <td mat-cell *matCellDef="let element">{{(element.avgStudentSolutionDuration / 1000).toFixed(2)}} s</td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedPrivateColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedPrivateColumns; let element" [ngClass]="{'table-checked-row': element && isLoggedUserNick(element.studentNick)}"></tr>
         </table>
       </div>
     </div>

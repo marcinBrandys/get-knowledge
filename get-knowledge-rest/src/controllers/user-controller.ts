@@ -1,3 +1,5 @@
+import {type} from "os";
+
 let User = require('../models/user-model');
 let Solution = require('../models/solution-model');
 let Task = require('../models/task-model');
@@ -203,6 +205,94 @@ export class UserController {
                     res.json({
                         error: error
                     });
+                });
+            }).catch(function (error) {
+                res.statusCode = 400;
+                res.json({
+                    error: error
+                });
+            });
+        }).catch(function (error) {
+            res.statusCode = 400;
+            res.json({
+                error: error
+            });
+        });
+    }
+
+    getPrivateRanking(req, res) {
+        const userId = req.body.userId;
+        const userRole = req.body.userRole;
+        let groupQuery = {};
+        if (userRole === 'teacher') {
+            groupQuery['owner'] = userId;
+        }
+        Group.find(groupQuery).populate({path: 'students'}).then(function (groups) {
+
+            let filteredGroup = _.cloneDeep(groups);
+            if (userRole === 'student') {
+                filteredGroup = [];
+                for (let group of groups) {
+                    const groupStudents: [] = _.get(group, 'students', []);
+                    for (let studentOfGroup of groupStudents) {
+                        const studentOfGroupId: string = _.get(studentOfGroup, 'id', null);
+                        if (_.isEqual(userId, studentOfGroupId)) {
+                            filteredGroup.push(group);
+                        }
+                    }
+                }
+            }
+
+            Solution.find({}).then(function (solutions) {
+
+                let ranking = [];
+
+                for (let group of filteredGroup) {
+                    const students: [] = _.get(group, 'students', []);
+                    let groupRanking: object[] = [];
+                    for (let student of students) {
+                        let studentId: string = _.get(student, 'id', null);
+                        let studentNick = _.get(student, 'nick', '');
+                        let studentPoints: number = 0;
+                        let numberOfStudentSolutions: number = 0;
+                        let numberOfStudentCorrectSolutions: number = 0;
+                        let numberOfStudentInvalidSolutions: number = 0;
+                        let avgStudentSolutionDuration: number = 0;
+                        for (let solution of solutions) {
+                            let solutionStudentId: string = _.get(solution, 'student', null);
+                            if (_.isEqual(studentId, solutionStudentId.toString())) {
+                                const solutionPoints: number = _.get(solution, 'points', 0);
+                                const isSolutionCorrect: boolean = _.get(solution, 'isCorrect', false);
+                                const solutionDuration: number = _.get(solution, 'duration', 0);
+                                studentPoints += solutionPoints;
+                                numberOfStudentSolutions++;
+                                isSolutionCorrect ? numberOfStudentCorrectSolutions++ : numberOfStudentInvalidSolutions++;
+                                avgStudentSolutionDuration += solutionDuration;
+                            }
+                        }
+                        if (numberOfStudentSolutions > 0) {
+                            avgStudentSolutionDuration = Math.round(avgStudentSolutionDuration / numberOfStudentSolutions);
+                        } else {
+                            avgStudentSolutionDuration = 0;
+                        }
+                        groupRanking.push({
+                            studentNick: studentNick,
+                            studentPoints: studentPoints,
+                            numberOfStudentSolutions: numberOfStudentSolutions,
+                            numberOfStudentCorrectSolutions: numberOfStudentCorrectSolutions,
+                            numberOfStudentInvalidSolutions: numberOfStudentInvalidSolutions,
+                            avgStudentSolutionDuration: avgStudentSolutionDuration
+                        });
+                    }
+                    groupRanking = _.orderBy(groupRanking, ['studentPoints', 'avgStudentSolutionDuration'], ['desc', 'asc']);
+                    ranking.push({
+                        groupName: _.get(group, 'groupName', ''),
+                        ranking: groupRanking
+                    });
+                }
+
+                res.json({
+                    ranking: ranking
                 });
             }).catch(function (error) {
                 res.statusCode = 400;

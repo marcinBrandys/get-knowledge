@@ -27,7 +27,9 @@ export class DashboardComponent implements OnInit {
     numberOfTests: null
   };
   ranking: any[] = [];
+  privateRanking: any[] = [];
   displayedColumns: string[] = ['index', 'studentNick', 'studentPoints', 'avgStudentSolutionDuration', 'studentGroupNames'];
+  displayedPrivateColumns: string[] = ['index', 'studentNick', 'studentPoints', 'avgStudentSolutionDuration'];
 
   public pieChartLabels: string[] = [
     this.translations.TITLE_STATS_CORRECT_SOLUTIONS,
@@ -60,6 +62,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.getUserInfo();
     this.getRanking();
+    this.getPrivateRanking();
   }
 
   getUserInfo() {
@@ -80,6 +83,18 @@ export class DashboardComponent implements OnInit {
       data => {
         console.log(data);
         this.bindRanking(data);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  getPrivateRanking() {
+    this.restService.getPrivateRanking().subscribe(
+      data => {
+        console.log(data);
+        this.bindPrivateRanking(data);
       },
       error => {
         console.log(error);
@@ -118,6 +133,10 @@ export class DashboardComponent implements OnInit {
 
   bindRanking(data: any) {
     this.ranking = _.get(data, 'ranking', []);
+  }
+
+  bindPrivateRanking(data: any) {
+    this.privateRanking = _.get(data, 'ranking', []);
   }
 
   isLoggedUserNick(nick: string): boolean {
