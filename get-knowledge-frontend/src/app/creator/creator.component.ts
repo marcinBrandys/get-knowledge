@@ -43,6 +43,9 @@ export class CreatorComponent implements OnInit {
   gSelectElements: object[] = [];
   gSelectGroups: string[] = [];
 
+  startDate: Date = new Date();
+  endDate: Date = new Date();
+
   @ViewChild('createTaskGroupNgForm') createTaskGroupNgForm;
   @ViewChild('createTaskNgForm') createTaskNgForm;
 
@@ -57,18 +60,30 @@ export class CreatorComponent implements OnInit {
   }
 
   createTaskGroup() {
+    let startTs: number = null;
+    let endTs: number = null;
+    if (this.isTestTaskGroup) {
+      this.startDate.setHours(0, 0, 0, 0);
+      this.endDate.setHours(23, 59, 59, 999);
+      startTs = +this.startDate;
+      endTs = +this.endDate;
+    }
     if (this.taskGroupCreationForm.valid) {
-      this.restService.createTaskGroup(this.taskGroupName.value, this.isTestTaskGroup).subscribe(
-        data => {
-          console.log(data);
-          this.getTaskGroups();
-          this.resetCreateTaskGroupForm();
-          this.notificationService.showNotification(this.translations.CREATE_TASK_GROUP_SUCCESS);
-        },
-        error => {
-          console.log(error);
-        }
-      )
+      if (!this.isTestTaskGroup || (this.isTestTaskGroup && endTs > startTs)) {
+        this.restService.createTaskGroup(this.taskGroupName.value, this.isTestTaskGroup, startTs, endTs).subscribe(
+          data => {
+            console.log(data);
+            this.getTaskGroups();
+            this.resetCreateTaskGroupForm();
+            this.notificationService.showNotification(this.translations.CREATE_TASK_GROUP_SUCCESS);
+          },
+          error => {
+            console.log(error);
+          }
+        )
+      } else {
+        this.notificationService.showNotification(this.translations.TITLE_WRONG_DATES);
+      }
     }
   }
 

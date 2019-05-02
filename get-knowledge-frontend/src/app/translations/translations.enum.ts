@@ -114,5 +114,8 @@ export enum Translations {
   TITLE_RANK = 'Ranking użytkowników',
   TITLE_RANK_OF_CLASS = 'Ranking grupy',
   TITLE_PLACE = 'Miejsce',
-  TITLE_EMPTY_TASK = 'Brak zadania, wybierz inną grupę lub typ zadań'
+  TITLE_EMPTY_TASK = 'Brak zadania, wybierz inną grupę lub typ zadań',
+  TITLE_START_DATE = 'Data rozpoczęcia',
+  TITLE_END_DATE = 'Data zakończenia',
+  TITLE_WRONG_DATES = 'Wprowadzono nieprawidłowe daty testu'
 }

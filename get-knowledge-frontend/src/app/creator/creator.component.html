@@ -10,6 +10,16 @@
           <div class="w-100 mb-4">
             <mat-checkbox [(ngModel)]="isTestTaskGroup" name="isTestTaskGroup">{{translations.ATTRIBUTE_TASK_IS_TEST_GROUP}}</mat-checkbox>
           </div>
+          <mat-form-field class="w-100 mb-2" *ngIf="isTestTaskGroup">
+            <input matInput [matDatepicker]="pickerStart" [(ngModel)]="startDate" [ngModelOptions]="{standalone: true}" placeholder="{{translations.TITLE_START_DATE}}">
+            <mat-datepicker-toggle matSuffix [for]="pickerStart"></mat-datepicker-toggle>
+            <mat-datepicker #pickerStart></mat-datepicker>
+          </mat-form-field>
+          <mat-form-field class="w-100 mb-2" *ngIf="isTestTaskGroup">
+            <input matInput [matDatepicker]="pickerEnd" [(ngModel)]="endDate" [ngModelOptions]="{standalone: true}" placeholder="{{translations.TITLE_END_DATE}}">
+            <mat-datepicker-toggle matSuffix [for]="pickerEnd"></mat-datepicker-toggle>
+            <mat-datepicker #pickerEnd></mat-datepicker>
+          </mat-form-field>
           <button type="submit" mat-raised-button color="primary" class="text-uppercase" [disabled]="taskGroupCreationForm.invalid">{{translations.ACTION_ADD}}</button>
         </form>
       </div>

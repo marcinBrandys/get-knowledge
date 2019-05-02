@@ -35,13 +35,17 @@ export class TaskGroupController {
     createTaskGroup(req, res) {
         const taskGroupName = _.get(req, 'body.taskGroupName');
         const isTestTaskGroup = _.get(req, 'body.isTestTaskGroup');
+        const startTs = _.get(req, 'body.startTs');
+        const endTs = _.get(req, 'body.endTs');
         const ownerId = req.body.userId;
 
-        if (taskGroupName) {
+        if (taskGroupName && ((!startTs && !endTs) || (startTs && endTs && endTs > startTs))) {
             let taskGroup = new TaskGroup({
                 taskGroupName: taskGroupName,
                 owner: ownerId,
-                isTestTaskGroup: isTestTaskGroup
+                isTestTaskGroup: isTestTaskGroup,
+                startTs: startTs,
+                endTs: endTs
             });
 
             taskGroup.save().then(function () {

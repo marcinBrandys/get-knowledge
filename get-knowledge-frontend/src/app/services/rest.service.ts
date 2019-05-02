@@ -81,10 +81,12 @@ export class RestService {
     return this.http.get(this.REST_API_URL + 'user-management/students', this.httpOptions);
   }
 
-  createTaskGroup(taskGroupName: string, isTestTaskGroup: boolean = false) {
+  createTaskGroup(taskGroupName: string, isTestTaskGroup: boolean, startTs: number, endTs: number) {
     const requestPayload = {
       taskGroupName: taskGroupName,
-      isTestTaskGroup: isTestTaskGroup
+      isTestTaskGroup: isTestTaskGroup,
+      startTs: startTs,
+      endTs: endTs
     };
 
     return this.http.post(this.REST_API_URL + 'task-group-management/create', requestPayload, this.httpOptions);

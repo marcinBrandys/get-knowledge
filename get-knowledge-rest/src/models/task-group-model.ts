@@ -11,6 +11,14 @@ const taskGroupSchema = mongooseTaskGroupModel.Schema({
     isTestTaskGroup: {
         type: mongooseTaskGroupModel.Schema.Types.Boolean,
         require: true
+    },
+    startTs: {
+        type: mongooseTaskGroupModel.Schema.Types.Number,
+        require: false
+    },
+    endTs: {
+        type: mongooseTaskGroupModel.Schema.Types.Number,
+        require: false
     }
 });
 

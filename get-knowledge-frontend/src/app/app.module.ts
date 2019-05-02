@@ -8,13 +8,28 @@ import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import {
+  MAT_DATE_LOCALE,
   MatBadgeModule,
   MatButtonModule,
-  MatCardModule, MatCheckboxModule, MatExpansionModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatDatepickerModule,
+  MatExpansionModule,
   MatFormFieldModule,
   MatIconModule,
-  MatInputModule, MatListModule, MatMenuModule, MatPaginatorModule, MatRadioModule, MatSelectModule, MatSliderModule,
-  MatSnackBarModule, MatStepperModule, MatTableModule, MatTabsModule, MatToolbarModule
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatRadioModule,
+  MatSelectModule,
+  MatSliderModule,
+  MatSnackBarModule,
+  MatStepperModule,
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule
 } from "@angular/material";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
@@ -79,13 +94,21 @@ export function tokenGetter() {
     MatRadioModule,
     DragDropModule,
     MatBadgeModule,
-    ChartsModule
+    ChartsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
-  providers: [RestService, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: RestInterceptorService,
-    multi: true
-  }],
+  providers: [
+    RestService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RestInterceptorService,
+      multi: true
+    },
+    {
+      provide: MAT_DATE_LOCALE, useValue: 'pl-PL'
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
