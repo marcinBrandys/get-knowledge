@@ -112,5 +112,6 @@ export enum Translations {
   TITLE_STATS_AVG_SOLUTION_DURATION = 'Średni czas trawania rozwiązywania zadania',
   TITLE_STATS_AVG_SOLUTION_DUR = 'Średni czas rozwiązania',
   TITLE_RANK = 'Ranking użytkowników',
+  TITLE_RANK_OF_CLASS = 'Ranking grupy',
   TITLE_PLACE = 'Miejsce'
 }

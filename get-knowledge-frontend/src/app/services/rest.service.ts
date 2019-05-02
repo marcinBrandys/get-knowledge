@@ -125,4 +125,8 @@ export class RestService {
   getRanking() {
     return this.http.get(this.REST_API_URL + 'user-management/ranking', this.httpOptions);
   }
+
+  getPrivateRanking() {
+    return this.http.get(this.REST_API_URL + 'user-management/private_ranking', this.httpOptions);
+  }
 }
