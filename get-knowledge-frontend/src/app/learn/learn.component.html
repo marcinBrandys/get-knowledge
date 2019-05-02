@@ -22,6 +22,9 @@
       <div class="col-12 content-wrapper" *ngIf="selectedTaskGroup === null || selectedTaskType === null">
         <h4 class="mt-0 mb-2 text-center">{{translations.TITLE_SELECT_FILTERS}}</h4>
       </div>
+      <div class="col-12 content-wrapper" *ngIf="selectedTaskGroup && selectedTaskType && task === null">
+        <h4 class="mt-0 mb-2 text-center">{{translations.TITLE_EMPTY_TASK}}</h4>
+      </div>
       <div class="col-12 content-wrapper" *ngIf="selectedTaskGroup && selectedTaskType && task">
         <h4 class="mt-0 mb-2 text-center">{{task.taskTitle}}</h4>
         <form id="task-creation-form" class="d-flex flex-column mx-auto w-100" (ngSubmit)="submitSolution()" #ngForm="ngForm">
