@@ -23,4 +23,7 @@ router.route('/user/me')
 router.route('/ranking')
     .get(authService.validateUser, userController.getRanking);
 
+router.route('/private_ranking')
+    .get(authService.validateUser, userController.getPrivateRanking);
+
 module.exports = router;
