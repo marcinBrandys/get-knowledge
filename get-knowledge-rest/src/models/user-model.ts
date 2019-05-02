@@ -1,20 +1,6 @@
 const mongooseUserModel = require('mongoose');
 const userSchema = mongooseUserModel.Schema({
-    firstName: {
-        type: String,
-        required: true
-    },
-    lastName: {
-        type: String,
-        required: false
-    },
     nick: {
-        type: String,
-        required: true,
-        unique: true,
-        trim: true
-    },
-    email: {
         type: String,
         required: true,
         unique: true,

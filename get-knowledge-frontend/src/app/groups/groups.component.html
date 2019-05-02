@@ -42,14 +42,10 @@
       </ng-template>
       <h4 *ngIf="group.students.length < 1" class="mx-auto text-center">{{translations.EMPTY_GROUP}}</h4>
       <table mat-table [dataSource]="group.students" class="w-100" *ngIf="group.students.length > 0">
-        <ng-container matColumnDef="firstName">
-          <th mat-header-cell *matHeaderCellDef>{{translations.ATTRIBUTE_FIRST_NAME}}</th>
-          <td mat-cell *matCellDef="let element">{{element.firstName}}</td>
-        </ng-container>
 
-        <ng-container matColumnDef="lastName">
-          <th mat-header-cell *matHeaderCellDef>{{translations.ATTRIBUTE_LAST_NAME}}</th>
-          <td mat-cell *matCellDef="let element">{{element.lastName}}</td>
+        <ng-container matColumnDef="nick">
+          <th mat-header-cell *matHeaderCellDef>{{translations.ATTRIBUTE_NICK}}</th>
+          <td mat-cell *matCellDef="let element">{{element.nick}}</td>
         </ng-container>
 
         <ng-container matColumnDef="age">
@@ -57,19 +53,9 @@
           <td mat-cell *matCellDef="let element">{{element.age}}</td>
         </ng-container>
 
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef>{{translations.ATTRIBUTE_EMAIL}}</th>
-          <td mat-cell *matCellDef="let element">{{element.email}}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="nick">
-          <th mat-header-cell *matHeaderCellDef>{{translations.ATTRIBUTE_NICK}}</th>
-          <td mat-cell *matCellDef="let element">{{element.nick}}</td>
-        </ng-container>
-
         <ng-container matColumnDef="action">
           <th mat-header-cell *matHeaderCellDef>{{translations.ATTRIBUTE_ACTIONS}}</th>
-          <td mat-cell *matCellDef="let element"><mat-icon class="cursor-pointer mr-2" (click)="removeStudentFromGroup(element.id)">school</mat-icon><mat-icon class="cursor-pointer" (click)="removeStudentFromGroup(group.id, element.id)">delete</mat-icon></td>
+          <td mat-cell *matCellDef="let element"><mat-icon class="cursor-pointer" (click)="removeStudentFromGroup(group.id, element.id)">delete</mat-icon></td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

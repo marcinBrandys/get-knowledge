@@ -3,7 +3,7 @@
     <div class="col-sm-4 col-xs-12" *ngIf="stats.numberOfTests !== null || stats.numberOfTaskGroups !== null">
       <div class="col-12 content-wrapper mb-4">
         <h3 class="text-center w-100 my-2" *ngIf="!user">{{translations.TITLE_WELCOME}}!</h3>
-        <h3 class="text-center w-100 my-2" *ngIf="user">{{translations.TITLE_WELCOME}} {{user.firstName}}!</h3>
+        <h3 class="text-center w-100 my-2" *ngIf="user">{{translations.TITLE_WELCOME}} {{user.nick}}!</h3>
         <p class="text-justify w-100 my-2">{{translations.TITLE_WELCOME_TEXT}}</p>
       </div>
       <div class="col-12 content-wrapper">
@@ -92,7 +92,7 @@
   <div class="row mb-4" *ngIf="user && user.role && user.role === 'teacher'">
     <div class="col-12 content-wrapper mb-4">
       <h3 class="text-center w-100 my-2" *ngIf="!user">{{translations.TITLE_WELCOME}}!</h3>
-      <h3 class="text-center w-100 my-2" *ngIf="user">{{translations.TITLE_WELCOME}} {{user.firstName}}!</h3>
+      <h3 class="text-center w-100 my-2" *ngIf="user">{{translations.TITLE_WELCOME}} {{user.nick}}!</h3>
       <p class="text-center w-100 my-2">{{translations.TITLE_WELCOME_TEXT_TEACHER}}</p>
       <div class="row my-2" *ngIf="ranking.length > 0">
         <h4 class="text-center w-100 my-2">{{translations.TITLE_RANK}}</h4>

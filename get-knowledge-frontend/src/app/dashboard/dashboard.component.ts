@@ -91,13 +91,10 @@ export class DashboardComponent implements OnInit {
     if (_.has(data, 'user')) {
       const id: string = _.get(data, 'user._id', null);
       const role: string = _.get(data, 'user.role', null);
-      const firstName: string = _.get(data, 'user.firstName', null);
-      const lastName: string = _.get(data, 'user.lastName', null);
       const nick: string = _.get(data, 'user.nick', null);
-      const email: string = _.get(data, 'user.email', null);
       const gender: string = _.get(data, 'user.gender', null);
       const age: number = _.get(data, 'user.age', null);
-      this.user = new User(id, role, firstName, lastName, nick, email, gender, age);
+      this.user = new User(id, role, nick, gender, age);
     } else {
       this.user = null;
     }
