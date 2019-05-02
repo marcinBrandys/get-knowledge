@@ -72,12 +72,12 @@ export class LearnComponent implements OnInit {
   }
 
   onTaskGroupSelection(e, v){
-    this.selectedTaskGroup = e.option.value;
+    this.selectedTaskGroup = e.option.selected ? e.option.value : null;
     this.bindTask();
   }
 
   onTaskTypeSelection(e, v){
-    this.selectedTaskType = e.option.value;
+    this.selectedTaskType = e.option.selected ? e.option.value : null;
     this.bindTask();
   }
 
@@ -135,7 +135,7 @@ export class LearnComponent implements OnInit {
     this.isTaskSubmitted = false;
     const taskGroup = _.get(this.selectedTaskGroup, 'id', null);
     const taskType = _.get(this.selectedTaskType, 'code', null);
-    if (taskGroup && taskType) {
+    if (taskGroup !== null && taskType !== null) {
       this.restService.getTask(taskGroup, taskType).subscribe(
         data => {
           const id = _.get(data, 'task._id');
@@ -151,8 +151,13 @@ export class LearnComponent implements OnInit {
           const taskWeight = _.get(data, 'task.taskWeight');
           const taskPoints = _.get(data, 'task.taskPoints');
 
-          this.task = new Task(id, taskTitle, taskGroup, taskType, owner, creationTs, taskContent, taskTip, taskPresentedValue, taskCorrectSolution, taskWeight, taskPoints);
-          this.solution = new Solution(this.task.id);
+          if (id) {
+            this.task = new Task(id, taskTitle, taskGroup, taskType, owner, creationTs, taskContent, taskTip, taskPresentedValue, taskCorrectSolution, taskWeight, taskPoints);
+            this.solution = new Solution(this.task.id);
+          } else {
+            this.task = null;
+            this.solution = null;
+          }
           this.initTaskForm();
           this.prepareTaskView();
         },
@@ -160,6 +165,8 @@ export class LearnComponent implements OnInit {
           console.log(error);
         }
       )
+    } else {
+      this.task = null;
     }
   }
 
