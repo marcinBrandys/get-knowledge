@@ -12,6 +12,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
 import {MappingsService} from "../services/mappings.service";
 import {NotificationService} from "../services/notification.service";
+import {formatDate} from "@angular/common";
 
 @Component({
   selector: 'app-solver',
@@ -326,5 +327,9 @@ export class SolverComponent implements OnInit {
 
   goBack() {
     this.router.navigate(['/dashboard']);
+  }
+
+  getDate(ts: number): string {
+    return formatDate(new Date(ts), 'medium', 'pl-PL');
   }
 }

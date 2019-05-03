@@ -127,5 +127,6 @@ export enum Translations {
   ACTION_START_TEST = 'Rozwiąż',
   TITLE_SOLUTION_SUBMITTED = 'Odpowiedź została zapisana',
   TITLE_TEST_ENDED = 'Test został ukończony, a odpowiedzi zapisane. Wyniki będą dostępne po terminie zakończenia testu.',
-  ACTION_GO_BACK = 'Powrót'
+  ACTION_GO_BACK = 'Powrót',
+  TITLE_TASKS_REMAIN_NUMBER = 'Liczba pozostałych pytań'
 }

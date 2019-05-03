@@ -3,7 +3,31 @@
     <div class="col-4">
       <div class="col-12 content-wrapper" *ngIf="test">
         <h4 class="mt-0 mb-2 text-center">{{test.taskGroupName}}</h4>
+        <ul class="list-unstyled">
+          <li class="mb-2">
+            <span class="font-weight-bold">{{translations.TITLE_TEST_START_DATE}}</span>
+          </li>
+          <li class="mb-2">
+            <span>{{getDate(test.startTs)}}</span>
+          </li>
+          <li class="mb-2">
+            <span class="font-weight-bold">{{translations.TITLE_TEST_END_DATE}}</span>
+          </li>
+          <li class="mb-2">
+            <span>{{getDate(test.endTs)}}</span>
+          </li>
+          <li class="mb-2" *ngIf="tasks && tasks.length > 0">
+            <span class="font-weight-bold">{{translations.TITLE_TASKS_REMAIN_NUMBER}}</span>
+          </li>
+          <li class="mb-2" *ngIf="tasks && tasks.length > 0">
+            <span>{{tasks.length}}</span>
+          </li>
+        </ul>
+        <div class="row">
+          <div class="col-12 text-center">
         <button type="button" (click)="startTest()" *ngIf="!task && !isTaskSubmitted && !isTestStarted && !hasTestEnded" mat-raised-button color="primary" class="text-uppercase d-inline-block">{{translations.ACTION_START_TEST}}</button>
+          </div>
+        </div>
       </div>
     </div>
     <div class="col-8">
