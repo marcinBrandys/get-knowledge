@@ -132,6 +132,7 @@ export enum Translations {
   TITLE_TASKS_REMAIN_NUMBER = 'Liczba pozostałych pytań',
   ERROR_TEST_TIMEOUT = 'Test nie jest aktywny, nie można zapisać odpowiedzi',
   TITLE_TEST_RESULTS = 'Wyniki testów',
+  TITLE_SPECIFIC_TEST_RESULTS = 'Wyniki testu',
   TITLE_NUMBER_OF_TASKS = 'Liczba zadań',
   TITLE_MAX_POINTS = 'Liczba punktów do zdobycia',
   TITLE_PERCENT_RESULT = 'Wynik procentowy',

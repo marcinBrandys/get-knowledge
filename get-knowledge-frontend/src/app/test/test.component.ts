@@ -22,6 +22,9 @@ export class TestComponent implements OnInit {
   testResultColumn: string[] = [
     'taskGroupName', 'numberOfTasks', 'testCorrectSolutions', 'testPoints', 'maxPoints', 'percent'
   ];
+  teacherTestResultColumn: string[] = [
+    'index', 'taskGroupName', 'numberOfTasks', 'testCorrectSolutions', 'testPoints', 'maxPoints', 'percent'
+  ];
   testsResult = [];
 
   constructor(private restService: RestService, private router: Router, private authService: AuthService) { }
@@ -65,7 +68,6 @@ export class TestComponent implements OnInit {
   getTestsResults() {
     this.restService.getTestsResults().subscribe(
       data => {
-        console.log(data);
         this.bindTestResult(data);
       },
       error => {

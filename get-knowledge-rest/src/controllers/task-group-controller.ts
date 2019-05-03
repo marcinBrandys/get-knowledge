@@ -171,7 +171,8 @@ export class TaskGroupController {
                                                     testCorrectSolutions: testCorrectSolutions,
                                                     testWrongSolutions: testWrongSolutions,
                                                     numberOfTasks: numberOfTasks,
-                                                    maxPoints: maxPoints
+                                                    maxPoints: maxPoints,
+                                                    percent: maxPoints > 0 ? ((testPoints/maxPoints) * 100).toFixed(2) : '0.00'
                                                 });
                                             }
                                             result.studentsResults = _.orderBy(result.studentsResults, 'testPoints', ['desc']);
@@ -185,7 +186,7 @@ export class TaskGroupController {
                                 }
 
                                 res.json({
-                                    tests: tests
+                                    result: tests
                                 })
                             }).catch(function (error) {
                                 res.statusCode = 400;
