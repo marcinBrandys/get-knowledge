@@ -134,5 +134,7 @@ export enum Translations {
   TITLE_TEST_RESULTS = 'Wyniki testów',
   TITLE_NUMBER_OF_TASKS = 'Liczba zadań',
   TITLE_MAX_POINTS = 'Liczba punktów do zdobycia',
-  TITLE_PERCENT_RESULT = 'Wynik procentowy'
+  TITLE_PERCENT_RESULT = 'Wynik procentowy',
+  TITLE_GROUP_ADDED = 'Grupa została dodana',
+  TITLE_STUDENT_ADDED = 'Uczeń został dodany do klasy'
 }

@@ -6,6 +6,7 @@ import {User} from "../classes/user";
 import {AuthService} from "../services/auth.service";
 import {RestService} from "../services/rest.service";
 import * as _ from "lodash";
+import {NotificationService} from "../services/notification.service";
 
 @Component({
   selector: 'app-groups',
@@ -24,7 +25,7 @@ export class GroupsComponent implements OnInit {
   students: User[] = [];
   displayedColumns: string[] = ['nick', 'age', 'action'];
 
-  constructor(private auth: AuthService, private restService: RestService, private fb: FormBuilder) { }
+  constructor(private auth: AuthService, private restService: RestService, private fb: FormBuilder, private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.groupCreationForm = this.fb.group({
@@ -44,6 +45,7 @@ export class GroupsComponent implements OnInit {
         data => {
           console.log(data);
           this.getGroups();
+          this.notificationService.showNotification(this.translations.TITLE_GROUP_ADDED);
         },
         error => {
           console.log(error);
@@ -57,6 +59,7 @@ export class GroupsComponent implements OnInit {
       this.restService.addStudentToGroup(this.selectGroup.value, this.selectStudent.value).subscribe(
         data => {
           this.getGroups();
+          this.notificationService.showNotification(this.translations.TITLE_STUDENT_ADDED);
         },
         error => {
           console.log(error);

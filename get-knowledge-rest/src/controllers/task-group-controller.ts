@@ -1,6 +1,9 @@
+import {start} from "repl";
+
 let TaskGroup = require('../models/task-group-model');
 let Solution = require('../models/solution-model');
 let Task = require('../models/task-model');
+let Group = require('../models/group-model');
 const _ = require('lodash');
 
 export class TaskGroupController {
@@ -96,10 +99,119 @@ export class TaskGroupController {
         let query = {};
         if (userRole && userRole === 'teacher') {
             query['owner'] = userId;
-            res.statusCode = 400;
-            res.json({
-                error: 'invalid request data'
+            query['isTestTaskGroup'] = true;
+
+
+            TaskGroup.find(query).then(function (taskGroups) {
+                Group.find({owner: userId}).populate({path: 'students'}).then(function (groups) {
+                    Solution
+                        .find({})
+                        .populate([
+                            {path: 'task', populate: {path: 'taskGroup'}},
+                            {path: 'student'}
+                        ])
+                        .then(function (solutions) {
+                            Task.find({}).then(function (tasks) {
+
+                                let tests = [];
+                                const currentTs: number = +new Date();
+
+                                for (let test of taskGroups) {
+                                    const testId = _.get(test, '_id');
+                                    let numberOfTasks: number = 0;
+                                    let maxPoints: number = 0;
+                                    const startTs = _.get(test, 'startTs');
+                                    const endTs = _.get(test, 'endTs');
+                                    let results = [];
+                                    if (testId && startTs && endTs && currentTs > endTs) {
+                                        for (let task of tasks) {
+                                            const taskGroup: string = _.get(task, 'taskGroup', null);
+                                            if (taskGroup && _.isEqual(testId.toString(), taskGroup.toString())) {
+                                                const taskPoints: number = _.get(task, 'taskPoints', 0);
+                                                numberOfTasks++;
+                                                maxPoints += taskPoints;
+                                            }
+                                        }
+
+                                        for (let group of groups) {
+
+                                            const groupStudents = _.get(group, 'students', []);
+                                            const groupName = _.get(group, 'groupName');
+                                            let result = {
+                                                groupName: groupName,
+                                                studentsResults: []
+                                            };
+
+                                            for (let student of groupStudents) {
+
+                                                const studentId = _.get(student, '_id');
+                                                let testPoints: number = 0;
+                                                let testCorrectSolutions: number = 0;
+                                                let testWrongSolutions: number = 0;
+                                                for (let solution of solutions) {
+                                                    const taskGroupId: string = _.get(solution, 'task.taskGroup.id', null);
+                                                    const solutionOwnerId: string = _.get(solution, 'student.id');
+                                                    if (_.isEqual(testId.toString(), taskGroupId.toString())
+                                                        && _.isEqual(studentId.toString(), solutionOwnerId.toString())) {
+
+                                                        const isCorrect: boolean = _.get(solution, 'isCorrect', false);
+                                                        const points: number = _.get(solution, 'points', 0);
+                                                        if (isCorrect) {
+                                                            testPoints += points;
+                                                            testCorrectSolutions++;
+                                                        } else {
+                                                            testWrongSolutions++;
+                                                        }
+                                                    }
+                                                }
+
+                                                result.studentsResults.push({
+                                                    student: student,
+                                                    testPoints: testPoints,
+                                                    testCorrectSolutions: testCorrectSolutions,
+                                                    testWrongSolutions: testWrongSolutions,
+                                                    numberOfTasks: numberOfTasks,
+                                                    maxPoints: maxPoints
+                                                });
+                                            }
+                                            result.studentsResults = _.orderBy(result.studentsResults, 'testPoints', ['desc']);
+                                            results.push(result);
+                                        }
+                                        tests.push({
+                                            test: test,
+                                            results: results
+                                        })
+                                    }
+                                }
+
+                                res.json({
+                                    tests: tests
+                                })
+                            }).catch(function (error) {
+                                res.statusCode = 400;
+                                res.json({
+                                    error: error
+                                });
+                            })
+                    }).catch(function (error) {
+                        res.statusCode = 400;
+                        res.json({
+                            error: error
+                        });
+                    })
+                }).catch(function (error) {
+                    res.statusCode = 400;
+                    res.json({
+                        error: error
+                    });
+                });
+            }).catch(function (error) {
+                res.statusCode = 400;
+                res.json({
+                    error: error
+                });
             });
+
         } else {
             Solution
                 .find({student: userId})
@@ -175,14 +287,12 @@ export class TaskGroupController {
                     });
 
                 }).catch(function (error) {
-                    console.log(error);
                     res.statusCode = 400;
                     res.json({
                         error: error
                     });
                 });
             }).catch(function (error) {
-                console.log(error);
                 res.statusCode = 400;
                 res.json({
                     error: error

@@ -101,4 +101,44 @@
       </table>
     </div>
   </div>
+  <div class="row mb-4" *ngIf="testsResult.length > 0 && userRole === 'teacher'">
+    <div class="col-12 content-wrapper mb-4">
+      <h3 class="text-center w-100 my-2">{{translations.TITLE_TEST_RESULTS}}</h3>
+<!--      <table mat-table [dataSource]="testsResult" class="w-100">-->
+
+<!--        <ng-container matColumnDef="taskGroupName">-->
+<!--          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_TEST_NAME}}</th>-->
+<!--          <td mat-cell *matCellDef="let element">{{element.test.taskGroupName}}</td>-->
+<!--        </ng-container>-->
+
+<!--        <ng-container matColumnDef="numberOfTasks">-->
+<!--          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_NUMBER_OF_TASKS}}</th>-->
+<!--          <td mat-cell *matCellDef="let element">{{element.numberOfTasks}}</td>-->
+<!--        </ng-container>-->
+
+<!--        <ng-container matColumnDef="testCorrectSolutions">-->
+<!--          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_STATS_CORRECT_SOLUTIONS}}</th>-->
+<!--          <td mat-cell *matCellDef="let element">{{element.testCorrectSolutions}}</td>-->
+<!--        </ng-container>-->
+
+<!--        <ng-container matColumnDef="testPoints">-->
+<!--          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_STATS_POINTS}}</th>-->
+<!--          <td mat-cell *matCellDef="let element">{{element.testPoints}}</td>-->
+<!--        </ng-container>-->
+
+<!--        <ng-container matColumnDef="maxPoints">-->
+<!--          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_MAX_POINTS}}</th>-->
+<!--          <td mat-cell *matCellDef="let element">{{element.maxPoints}}</td>-->
+<!--        </ng-container>-->
+
+<!--        <ng-container matColumnDef="percent">-->
+<!--          <th mat-header-cell *matHeaderCellDef class="font-weight-bold">{{translations.TITLE_PERCENT_RESULT}}</th>-->
+<!--          <td mat-cell *matCellDef="let element" class="font-weight-bold">{{element.percent}}%</td>-->
+<!--        </ng-container>-->
+
+<!--        <tr mat-header-row *matHeaderRowDef="testResultColumn"></tr>-->
+<!--        <tr mat-row *matRowDef="let row; columns: testResultColumn; let element"></tr>-->
+<!--      </table>-->
+    </div>
+  </div>
 </div>
