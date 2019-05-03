@@ -16,7 +16,7 @@ router.route('/task-group/:id')
 router.route('/student-task-groups')
     .get(authService.validateUser, taskGroupController.getStudentTaskGroups);
 
-router.route('/student-tests/:currentTs')
-    .get(authService.validateUser, taskGroupController.getStudentTests);
+router.route('/tests/:currentTs')
+    .get(authService.validateUser, taskGroupController.getTests);
 
 module.exports = router;

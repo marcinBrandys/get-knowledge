@@ -41,7 +41,11 @@ export class SolutionController {
 
         if (taskId && startTs && endTs && answer) {
 
-            Task.findOne({_id: taskId}).then(function (task) {
+            Task.findOne({_id: taskId}).populate({path: 'taskGroup'}).then(function (task) {
+
+                const isTestTask: boolean = _.get(task, 'taskGroup.isTestTaskGroup', false);
+                const testStartTs: number = _.get(task, 'taskGroup.startTs', null);
+                const testEndTs: number = _.get(task, 'taskGroup.endTs', null);
 
                 const duration = endTs - startTs;
                 const isCorrect = task.taskCorrectSolution === answer;
@@ -63,17 +67,27 @@ export class SolutionController {
                     isTipUsed: isTipUsed
                 });
 
-                solution.save().then(function (result) {
-                    res.json({
-                        solution: result
-                    });
-                }).catch(function (error) {
-                    res.statusCode = 400;
-                    res.json({
-                        error: error
-                    });
-                });
+                const currentTs: number = +new Date();
 
+                if (!isTestTask
+                    || (isTestTask && testStartTs && testEndTs && currentTs < testEndTs && currentTs >= testStartTs)) {
+
+                    solution.save().then(function (result) {
+                        res.json({
+                            solution: result
+                        });
+                    }).catch(function (error) {
+                        res.statusCode = 400;
+                        res.json({
+                            error: error
+                        });
+                    });
+                } else {
+                    res.statusCode = 409;
+                    res.json({
+                        error: 'timeout'
+                    });
+                }
             }).catch(function (error) {
                 res.statusCode = 400;
                 res.json({

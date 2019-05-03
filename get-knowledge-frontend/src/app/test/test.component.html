@@ -4,7 +4,7 @@
       <h3 class="text-center w-100 my-2">{{translations.TITLE_EMPTY_TESTS}}</h3>
     </div>
   </div>
-  <div class="row mb-4" *ngIf="tests.length > 0">
+  <div class="row mb-4" *ngIf="tests.length > 0 && userRole === 'student'">
     <div class="col-12 content-wrapper mb-4">
       <h3 class="text-center w-100 my-2">{{translations.TITLE_AVAILABLE_TESTS}}</h3>
       <table mat-table [dataSource]="tests" class="w-100">
@@ -33,6 +33,31 @@
 
         <tr mat-header-row *matHeaderRowDef="availableTestsDisplayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: availableTestsDisplayedColumns; let element"></tr>
+      </table>
+    </div>
+  </div>
+  <div class="row mb-4" *ngIf="tests.length > 0 && userRole === 'teacher'">
+    <div class="col-12 content-wrapper mb-4">
+      <h3 class="text-center w-100 my-2">{{translations.TITLE_TEACHER_AVAILABLE_TESTS}}</h3>
+      <table mat-table [dataSource]="tests" class="w-100">
+
+        <ng-container matColumnDef="taskGroupName">
+          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_TEST_NAME}}</th>
+          <td mat-cell *matCellDef="let element">{{element.taskGroupName}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="startTs">
+          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_TEST_START_DATE}}</th>
+          <td mat-cell *matCellDef="let element">{{getDate(element.startTs)}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="endTs">
+          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_TEST_END_DATE}}</th>
+          <td mat-cell *matCellDef="let element">{{getDate(element.endTs)}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="teacherAvailableTestsDisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: teacherAvailableTestsDisplayedColumns; let element"></tr>
       </table>
     </div>
   </div>

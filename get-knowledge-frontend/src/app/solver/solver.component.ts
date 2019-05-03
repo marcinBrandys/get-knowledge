@@ -269,6 +269,11 @@ export class SolverComponent implements OnInit {
         },
         error => {
           console.log(error);
+          const errorCode = _.get(error, 'status');
+          if (errorCode === 409) {
+            this.notificationService.showNotification(this.translations.ERROR_TEST_TIMEOUT);
+            this.router.navigate(['/dashboard']);
+          }
         },
         () => {
           this.isTaskSubmitted = true;

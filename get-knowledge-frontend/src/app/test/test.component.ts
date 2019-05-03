@@ -5,6 +5,7 @@ import * as _ from "lodash";
 import {Translations} from "../translations/translations.enum";
 import {formatDate} from "@angular/common";
 import {Router} from "@angular/router";
+import {AuthService} from "../services/auth.service";
 
 @Component({
   selector: 'app-test',
@@ -14,19 +15,26 @@ import {Router} from "@angular/router";
 export class TestComponent implements OnInit {
 
   translations = Translations;
+  userRole: string = null;
   tests: TaskGroup[] = [];
   availableTestsDisplayedColumns: string[] = ['taskGroupName', 'startTs', 'endTs', 'action'];
+  teacherAvailableTestsDisplayedColumns: string[] = ['taskGroupName', 'startTs', 'endTs'];
 
-  constructor(private restService: RestService, private router: Router) { }
+  constructor(private restService: RestService, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
-    this.getStudentTests();
+    this.getUserRole();
+    this.getTests();
   }
 
-  getStudentTests() {
-    this.restService.getStudentTests().subscribe(
+  getUserRole() {
+    this.userRole = this.authService.getUserRole();
+  }
+
+  getTests() {
+    this.restService.getTests().subscribe(
       data => {
-        this.bindStudentTests(data);
+        this.bindTests(data);
       },
       error => {
         console.log(error);
@@ -34,7 +42,7 @@ export class TestComponent implements OnInit {
     )
   }
 
-  bindStudentTests(data: any) {
+  bindTests(data: any) {
     this.tests = [];
     for (let taskGroup of data['tests']) {
       const taskGroupId = _.get(taskGroup, '_id', null);

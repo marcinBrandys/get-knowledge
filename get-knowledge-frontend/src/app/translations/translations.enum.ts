@@ -120,6 +120,7 @@ export enum Translations {
   TITLE_WRONG_DATES = 'Wprowadzono nieprawidłowe daty testu',
   TITLE_EMPTY_TESTS = 'Brak dostępnych testów',
   TITLE_AVAILABLE_TESTS = 'Testy do rozwiązania',
+  TITLE_TEACHER_AVAILABLE_TESTS = 'Aktywne testy',
   TITLE_TEST_INDEX = 'Numer testu',
   TITLE_TEST_NAME = 'Nazwa testu',
   TITLE_TEST_START_DATE = 'Data rozpoczęcia',
@@ -128,5 +129,6 @@ export enum Translations {
   TITLE_SOLUTION_SUBMITTED = 'Odpowiedź została zapisana',
   TITLE_TEST_ENDED = 'Test został ukończony, a odpowiedzi zapisane. Wyniki będą dostępne po terminie zakończenia testu.',
   ACTION_GO_BACK = 'Powrót',
-  TITLE_TASKS_REMAIN_NUMBER = 'Liczba pozostałych pytań'
+  TITLE_TASKS_REMAIN_NUMBER = 'Liczba pozostałych pytań',
+  ERROR_TEST_TIMEOUT = 'Test nie jest aktywny, nie można zapisać odpowiedzi'
 }

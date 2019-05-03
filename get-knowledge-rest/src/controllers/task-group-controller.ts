@@ -54,10 +54,16 @@ export class TaskGroupController {
         });
     }
 
-    getStudentTests(req, res) {
+    getTests(req, res) {
         const studentCurrentTs: number = _.get(req, 'params.currentTs', null);
+        const userId: string = _.get(req, 'body.userId', null);
+        const userRole: string = _.get(req, 'body.userRole', null);
+        let query = {};
+        if (userRole && userRole === 'teacher') {
+            query['owner'] = userId;
+        }
 
-        TaskGroup.find({}).then(function (taskGroups) {
+        TaskGroup.find(query).then(function (taskGroups) {
             let tests = [];
 
             for (let taskGroup of taskGroups) {
