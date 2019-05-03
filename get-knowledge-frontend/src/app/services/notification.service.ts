@@ -12,6 +12,6 @@ export class NotificationService {
   constructor(private snackBar: MatSnackBar) { }
 
   showNotification(message: string, actionMessage: string = this.translations.ACTION_CLOSE) {
-    this.snackBar.open(message, actionMessage, {duration: 10000});
+    this.snackBar.open(message, actionMessage, {duration: 5000});
   }
 }

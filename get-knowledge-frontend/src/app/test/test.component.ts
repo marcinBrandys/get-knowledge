@@ -25,6 +25,7 @@ export class TestComponent implements OnInit {
   ngOnInit() {
     this.getUserRole();
     this.getTests();
+    this.getTestsResults();
   }
 
   getUserRole() {
@@ -55,6 +56,17 @@ export class TestComponent implements OnInit {
         this.tests.push(new TaskGroup(taskGroupId, taskGroupName, owner, isTestTaskGroup, startTs, endTs));
       }
     }
+  }
+
+  getTestsResults() {
+    this.restService.getTestsResults().subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.log(error);
+      }
+    )
   }
 
   getDate(ts: number): string {
