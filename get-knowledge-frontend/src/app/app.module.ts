@@ -43,6 +43,12 @@ import { LearnComponent } from './learn/learn.component';
 import {RestInterceptorService} from "./services/rest-interceptor.service";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import { ChartsModule } from 'ng2-charts';
+import localePl from '@angular/common/locales/pl';
+import localePlExtra from '@angular/common/locales/extra/pl';
+import {registerLocaleData} from "@angular/common";
+import { SolverComponent } from './solver/solver.component';
+
+registerLocaleData(localePl, 'pl-PL', localePlExtra);
 
 export function tokenGetter() {
   return localStorage.getItem('auth_token') || '';
@@ -58,7 +64,8 @@ export function tokenGetter() {
     GroupsComponent,
     CreatorComponent,
     TestComponent,
-    LearnComponent
+    LearnComponent,
+    SolverComponent
   ],
   imports: [
     BrowserModule,

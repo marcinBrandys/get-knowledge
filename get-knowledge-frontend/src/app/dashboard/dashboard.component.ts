@@ -22,7 +22,6 @@ export class DashboardComponent implements OnInit {
     invalidSolutions: null,
     allSolutions: null,
     avgSolutionDuration: null,
-    numberOfAllAvailableTasks: null,
     numberOfTaskGroups: null,
     numberOfTests: null
   };
@@ -123,7 +122,6 @@ export class DashboardComponent implements OnInit {
       this.stats.invalidSolutions = _.get(dataStats, 'invalidSolutions', null);
       this.stats.allSolutions = _.get(dataStats, 'allSolutions', null);
       this.stats.avgSolutionDuration = _.get(dataStats, 'avgSolutionDuration', null);
-      this.stats.numberOfAllAvailableTasks = _.get(dataStats, 'numberOfAllAvailableTasks', null);
       this.stats.numberOfTaskGroups = _.get(dataStats, 'numberOfTaskGroups', null);
       this.stats.numberOfTests = _.get(dataStats, 'numberOfTests', null);
       this.pieChartData.push(this.stats.correctSolutions);

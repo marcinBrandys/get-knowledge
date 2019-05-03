@@ -1,38 +1,40 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {TaskGroup} from "../classes/task-group";
-import * as _ from "lodash";
+import {ActivatedRoute, ParamMap, Router} from "@angular/router";
+import {switchMap} from "rxjs/operators";
+import {of} from "rxjs";
 import {RestService} from "../services/rest.service";
-import {Translations} from "../translations/translations.enum";
-import {MatListOption, MatSelectionList} from "@angular/material";
-import {SelectionModel} from "@angular/cdk/collections";
-import {MappingsService} from "../services/mappings.service";
+import * as _ from "lodash";
+import {TaskGroup} from "../classes/task-group";
 import {Task} from "../classes/task";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Solution} from "../classes/solution";
-import {NotificationService} from "../services/notification.service";
+import {Translations} from "../translations/translations.enum";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
+import {MappingsService} from "../services/mappings.service";
+import {NotificationService} from "../services/notification.service";
+import {formatDate} from "@angular/common";
 
 @Component({
-  selector: 'app-learn',
-  templateUrl: './learn.component.html',
-  styleUrls: ['./learn.component.scss']
+  selector: 'app-solver',
+  templateUrl: './solver.component.html',
+  styleUrls: ['./solver.component.scss']
 })
-export class LearnComponent implements OnInit {
+export class SolverComponent implements OnInit {
 
   translations = Translations;
-  taskGroups: TaskGroup[] = [];
-  selectedTaskGroup: TaskGroup = null;
-  taskTypes: object[] = this.mappingsService.taskTypes;
-  selectedTaskType: string = null;
-
+  testId: string = null;
+  test: TaskGroup = null;
+  tasks: Task[] = [];
   task: Task = null;
+  solution: Solution = null;
+
   form: FormGroup;
   taskSolution = new FormControl('', [Validators.required]);
   taskCorrectFirstPartOfSolution = new FormControl('', [Validators.required]);
   taskCorrectSecondPartOfSolution = new FormControl('', [Validators.required]);
-
-  solution: Solution = null;
   isTaskSubmitted: boolean = false;
+  isTestStarted: boolean = false;
+  hasTestEnded: boolean = false;
 
   wTypeSolutions: string[] = [];
   wTypeFirstPartOfSolutions: string[] = [];
@@ -42,18 +44,91 @@ export class LearnComponent implements OnInit {
   gTypeGroups: object = {};
   gSelectElements: object[] = [];
   gSelectGroups: string[] = [];
-
-  @ViewChild('taskGroupSelection') taskGroupSelection: MatSelectionList;
-  @ViewChild('taskTypeSelection') taskTypeSelection: MatSelectionList;
   @ViewChild('ngForm') ngForm;
 
-  constructor(private restService: RestService, private mappingsService: MappingsService, private fb: FormBuilder, private notificationService: NotificationService) { }
+  constructor(private route: ActivatedRoute, private router: Router, private restService: RestService, private fb: FormBuilder, private mappingsService: MappingsService, private notificationService: NotificationService) { }
 
   ngOnInit() {
-    this.taskGroupSelection.selectedOptions = new SelectionModel<MatListOption>(false);
-    this.taskTypeSelection.selectedOptions = new SelectionModel<MatListOption>(false);
-    this.getTaskGroups();
+    this.initTest();
     this.initTaskForm();
+  }
+
+  initTest() {
+    this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => of(params.get('testId')))
+    ).subscribe((testId) => {
+      this.testId = testId;
+      if (this.testId) {
+        this.getTest();
+        this.getTestTasks();
+      } else {
+        this.router.navigate(['/test']);
+      }
+    });
+  }
+
+  getTest() {
+    this.restService.getTaskGroup(this.testId).subscribe(
+      data => {
+        this.bindTest(data);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  getTestTasks() {
+    this.restService.getTestTasks(this.testId).subscribe(
+      data => {
+        this.bindTasks(data);
+        this.checkIfTestEnded();
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  bindTest(data: any) {
+    const taskGroup = _.get(data, 'taskGroup', null);
+    const taskGroupId = _.get(taskGroup, '_id', null);
+    const taskGroupName = _.get(taskGroup, 'taskGroupName', null);
+    const owner = _.get(taskGroup, 'owner', null);
+    const isTestTaskGroup = _.get(taskGroup, 'isTestTaskGroup', null);
+    const startTs = _.get(taskGroup, 'startTs', null);
+    const endTs = _.get(taskGroup, 'endTs', null);
+    if (taskGroupId) {
+      this.test = new TaskGroup(taskGroupId, taskGroupName, owner, isTestTaskGroup, startTs, endTs);
+    }
+  }
+
+  bindTasks(data: any) {
+    const tasks = _.get(data, 'tasks', []);
+    for (let task of tasks) {
+      const id = _.get(task, '_id');
+      const taskTitle = _.get(task, 'taskTitle');
+      const taskGroup = _.get(task, 'taskGroup');
+      const taskType = _.get(task, 'taskType');
+      const owner = _.get(task, 'owner');
+      const creationTs = _.get(task, 'creationTs');
+      const taskContent = _.get(task, 'taskContent');
+      const taskTip = _.get(task, 'taskTip');
+      const taskPresentedValue = _.get(task, 'taskPresentedValue');
+      const taskCorrectSolution = _.get(task, 'taskCorrectSolution');
+      const taskWeight = _.get(task, 'taskWeight');
+      const taskPoints = _.get(task, 'taskPoints');
+
+      if (id) {
+        this.tasks.push(new Task(id, taskTitle, taskGroup, taskType, owner, creationTs, taskContent, taskTip, taskPresentedValue, taskCorrectSolution, taskWeight, taskPoints));
+      }
+    }
+    console.log(this.tasks);
+  }
+
+  startTest() {
+    this.bindTask();
+    this.isTestStarted = true;
   }
 
   initTaskForm() {
@@ -71,104 +146,16 @@ export class LearnComponent implements OnInit {
     this.taskSolution.reset();
   }
 
-  onTaskGroupSelection(e, v){
-    this.selectedTaskGroup = e.option.selected ? e.option.value : null;
-    this.bindTask();
-  }
-
-  onTaskTypeSelection(e, v){
-    this.selectedTaskType = e.option.selected ? e.option.value : null;
-    this.bindTask();
-  }
-
-  onTipOpen() {
-    if (this.solution) {
-      this.solution.useTip();
-    }
-  }
-
-  swapSTypeSolution(event: CdkDragDrop<string[]>) {
-    moveItemInArray(this.sTypeSolutions, event.previousIndex, event.currentIndex);
-  }
-
-  getGTypeGroupKeys() {
-    return _.keys(this.gTypeGroups);
-  }
-
-  dropGTypeElement(event: CdkDragDrop<string[]>) {
-    if (event.previousContainer === event.container) {
-      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
-    } else {
-      transferArrayItem(event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex);
-    }
-  }
-
-  getTaskGroups() {
-    this.restService.getStudentTaskGroups().subscribe(
-      data => {
-        console.log(data);
-        this.bindTaskGroups(data);
-      },
-      error => {
-        console.log(error);
-      }
-    )
-  }
-
-  bindTaskGroups(data: any) {
-    this.taskGroups = [];
-    for (let taskGroup of data['taskGroups']) {
-      const taskId = _.get(taskGroup, '_id', null);
-      const taskGroupName = _.get(taskGroup, 'taskGroupName', null);
-      const owner = _.get(taskGroup, 'owner', null);
-      const isTestTaskGroup = _.get(taskGroup, 'isTestTaskGroup', null);
-      const startTs = _.get(taskGroup, 'startTs', null);
-      const endTs = _.get(taskGroup, 'endTs', null);
-      if (!isTestTaskGroup) {
-        this.taskGroups.push(new TaskGroup(taskId, taskGroupName, owner, isTestTaskGroup, startTs, endTs));
-      }
-    }
-  }
-
   bindTask() {
     this.isTaskSubmitted = false;
-    const taskGroup = _.get(this.selectedTaskGroup, 'id', null);
-    const taskType = _.get(this.selectedTaskType, 'code', null);
-    if (taskGroup !== null && taskType !== null) {
-      this.restService.getTask(taskGroup, taskType).subscribe(
-        data => {
-          const id = _.get(data, 'task._id');
-          const taskTitle = _.get(data, 'task.taskTitle');
-          const taskGroup = _.get(data, 'task.taskGroup');
-          const taskType = _.get(data, 'task.taskType');
-          const owner = _.get(data, 'task.owner');
-          const creationTs = _.get(data, 'task.creationTs');
-          const taskContent = _.get(data, 'task.taskContent');
-          const taskTip = _.get(data, 'task.taskTip');
-          const taskPresentedValue = _.get(data, 'task.taskPresentedValue');
-          const taskCorrectSolution = _.get(data, 'task.taskCorrectSolution');
-          const taskWeight = _.get(data, 'task.taskWeight');
-          const taskPoints = _.get(data, 'task.taskPoints');
-
-          if (id) {
-            this.task = new Task(id, taskTitle, taskGroup, taskType, owner, creationTs, taskContent, taskTip, taskPresentedValue, taskCorrectSolution, taskWeight, taskPoints);
-            this.solution = new Solution(this.task.id);
-          } else {
-            this.task = null;
-            this.solution = null;
-          }
-          this.initTaskForm();
-          this.prepareTaskView();
-        },
-        error => {
-          console.log(error);
-        }
-      )
+    if (this.tasks.length > 0) {
+      this.task = this.tasks[0];
+      this.solution = new Solution(this.task.id);
+      this.initTaskForm();
+      this.prepareTaskView();
     } else {
       this.task = null;
+      this.solution = null;
     }
   }
 
@@ -275,15 +262,18 @@ export class LearnComponent implements OnInit {
       this.restService.submitSolution(this.solution).subscribe(
         data => {
           console.log(data);
-          const isCorrect = _.get(data, 'solution.isCorrect', false);
-          const correctTranslation = this.translations.TITLE_CORRECT_ANSWER;
-          const incorrectTranslation = this.translations.TITLE_INCORRECT_ANSWER;
-          isCorrect ?
-            this.notificationService.showNotification(correctTranslation) :
-            this.notificationService.showNotification(incorrectTranslation)
+          this.notificationService.showNotification(this.translations.TITLE_SOLUTION_SUBMITTED);
+          this.tasks.shift();
+          this.resetTask();
+          this.checkIfTestEnded();
         },
         error => {
           console.log(error);
+          const errorCode = _.get(error, 'status');
+          if (errorCode === 409) {
+            this.notificationService.showNotification(this.translations.ERROR_TEST_TIMEOUT);
+            this.router.navigate(['/dashboard']);
+          }
         },
         () => {
           this.isTaskSubmitted = true;
@@ -307,5 +297,44 @@ export class LearnComponent implements OnInit {
     this.gSelectGroups = [];
     this.isTaskSubmitted = false;
     this.bindTask();
+  }
+
+  onTipOpen() {
+    if (this.solution) {
+      this.solution.useTip();
+    }
+  }
+
+  swapSTypeSolution(event: CdkDragDrop<string[]>) {
+    moveItemInArray(this.sTypeSolutions, event.previousIndex, event.currentIndex);
+  }
+
+  getGTypeGroupKeys() {
+    return _.keys(this.gTypeGroups);
+  }
+
+  dropGTypeElement(event: CdkDragDrop<string[]>) {
+    if (event.previousContainer === event.container) {
+      moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else {
+      transferArrayItem(event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex);
+    }
+  }
+
+  checkIfTestEnded() {
+    if (this.tasks.length < 1) {
+      this.hasTestEnded = true;
+    }
+  }
+
+  goBack() {
+    this.router.navigate(['/dashboard']);
+  }
+
+  getDate(ts: number): string {
+    return formatDate(new Date(ts), 'medium', 'pl-PL');
   }
 }

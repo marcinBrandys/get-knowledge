@@ -1,5 +1,155 @@
-<div class="container content-wrapper my-5">
-  <p>
-    test works!
-  </p>
+<div class="container my-5">
+  <div class="row mb-4" *ngIf="tests.length === 0">
+    <div class="col-12 content-wrapper mb-4">
+      <h3 class="text-center w-100 my-2">{{translations.TITLE_EMPTY_TESTS}}</h3>
+    </div>
+  </div>
+  <div class="row mb-4" *ngIf="tests.length > 0 && userRole === 'student'">
+    <div class="col-12 content-wrapper mb-4">
+      <h3 class="text-center w-100 my-2">{{translations.TITLE_AVAILABLE_TESTS}}</h3>
+      <table mat-table [dataSource]="tests" class="w-100">
+
+        <ng-container matColumnDef="taskGroupName">
+          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_TEST_NAME}}</th>
+          <td mat-cell *matCellDef="let element">{{element.taskGroupName}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="startTs">
+          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_TEST_START_DATE}}</th>
+          <td mat-cell *matCellDef="let element">{{getDate(element.startTs)}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="endTs">
+          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_TEST_END_DATE}}</th>
+          <td mat-cell *matCellDef="let element">{{getDate(element.endTs)}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>{{translations.ATTRIBUTE_ACTIONS}}</th>
+          <td mat-cell *matCellDef="let element">
+            <button type="button" (click)="goToTest(element)" mat-raised-button color="primary" class="text-uppercase d-inline-block">{{translations.ACTION_START_TEST}}</button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="availableTestsDisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: availableTestsDisplayedColumns; let element"></tr>
+      </table>
+    </div>
+  </div>
+  <div class="row mb-4" *ngIf="tests.length > 0 && userRole === 'teacher'">
+    <div class="col-12 content-wrapper mb-4">
+      <h3 class="text-center w-100 my-2">{{translations.TITLE_TEACHER_AVAILABLE_TESTS}}</h3>
+      <table mat-table [dataSource]="tests" class="w-100">
+
+        <ng-container matColumnDef="taskGroupName">
+          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_TEST_NAME}}</th>
+          <td mat-cell *matCellDef="let element">{{element.taskGroupName}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="startTs">
+          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_TEST_START_DATE}}</th>
+          <td mat-cell *matCellDef="let element">{{getDate(element.startTs)}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="endTs">
+          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_TEST_END_DATE}}</th>
+          <td mat-cell *matCellDef="let element">{{getDate(element.endTs)}}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="teacherAvailableTestsDisplayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: teacherAvailableTestsDisplayedColumns; let element"></tr>
+      </table>
+    </div>
+  </div>
+  <div class="row mb-4" *ngIf="testsResult.length > 0 && userRole === 'student'">
+    <div class="col-12 content-wrapper mb-4">
+      <h3 class="text-center w-100 my-2">{{translations.TITLE_TEST_RESULTS}}</h3>
+      <table mat-table [dataSource]="testsResult" class="w-100">
+
+        <ng-container matColumnDef="taskGroupName">
+          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_TEST_NAME}}</th>
+          <td mat-cell *matCellDef="let element">{{element.test.taskGroupName}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="numberOfTasks">
+          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_NUMBER_OF_TASKS}}</th>
+          <td mat-cell *matCellDef="let element">{{element.numberOfTasks}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="testCorrectSolutions">
+          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_STATS_CORRECT_SOLUTIONS}}</th>
+          <td mat-cell *matCellDef="let element">{{element.testCorrectSolutions}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="testPoints">
+          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_STATS_POINTS}}</th>
+          <td mat-cell *matCellDef="let element">{{element.testPoints}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="maxPoints">
+          <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_MAX_POINTS}}</th>
+          <td mat-cell *matCellDef="let element">{{element.maxPoints}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="percent">
+          <th mat-header-cell *matHeaderCellDef class="font-weight-bold">{{translations.TITLE_PERCENT_RESULT}}</th>
+          <td mat-cell *matCellDef="let element" class="font-weight-bold">{{element.percent}}%</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="testResultColumn"></tr>
+        <tr mat-row *matRowDef="let row; columns: testResultColumn; let element"></tr>
+      </table>
+    </div>
+  </div>
+  <div class="row mb-4" *ngIf="testsResult.length > 0 && userRole === 'teacher'">
+    <div class="col-12 content-wrapper mb-4" *ngFor="let test of testsResult">
+      <h3 class="text-center w-100 my-2">{{translations.TITLE_SPECIFIC_TEST_RESULTS}}: {{test.test.taskGroupName}}</h3>
+      <div class="row mb-2" *ngFor="let groupResult of test.results">
+        <div class="col-12">
+          <h4 class="text-center w-100 my-2">{{translations.TITLE_GROUP}}: {{groupResult.groupName}}</h4>
+
+          <table mat-table [dataSource]="groupResult.studentsResults" class="w-100">
+
+            <ng-container matColumnDef="index">
+              <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_PLACE}}</th>
+              <td mat-cell *matCellDef="let i = index;">{{i + 1}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="taskGroupName">
+              <th mat-header-cell *matHeaderCellDef>{{translations.ATTRIBUTE_NICK}}</th>
+              <td mat-cell *matCellDef="let element">{{element.student.nick}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="numberOfTasks">
+              <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_NUMBER_OF_TASKS}}</th>
+              <td mat-cell *matCellDef="let element">{{element.numberOfTasks}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="testCorrectSolutions">
+              <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_STATS_CORRECT_SOLUTIONS}}</th>
+              <td mat-cell *matCellDef="let element">{{element.testCorrectSolutions}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="testPoints">
+              <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_STATS_POINTS}}</th>
+              <td mat-cell *matCellDef="let element">{{element.testPoints}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="maxPoints">
+              <th mat-header-cell *matHeaderCellDef>{{translations.TITLE_MAX_POINTS}}</th>
+              <td mat-cell *matCellDef="let element">{{element.maxPoints}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="percent">
+              <th mat-header-cell *matHeaderCellDef class="font-weight-bold">{{translations.TITLE_PERCENT_RESULT}}</th>
+              <td mat-cell *matCellDef="let element" class="font-weight-bold">{{element.percent}}%</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="teacherTestResultColumn"></tr>
+            <tr mat-row *matRowDef="let row; columns: teacherTestResultColumn; let element"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

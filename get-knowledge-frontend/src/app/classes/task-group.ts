@@ -3,12 +3,16 @@ export class TaskGroup {
   private _taskGroupName: string;
   private _owner: string;
   private _isTestTaskGroup: boolean;
+  private _startTs: number;
+  private _endTs: number;
 
-  constructor(id: string, taskGroupName: string, owner: string, isTestTaskGroup: boolean) {
+  constructor(id: string, taskGroupName: string, owner: string, isTestTaskGroup: boolean, startTs: number, endTs: number) {
     this._id = id;
     this._taskGroupName = taskGroupName;
     this._owner = owner;
     this._isTestTaskGroup = isTestTaskGroup;
+    this._startTs = startTs;
+    this._endTs = endTs;
   }
 
   get id(): string {
@@ -41,5 +45,21 @@ export class TaskGroup {
 
   set isTestTaskGroup(value: boolean) {
     this._isTestTaskGroup = value;
+  }
+
+  get startTs(): number {
+    return this._startTs;
+  }
+
+  set startTs(value: number) {
+    this._startTs = value;
+  }
+
+  get endTs(): number {
+    return this._endTs;
+  }
+
+  set endTs(value: number) {
+    this._endTs = value;
   }
 }
