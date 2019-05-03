@@ -1,5 +1,3 @@
-import {type} from "os";
-
 let User = require('../models/user-model');
 let Solution = require('../models/solution-model');
 let Task = require('../models/task-model');
@@ -57,18 +55,21 @@ export class UserController {
 
         User.findOne({_id: userId}).then(function (user) {
             if (_.get(user, 'role') === 'student') {
-                Solution.find({student: userId}).then(function (solutions) {
+                Solution.find({student: userId}).populate({path: 'task', populate: {path: 'taskGroup'}}).then(function (solutions) {
                     let points: number = 0;
                     let correctSolutions: number = 0;
                     let invalidSolutions: number = 0;
                     let durationOfAllSolutions: number = 0;
                     for (let solution of solutions) {
-                        const isSolutionCorrect: boolean = _.get(solution, 'isCorrect', false);
-                        const solutionPoints: number = _.get(solution, 'points', 0);
-                        const solutionDuration: number = _.get(solution, 'duration', 0);
-                        isSolutionCorrect ? correctSolutions++ : invalidSolutions++;
-                        points += solutionPoints;
-                        durationOfAllSolutions += solutionDuration;
+                        const isTestTaskSolution: boolean = _.get(solution, 'task.taskGroup.isTestTaskGroup', false);
+                        if (!isTestTaskSolution) {
+                            const isSolutionCorrect: boolean = _.get(solution, 'isCorrect', false);
+                            const solutionPoints: number = _.get(solution, 'points', 0);
+                            const solutionDuration: number = _.get(solution, 'duration', 0);
+                            isSolutionCorrect ? correctSolutions++ : invalidSolutions++;
+                            points += solutionPoints;
+                            durationOfAllSolutions += solutionDuration;
+                        }
                     }
                     let allSolutions: number = correctSolutions + invalidSolutions;
                     let avgSolutionDuration: number = allSolutions > 0 ? Math.round(durationOfAllSolutions/allSolutions) : null;
@@ -83,6 +84,7 @@ export class UserController {
                                 const startTs: number = _.get(taskGroup, 'startTs', null);
                                 const endTs: number = _.get(taskGroup, 'endTs', null);
                                 if (startTs && endTs && studentCurrentTs && studentCurrentTs >= startTs && studentCurrentTs < endTs) {
+
                                     numberOfTests++;
                                 }
                             } else {
@@ -135,7 +137,7 @@ export class UserController {
     getRanking(req, res) {
         User.find({role: 'student'}).then(function (students) {
 
-            Solution.find({}).then(function (solutions) {
+            Solution.find({}).populate({path: 'task', populate: {path: 'taskGroup'}}).then(function (solutions) {
 
                 Group.find({}).populate({path: 'students'}).then(function (groups) {
 
@@ -150,15 +152,18 @@ export class UserController {
                         let numberOfStudentInvalidSolutions: number = 0;
                         let avgStudentSolutionDuration: number = 0;
                         for (let solution of solutions) {
-                            let solutionStudentId: string = _.get(solution, 'student', null);
-                            if (_.isEqual(studentId, solutionStudentId)) {
-                                const solutionPoints: number = _.get(solution, 'points', 0);
-                                const isSolutionCorrect: boolean = _.get(solution, 'isCorrect', false);
-                                const solutionDuration: number = _.get(solution, 'duration', 0);
-                                studentPoints += solutionPoints;
-                                numberOfStudentSolutions++;
-                                isSolutionCorrect ? numberOfStudentCorrectSolutions++ : numberOfStudentInvalidSolutions++;
-                                avgStudentSolutionDuration += solutionDuration;
+                            const isTestTaskSolution: boolean = _.get(solution, 'task.taskGroup.isTestTaskGroup', false);
+                            if (!isTestTaskSolution) {
+                                let solutionStudentId: string = _.get(solution, 'student', null);
+                                if (_.isEqual(studentId, solutionStudentId)) {
+                                    const solutionPoints: number = _.get(solution, 'points', 0);
+                                    const isSolutionCorrect: boolean = _.get(solution, 'isCorrect', false);
+                                    const solutionDuration: number = _.get(solution, 'duration', 0);
+                                    studentPoints += solutionPoints;
+                                    numberOfStudentSolutions++;
+                                    isSolutionCorrect ? numberOfStudentCorrectSolutions++ : numberOfStudentInvalidSolutions++;
+                                    avgStudentSolutionDuration += solutionDuration;
+                                }
                             }
                         }
                         if (numberOfStudentSolutions > 0) {
@@ -236,7 +241,7 @@ export class UserController {
                 }
             }
 
-            Solution.find({}).then(function (solutions) {
+            Solution.find({}).populate({path: 'task', populate: {path: 'taskGroup'}}).then(function (solutions) {
 
                 let ranking = [];
 
@@ -252,15 +257,18 @@ export class UserController {
                         let numberOfStudentInvalidSolutions: number = 0;
                         let avgStudentSolutionDuration: number = 0;
                         for (let solution of solutions) {
-                            let solutionStudentId: string = _.get(solution, 'student', null);
-                            if (_.isEqual(studentId, solutionStudentId.toString())) {
-                                const solutionPoints: number = _.get(solution, 'points', 0);
-                                const isSolutionCorrect: boolean = _.get(solution, 'isCorrect', false);
-                                const solutionDuration: number = _.get(solution, 'duration', 0);
-                                studentPoints += solutionPoints;
-                                numberOfStudentSolutions++;
-                                isSolutionCorrect ? numberOfStudentCorrectSolutions++ : numberOfStudentInvalidSolutions++;
-                                avgStudentSolutionDuration += solutionDuration;
+                            const isTestTaskSolution: boolean = _.get(solution, 'task.taskGroup.isTestTaskGroup', false);
+                            if (!isTestTaskSolution) {
+                                let solutionStudentId: string = _.get(solution, 'student', null);
+                                if (_.isEqual(studentId, solutionStudentId.toString())) {
+                                    const solutionPoints: number = _.get(solution, 'points', 0);
+                                    const isSolutionCorrect: boolean = _.get(solution, 'isCorrect', false);
+                                    const solutionDuration: number = _.get(solution, 'duration', 0);
+                                    studentPoints += solutionPoints;
+                                    numberOfStudentSolutions++;
+                                    isSolutionCorrect ? numberOfStudentCorrectSolutions++ : numberOfStudentInvalidSolutions++;
+                                    avgStudentSolutionDuration += solutionDuration;
+                                }
                             }
                         }
                         if (numberOfStudentSolutions > 0) {

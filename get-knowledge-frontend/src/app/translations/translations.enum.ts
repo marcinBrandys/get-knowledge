@@ -124,5 +124,8 @@ export enum Translations {
   TITLE_TEST_NAME = 'Nazwa testu',
   TITLE_TEST_START_DATE = 'Data rozpoczęcia',
   TITLE_TEST_END_DATE = 'Data zakończenia',
-  ACTION_START_TEST = 'Rozwiąż'
+  ACTION_START_TEST = 'Rozwiąż',
+  TITLE_SOLUTION_SUBMITTED = 'Odpowiedź została zapisana',
+  TITLE_TEST_ENDED = 'Test został ukończony, a odpowiedzi zapisane. Wyniki będą dostępne po terminie zakończenia testu.',
+  ACTION_GO_BACK = 'Powrót'
 }

@@ -17,6 +17,21 @@ export class TaskGroupController {
         });
     }
 
+    getTaskGroup(req, res) {
+        const taskGroupId: string = _.get(req, 'params.id', null);
+
+        TaskGroup.findOne({_id: taskGroupId}).then(function (taskGroup) {
+            res.json({
+                taskGroup: taskGroup
+            });
+        }).catch(function (error) {
+            res.statusCode = 400;
+            res.json({
+                error: error
+            });
+        });
+    }
+
     getStudentTaskGroups(req, res) {
         TaskGroup.find({}).then(function (taskGroups) {
             let filteredTaskGroups = [];
@@ -41,10 +56,8 @@ export class TaskGroupController {
 
     getStudentTests(req, res) {
         const studentCurrentTs: number = _.get(req, 'params.currentTs', null);
-        console.log(studentCurrentTs);
 
         TaskGroup.find({}).then(function (taskGroups) {
-            console.log(taskGroups);
             let tests = [];
 
             for (let taskGroup of taskGroups) {
@@ -57,7 +70,6 @@ export class TaskGroupController {
                     }
                 }
             }
-            console.log(tests);
 
             res.json({
                 tests: tests

@@ -1,4 +1,5 @@
 let Task = require('../models/task-model');
+let Solution = require('../models/solution-model');
 const validatorService = require('../services/validator-service');
 const _ = require('lodash');
 
@@ -75,6 +76,55 @@ export class TaskController {
             res.statusCode = 400;
             res.json({
                 error: 'invalid task data'
+            });
+        }
+    }
+
+    getTestTasks(req, res) {
+        const userId: string = _.get(req, 'body.userId', null);
+        const testId: string = _.get(req, 'params.testId', null);
+
+        if (userId && testId) {
+            Task.find({taskGroup: testId}).then(function (tasks) {
+
+                Solution.find({student: userId}).then(function (solutions) {
+
+                    let filteredTasks = [];
+
+                    for (let task of tasks) {
+                        let isTaskResolved: boolean = false;
+                        for (let solution of solutions) {
+                            const taskId = _.get(task, '_id', null);
+                            const solutionTaskId = _.get(solution, 'task', null);
+                            if (_.isEqual(taskId.toString(), solutionTaskId.toString())) {
+                                isTaskResolved = true;
+                            }
+                        }
+                        if (!isTaskResolved) {
+                            filteredTasks.push(task);
+                        }
+                    }
+
+                    res.json({
+                        tasks: filteredTasks
+                    })
+
+                }).catch(function (error) {
+                    res.statusCode = 400;
+                    res.json({
+                        error: error
+                    });
+                });
+            }).catch(function (error) {
+                res.statusCode = 400;
+                res.json({
+                    error: error
+                });
+            })
+        } else {
+            res.statusCode = 400;
+            res.json({
+                error: 'invalid test id'
             });
         }
     }

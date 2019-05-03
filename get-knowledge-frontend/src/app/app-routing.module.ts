@@ -8,6 +8,7 @@ import {LearnComponent} from "./learn/learn.component";
 import {TestComponent} from "./test/test.component";
 import {GroupsComponent} from "./groups/groups.component";
 import {CreatorComponent} from "./creator/creator.component";
+import {SolverComponent} from "./solver/solver.component";
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuardService] },
   { path: 'learn', component: LearnComponent, canActivate: [AuthGuardService] },
   { path: 'test', component: TestComponent, canActivate: [AuthGuardService] },
+  { path: 'solver/:testId', component: SolverComponent, canActivate: [AuthGuardService] },
   { path: 'groups', component: GroupsComponent, canActivate: [AuthGuardService] },
   { path: 'creator', component: CreatorComponent, canActivate: [AuthGuardService] },
   { path: '**', redirectTo: 'dashboard' }

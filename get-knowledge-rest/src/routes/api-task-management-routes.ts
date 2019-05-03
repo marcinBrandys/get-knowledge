@@ -10,6 +10,9 @@ router.route('/create')
 router.route('/task/:taskGroup/:taskType')
     .get(authService.validateUser, taskController.getTask);
 
+router.route('/test_tasks/:testId')
+    .get(authService.validateUser, taskController.getTestTasks);
+
 router.route('/tasks')
     .get(authService.validateUser, taskController.getTasks);
 

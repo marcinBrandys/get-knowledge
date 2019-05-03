@@ -1,0 +1,165 @@
+<div class="container my-5">
+  <div class="row">
+    <div class="col-4">
+      <div class="col-12 content-wrapper" *ngIf="test">
+        <h4 class="mt-0 mb-2 text-center">{{test.taskGroupName}}</h4>
+        <button type="button" (click)="startTest()" *ngIf="!task && !isTaskSubmitted && !isTestStarted && !hasTestEnded" mat-raised-button color="primary" class="text-uppercase d-inline-block">{{translations.ACTION_START_TEST}}</button>
+      </div>
+    </div>
+    <div class="col-8">
+      <div class="col-12 content-wrapper" *ngIf="hasTestEnded">
+        <h4 class="mt-0 mb-2 text-justify">{{translations.TITLE_TEST_ENDED}}</h4>
+        <div class="row">
+          <div class="col-12 text-center">
+            <button type="submit" (click)="goBack()" mat-raised-button color="primary" class="text-uppercase d-inline-block">{{translations.ACTION_GO_BACK}}</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 content-wrapper" *ngIf="task">
+        <h4 class="mt-0 mb-2 text-center">{{task.taskTitle}}</h4>
+        <form id="task-creation-form" class="d-flex flex-column mx-auto w-100" (ngSubmit)="submitSolution()" #ngForm="ngForm">
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'T_01'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <mat-form-field class="w-100 mb-2">
+              <input matInput placeholder="{{translations.ATTRIBUTE_TASK_SOLUTION}}" [formControl]="taskSolution" autocomplete="off" required>
+            </mat-form-field>
+          </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'T_02'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <mat-form-field class="w-100 mb-2">
+              <input matInput placeholder="{{translations.ATTRIBUTE_TASK_SOLUTION}}" [formControl]="taskSolution" autocomplete="off" required>
+            </mat-form-field>
+            <mat-accordion *ngIf="task.taskTip">
+              <mat-expansion-panel (opened)="onTipOpen()">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    {{translations.ATTRIBUTE_TASK_TIP}}
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    {{translations.ATTRIBUTE_TASK_TIP_SHOW}}
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <p class="text-justify">{{task.taskTip}}</p>
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'W_01'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <mat-radio-group [formControl]="taskSolution">
+              <ul class="list-unstyled">
+                <li class="mb-3" *ngFor="let wTypeSolution of wTypeSolutions"><mat-radio-button [value]="wTypeSolution">{{wTypeSolution}}</mat-radio-button></li>
+              </ul>
+            </mat-radio-group>
+          </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'W_02'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <ul class="list-unstyled">
+              <li class="mb-3" *ngFor="let wTypeCheckboxSolution of wTypeCheckboxSolutions">
+                <mat-checkbox [(ngModel)]="wTypeCheckboxSolution['check']" [ngModelOptions]="{standalone: true}" value="true">{{wTypeCheckboxSolution['text']}}</mat-checkbox>
+              </li>
+            </ul>
+          </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'W_03'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <mat-radio-group [formControl]="taskSolution">
+              <ul class="list-unstyled">
+                <li class="mb-3"><mat-radio-button value="1">{{translations.TITLE_TRUE}}</mat-radio-button></li>
+                <li class="mb-3"><mat-radio-button value="0">{{translations.TITLE_FALSE}}</mat-radio-button></li>
+              </ul>
+            </mat-radio-group>
+          </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'W_04'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <div class="row">
+              <div class="col-6">
+                <div class="col-12">
+                  <h5 *ngIf="wTypeFirstPartOfSolutions.length > 0" class="mt-0 mb-2 text-center">{{translations.TITLE_FIRST_PART_OF_SOLUTION}}</h5>
+                  <mat-radio-group [formControl]="taskCorrectFirstPartOfSolution">
+                    <ul class="list-unstyled">
+                      <li class="mb-3" *ngFor="let wTypeSolution of wTypeFirstPartOfSolutions">
+                        <mat-radio-button [value]="wTypeSolution">{{wTypeSolution}}</mat-radio-button>
+                      </li>
+                    </ul>
+                  </mat-radio-group>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="col-12">
+                  <h5 *ngIf="wTypeSecondPartOfSolutions.length > 0" class="mt-0 mb-2 text-center">{{translations.TITLE_SECOND_PART_OF_SOLUTION}}</h5>
+                  <mat-radio-group [formControl]="taskCorrectSecondPartOfSolution">
+                    <ul class="list-unstyled">
+                      <li class="mb-3" *ngFor="let wTypeSolution of wTypeSecondPartOfSolutions">
+                        <mat-radio-button [value]="wTypeSolution">{{wTypeSolution}}</mat-radio-button>
+                      </li>
+                    </ul>
+                  </mat-radio-group>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'S_01'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <div *ngIf="sTypeSolutions.length > 0" cdkDropList class="swap-list-vertical mb-4" (cdkDropListDropped)="swapSTypeSolution($event)">
+              <div class="swap-list-vertical-box" *ngFor="let sTypeSolution of sTypeSolutions" cdkDrag>{{sTypeSolution}}</div>
+            </div>
+          </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'S_02'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <div *ngIf="sTypeSolutions.length > 0" cdkDropList cdkDropListOrientation="horizontal" class="swap-list-horizontal mb-4" (cdkDropListDropped)="swapSTypeSolution($event)">
+              <div class="swap-list-horizontal-box" *ngFor="let sTypeSolution of sTypeSolutions" cdkDrag>{{sTypeSolution}}</div>
+            </div>
+          </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'G_01'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <div cdkDropListGroup *ngIf="getGTypeGroupKeys().length > 0">
+              <div class="d-flex flex-wrap flex-sm-column flex-md-row flex-lg-row justify-content-center">
+                <div *ngFor="let gTypeGroup of getGTypeGroupKeys()">
+                  <h5 *ngIf="gTypeGroup !== mappingsService.gTypeAvailableElements" class="mt-0 mb-2 text-center">{{gTypeGroup}}</h5>
+                  <div *ngIf="gTypeGroup !== mappingsService.gTypeAvailableElements"
+                       cdkDropList
+                       [cdkDropListData]="gTypeGroups[gTypeGroup]"
+                       class="list-wrapper"
+                       (cdkDropListDropped)="dropGTypeElement($event)">
+                    <div class="list-element" *ngFor="let item of gTypeGroups[gTypeGroup]" cdkDrag>{{item}}</div>
+                  </div>
+                </div>
+                <div *ngIf="gTypeGroups[mappingsService.gTypeAvailableElements]">
+                  <h5 class="mt-0 mb-2 text-center">{{translations.TITLE_GROUP_ELEMENTS_PLACEHOLDER}}</h5>
+                  <div
+                    cdkDropList
+                    [cdkDropListData]="gTypeGroups[mappingsService.gTypeAvailableElements]"
+                    class="list-wrapper"
+                    (cdkDropListDropped)="dropGTypeElement($event)">
+                    <div class="list-element" *ngFor="let item of gTypeGroups[mappingsService.gTypeAvailableElements]" cdkDrag>{{item}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'G_02'">
+            <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
+            <div class="row" *ngFor="let gSelectElement of gSelectElements">
+              <div class="col-6 pt-3">
+                <span>{{gSelectElement['name']}}</span>
+              </div>
+              <div class="col-6">
+                <mat-form-field class="w-100">
+                  <mat-select [(ngModel)]="gSelectElement['value']" [ngModelOptions]="{standalone: true}">
+                    <mat-option *ngFor="let gSelectGroup of gSelectGroups" [value]="gSelectGroup">
+                      {{gSelectGroup}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12 text-center">
+              <button type="submit" mat-raised-button color="primary" class="text-uppercase d-inline-block" [disabled]="form.invalid">{{translations.ACTION_SUBMIT_TASK_SOLUTION}}</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

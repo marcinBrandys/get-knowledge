@@ -4,6 +4,7 @@ import {TaskGroup} from "../classes/task-group";
 import * as _ from "lodash";
 import {Translations} from "../translations/translations.enum";
 import {formatDate} from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-test',
@@ -16,7 +17,7 @@ export class TestComponent implements OnInit {
   tests: TaskGroup[] = [];
   availableTestsDisplayedColumns: string[] = ['taskGroupName', 'startTs', 'endTs', 'action'];
 
-  constructor(private restService: RestService) { }
+  constructor(private restService: RestService, private router: Router) { }
 
   ngOnInit() {
     this.getStudentTests();
@@ -53,7 +54,7 @@ export class TestComponent implements OnInit {
   }
 
   goToTest(selectedTest: TaskGroup) {
-    console.log(selectedTest);
+    this.router.navigate(['/solver', selectedTest.id]);
   }
 
 }

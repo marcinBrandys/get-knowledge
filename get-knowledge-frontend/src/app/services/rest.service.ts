@@ -98,6 +98,14 @@ export class RestService {
     return this.http.get(this.REST_API_URL + 'task-group-management/task-groups', this.httpOptions);
   }
 
+  getTaskGroup(taskGroupId: string) {
+    return this.http.get(this.REST_API_URL + 'task-group-management/task-group/' + taskGroupId, this.httpOptions);
+  }
+
+  getTestTasks(testId: string) {
+    return this.http.get(this.REST_API_URL + 'task-management/test_tasks/' + testId, this.httpOptions);
+  }
+
   getStudentTaskGroups() {
     return this.http.get(this.REST_API_URL + 'task-group-management/student-task-groups', this.httpOptions);
   }
