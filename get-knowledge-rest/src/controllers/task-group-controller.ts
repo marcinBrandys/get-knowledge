@@ -136,6 +136,7 @@ export class TaskGroupController {
                         let testCorrectSolutions: number = 0;
                         let testWrongSolutions: number = 0;
                         let numberOfTasks: number = 0;
+                        let maxPoints: number = 0;
                         const testId: string = _.get(test, 'id', null);
                         for (let solution of testSolutions) {
                             const taskGroupId: string = _.get(solution, 'task.taskGroup.id', null);
@@ -153,7 +154,9 @@ export class TaskGroupController {
                         for (let task of tasks) {
                             const taskGroup: string = _.get(task, 'taskGroup', null);
                             if (taskGroup && _.isEqual(testId.toString(), taskGroup.toString())) {
+                                const taskPoints: number = _.get(task, 'taskPoints', 0);
                                 numberOfTasks++;
+                                maxPoints += taskPoints;
                             }
                         }
                         tests.push({
@@ -161,7 +164,9 @@ export class TaskGroupController {
                             testPoints: testPoints,
                             testCorrectSolutions: testCorrectSolutions,
                             testWrongSolutions: testWrongSolutions,
-                            numberOfTasks: numberOfTasks
+                            numberOfTasks: numberOfTasks,
+                            maxPoints: maxPoints,
+                            percent: maxPoints > 0 ? ((testPoints/maxPoints) * 100).toFixed(2) : '0.00'
                         })
                     }
 
