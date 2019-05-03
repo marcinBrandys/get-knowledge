@@ -130,5 +130,9 @@ export enum Translations {
   TITLE_TEST_ENDED = 'Test został ukończony, a odpowiedzi zapisane. Wyniki będą dostępne po terminie zakończenia testu.',
   ACTION_GO_BACK = 'Powrót',
   TITLE_TASKS_REMAIN_NUMBER = 'Liczba pozostałych pytań',
-  ERROR_TEST_TIMEOUT = 'Test nie jest aktywny, nie można zapisać odpowiedzi'
+  ERROR_TEST_TIMEOUT = 'Test nie jest aktywny, nie można zapisać odpowiedzi',
+  TITLE_TEST_RESULTS = 'Wyniki testów',
+  TITLE_NUMBER_OF_TASKS = 'Liczba zadań',
+  TITLE_MAX_POINTS = 'Liczba punktów do zdobycia',
+  TITLE_PERCENT_RESULT = 'Wynik procentowy'
 }

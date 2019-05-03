@@ -19,6 +19,10 @@ export class TestComponent implements OnInit {
   tests: TaskGroup[] = [];
   availableTestsDisplayedColumns: string[] = ['taskGroupName', 'startTs', 'endTs', 'action'];
   teacherAvailableTestsDisplayedColumns: string[] = ['taskGroupName', 'startTs', 'endTs'];
+  testResultColumn: string[] = [
+    'taskGroupName', 'numberOfTasks', 'testCorrectSolutions', 'testPoints', 'maxPoints', 'percent'
+  ];
+  testsResult = [];
 
   constructor(private restService: RestService, private router: Router, private authService: AuthService) { }
 
@@ -62,11 +66,16 @@ export class TestComponent implements OnInit {
     this.restService.getTestsResults().subscribe(
       data => {
         console.log(data);
+        this.bindTestResult(data);
       },
       error => {
         console.log(error);
       }
     )
+  }
+
+  bindTestResult(data: any) {
+    this.testsResult = _.clone(_.get(data, 'result', []));
   }
 
   getDate(ts: number): string {
