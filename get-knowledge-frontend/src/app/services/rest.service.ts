@@ -44,7 +44,9 @@ export class RestService {
   }
 
   getUserInfo() {
-    return this.http.get(this.REST_API_URL + 'user-management/user/me', this.httpOptions);
+    const currentTs: number = +new Date();
+
+    return this.http.get(this.REST_API_URL + 'user-management/user/me/' + currentTs, this.httpOptions);
   }
 
   createGroup(groupName: string) {
@@ -98,6 +100,12 @@ export class RestService {
 
   getStudentTaskGroups() {
     return this.http.get(this.REST_API_URL + 'task-group-management/student-task-groups', this.httpOptions);
+  }
+
+  getStudentTests() {
+    const currentTs: number = +new Date();
+
+    return this.http.get(this.REST_API_URL + 'task-group-management/student-tests/' + currentTs, this.httpOptions);
   }
 
   createTask(taskTitle: string, taskGroup: string, taskType: string, taskContent: string, taskTip: string, taskPresentedValue: string, taskCorrectSolution: string, taskWeight: number, taskPoints: number) {

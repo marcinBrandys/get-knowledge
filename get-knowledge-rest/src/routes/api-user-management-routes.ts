@@ -17,7 +17,7 @@ router.route('/students')
 router.route('/user/by_id/:id')
     .get(authService.validateUser, authService.requireAdmin, userController.getUserById);
 
-router.route('/user/me')
+router.route('/user/me/:currentTs')
     .get(authService.validateUser, userController.getAccountInfo);
 
 router.route('/ranking')

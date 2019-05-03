@@ -18,11 +18,49 @@ export class TaskGroupController {
     }
 
     getStudentTaskGroups(req, res) {
-        const studentId = req.body.userId;
+        TaskGroup.find({}).then(function (taskGroups) {
+            let filteredTaskGroups = [];
+
+            for (let taskGroup of taskGroups) {
+                const isTestTaskGroup: boolean = _.get(taskGroup, 'isTestTaskGroup', false);
+                if (!isTestTaskGroup) {
+                    filteredTaskGroups.push(taskGroup);
+                }
+            }
+
+            res.json({
+                taskGroups: filteredTaskGroups
+            });
+        }).catch(function (error) {
+            res.statusCode = 400;
+            res.json({
+                error: error
+            });
+        });
+    }
+
+    getStudentTests(req, res) {
+        const studentCurrentTs: number = _.get(req, 'params.currentTs', null);
+        console.log(studentCurrentTs);
 
         TaskGroup.find({}).then(function (taskGroups) {
+            console.log(taskGroups);
+            let tests = [];
+
+            for (let taskGroup of taskGroups) {
+                const isTestTaskGroup: boolean = _.get(taskGroup, 'isTestTaskGroup', false);
+                if (isTestTaskGroup) {
+                    const startTs: number = _.get(taskGroup, 'startTs', null);
+                    const endTs: number = _.get(taskGroup, 'endTs', null);
+                    if (startTs && endTs && studentCurrentTs && studentCurrentTs >= startTs && studentCurrentTs < endTs) {
+                        tests.push(taskGroup);
+                    }
+                }
+            }
+            console.log(tests);
+
             res.json({
-                taskGroups: taskGroups
+                tests: tests
             });
         }).catch(function (error) {
             res.statusCode = 400;

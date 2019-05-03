@@ -43,6 +43,11 @@ import { LearnComponent } from './learn/learn.component';
 import {RestInterceptorService} from "./services/rest-interceptor.service";
 import {DragDropModule} from "@angular/cdk/drag-drop";
 import { ChartsModule } from 'ng2-charts';
+import localePl from '@angular/common/locales/pl';
+import localePlExtra from '@angular/common/locales/extra/pl';
+import {registerLocaleData} from "@angular/common";
+
+registerLocaleData(localePl, 'pl-PL', localePlExtra);
 
 export function tokenGetter() {
   return localStorage.getItem('auth_token') || '';

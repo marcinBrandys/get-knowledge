@@ -117,5 +117,12 @@ export enum Translations {
   TITLE_EMPTY_TASK = 'Brak zadania, wybierz inną grupę lub typ zadań',
   TITLE_START_DATE = 'Data rozpoczęcia',
   TITLE_END_DATE = 'Data zakończenia',
-  TITLE_WRONG_DATES = 'Wprowadzono nieprawidłowe daty testu'
+  TITLE_WRONG_DATES = 'Wprowadzono nieprawidłowe daty testu',
+  TITLE_EMPTY_TESTS = 'Brak dostępnych testów',
+  TITLE_AVAILABLE_TESTS = 'Testy do rozwiązania',
+  TITLE_TEST_INDEX = 'Numer testu',
+  TITLE_TEST_NAME = 'Nazwa testu',
+  TITLE_TEST_START_DATE = 'Data rozpoczęcia',
+  TITLE_TEST_END_DATE = 'Data zakończenia',
+  ACTION_START_TEST = 'Rozwiąż'
 }

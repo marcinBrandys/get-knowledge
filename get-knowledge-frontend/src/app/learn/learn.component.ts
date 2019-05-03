@@ -125,8 +125,10 @@ export class LearnComponent implements OnInit {
       const taskGroupName = _.get(taskGroup, 'taskGroupName', null);
       const owner = _.get(taskGroup, 'owner', null);
       const isTestTaskGroup = _.get(taskGroup, 'isTestTaskGroup', null);
+      const startTs = _.get(taskGroup, 'startTs', null);
+      const endTs = _.get(taskGroup, 'endTs', null);
       if (!isTestTaskGroup) {
-        this.taskGroups.push(new TaskGroup(taskId, taskGroupName, owner, isTestTaskGroup));
+        this.taskGroups.push(new TaskGroup(taskId, taskGroupName, owner, isTestTaskGroup, startTs, endTs));
       }
     }
   }

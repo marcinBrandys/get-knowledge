@@ -53,6 +53,8 @@ export class UserController {
 
     getAccountInfo(req, res) {
         const userId = _.get(req, 'body.userId');
+        const studentCurrentTs: number = _.get(req, 'params.currentTs', null);
+
         User.findOne({_id: userId}).then(function (user) {
             if (_.get(user, 'role') === 'student') {
                 Solution.find({student: userId}).then(function (solutions) {
@@ -71,43 +73,34 @@ export class UserController {
                     let allSolutions: number = correctSolutions + invalidSolutions;
                     let avgSolutionDuration: number = allSolutions > 0 ? Math.round(durationOfAllSolutions/allSolutions) : null;
 
-                    Task.find({}).then(function (tasks) {
-                        const numberOfAllAvailableTasks: number = _.get(tasks, 'length', 0);
+                    TaskGroup.find({}).then(function (taskGroups) {
+                        let numberOfTaskGroups: number = 0;
+                        let numberOfTests: number = 0;
 
-                        TaskGroup.find({}).then(function (taskGroups) {
-                            let numberOfTaskGroups: number = 0;
-                            let numberOfTests: number = 0;
-
-                            for (let taskGroup of taskGroups) {
-                                const isTestTaskGroup = _.get(taskGroup, 'isTestTaskGroup', false);
-                                isTestTaskGroup ? numberOfTests++ : numberOfTaskGroups++;
+                        for (let taskGroup of taskGroups) {
+                            const isTestTaskGroup: boolean = _.get(taskGroup, 'isTestTaskGroup', false);
+                            if (isTestTaskGroup) {
+                                const startTs: number = _.get(taskGroup, 'startTs', null);
+                                const endTs: number = _.get(taskGroup, 'endTs', null);
+                                if (startTs && endTs && studentCurrentTs && studentCurrentTs >= startTs && studentCurrentTs < endTs) {
+                                    numberOfTests++;
+                                }
+                            } else {
+                                numberOfTaskGroups++;
                             }
+                        }
 
-                            res.json({
-                                user: user,
-                                stats: {
-                                    points: points,
-                                    correctSolutions: correctSolutions,
-                                    invalidSolutions: invalidSolutions,
-                                    allSolutions: allSolutions,
-                                    avgSolutionDuration: avgSolutionDuration,
-                                    numberOfAllAvailableTasks: numberOfAllAvailableTasks,
-                                    numberOfTaskGroups: numberOfTaskGroups,
-                                    numberOfTests: numberOfTests
-                                }
-                            });
-                        }).catch(function () {
-                            res.json({
-                                user: user,
-                                stats: {
-                                    points: points,
-                                    correctSolutions: correctSolutions,
-                                    invalidSolutions: invalidSolutions,
-                                    allSolutions: allSolutions,
-                                    avgSolutionDuration: avgSolutionDuration,
-                                    numberOfAllAvailableTasks: numberOfAllAvailableTasks
-                                }
-                            });
+                        res.json({
+                            user: user,
+                            stats: {
+                                points: points,
+                                correctSolutions: correctSolutions,
+                                invalidSolutions: invalidSolutions,
+                                allSolutions: allSolutions,
+                                avgSolutionDuration: avgSolutionDuration,
+                                numberOfTaskGroups: numberOfTaskGroups,
+                                numberOfTests: numberOfTests
+                            }
                         });
                     }).catch(function () {
                         res.json({
