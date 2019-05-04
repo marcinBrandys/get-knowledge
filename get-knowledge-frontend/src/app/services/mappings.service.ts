@@ -19,6 +19,13 @@ export class MappingsService {
     {code: 'G_02', translation: Translations.TASK_TYPE_G_02},
   ];
 
+  public studentsTaskTypes = [
+    {translation: Translations.TASK_TYPE_T, code: 'T'},
+    {translation: Translations.TASK_TYPE_W, code: 'W'},
+    {translation: Translations.TASK_TYPE_S, code: 'S'},
+    {translation: Translations.TASK_TYPE_G, code: 'G'}
+  ];
+
   public wTypeSeparator: string = '###';
   public wTypePartsSeparator: string = '$$$';
   public sTypeSeparator: string = '###';

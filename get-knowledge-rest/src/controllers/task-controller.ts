@@ -1,12 +1,14 @@
 let Task = require('../models/task-model');
 let Solution = require('../models/solution-model');
 const validatorService = require('../services/validator-service');
+const mappingsService = require('../services/mappings-service');
 const _ = require('lodash');
 
 export class TaskController {
     getTask(req, res) {
         const taskGroupName = _.get(req, 'params.taskGroup');
-        const taskTypeName = _.get(req, 'params.taskType');
+        let taskTypeName = _.get(req, 'params.taskType');
+        taskTypeName = mappingsService.getTaskType(taskTypeName);
 
         Task.find({taskGroup: taskGroupName, taskType: taskTypeName}).then(function (tasks) {
             const task = _.sample(tasks);

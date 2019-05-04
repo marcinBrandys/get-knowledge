@@ -2,18 +2,18 @@
   <div class="row">
     <div class="col-4">
       <div class="col-12 content-wrapper">
-        <h4 class="mt-0 mb-2 text-center">{{translations.TITLE_TASK_GROUPS}}</h4>
-        <mat-selection-list #taskGroupSelection (selectionChange)="onTaskGroupSelection($event, taskGroupSelection.selectedOptions)">
-          <mat-list-option *ngFor="let taskGroup of taskGroups" [value]='taskGroup'>
-            {{taskGroup.taskGroupName}}
-          </mat-list-option>
-        </mat-selection-list>
-      </div>
-      <div class="col-12 content-wrapper mt-4">
         <h4 class="mt-0 mb-2 text-center">{{translations.TITLE_TASK_TYPES}}</h4>
         <mat-selection-list #taskTypeSelection (selectionChange)="onTaskTypeSelection($event, taskGroupSelection.selectedOptions)">
           <mat-list-option *ngFor="let taskType of taskTypes" [value]='taskType'>
             {{taskType['translation']}}
+          </mat-list-option>
+        </mat-selection-list>
+      </div>
+      <div class="col-12 content-wrapper mt-4">
+        <h4 class="mt-0 mb-2 text-center">{{translations.TITLE_TASK_GROUPS}}</h4>
+        <mat-selection-list #taskGroupSelection (selectionChange)="onTaskGroupSelection($event, taskGroupSelection.selectedOptions)">
+          <mat-list-option *ngFor="let taskGroup of taskGroups" [value]='taskGroup'>
+            {{taskGroup.taskGroupName}}
           </mat-list-option>
         </mat-selection-list>
       </div>
