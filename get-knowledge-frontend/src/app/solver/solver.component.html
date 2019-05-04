@@ -1,6 +1,6 @@
 <div class="container my-5">
   <div class="row">
-    <div class="col-4">
+    <div class="col-12 col-sm-4 mb-4 mb-sm-0">
       <div class="col-12 content-wrapper" *ngIf="test">
         <h4 class="mt-0 mb-2 text-center">{{test.taskGroupName}}</h4>
         <ul class="list-unstyled">
@@ -30,7 +30,7 @@
         </div>
       </div>
     </div>
-    <div class="col-8">
+    <div class="col-12 col-sm-8">
       <div class="col-12 content-wrapper" *ngIf="hasTestEnded">
         <h4 class="mt-0 mb-2 text-justify">{{translations.TITLE_TEST_ENDED}}</h4>
         <div class="row">

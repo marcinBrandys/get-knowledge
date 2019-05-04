@@ -44,6 +44,7 @@ export class DashboardComponent implements OnInit {
   ];
   public pieChartOptions: ChartOptions = {
     responsive: true,
+    maintainAspectRatio: false,
     legend: {
       position: 'top',
     },

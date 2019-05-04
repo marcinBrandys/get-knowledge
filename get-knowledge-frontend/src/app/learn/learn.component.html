@@ -1,6 +1,6 @@
 <div class="container my-5">
   <div class="row">
-    <div class="col-4">
+    <div class="col-12 col-sm-4">
       <div class="col-12 content-wrapper">
         <h4 class="mt-0 mb-2 text-center">{{translations.TITLE_TASK_TYPES}}</h4>
         <mat-selection-list #taskTypeSelection (selectionChange)="onTaskTypeSelection($event, taskGroupSelection.selectedOptions)">
@@ -9,7 +9,7 @@
           </mat-list-option>
         </mat-selection-list>
       </div>
-      <div class="col-12 content-wrapper mt-4">
+      <div class="col-12 content-wrapper mt-4 mb-4 mb-sm-0">
         <h4 class="mt-0 mb-2 text-center">{{translations.TITLE_TASK_GROUPS}}</h4>
         <mat-selection-list #taskGroupSelection (selectionChange)="onTaskGroupSelection($event, taskGroupSelection.selectedOptions)">
           <mat-list-option *ngFor="let taskGroup of taskGroups" [value]='taskGroup'>
@@ -18,7 +18,7 @@
         </mat-selection-list>
       </div>
     </div>
-    <div class="col-8">
+    <div class="col-12 col-sm-8">
       <div class="col-12 content-wrapper" *ngIf="selectedTaskGroup === null || selectedTaskType === null">
         <h4 class="mt-0 mb-2 text-center">{{translations.TITLE_SELECT_FILTERS}}</h4>
       </div>
@@ -45,9 +45,6 @@
                   <mat-panel-title>
                     {{translations.ATTRIBUTE_TASK_TIP}}
                   </mat-panel-title>
-                  <mat-panel-description>
-                    {{translations.ATTRIBUTE_TASK_TIP_SHOW}}
-                  </mat-panel-description>
                 </mat-expansion-panel-header>
                 <p class="text-justify">{{task.taskTip}}</p>
               </mat-expansion-panel>
@@ -164,10 +161,10 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-6 text-right">
+            <div class="col-12 col-md-6 text-center text-md-right my-1">
               <button *ngIf="!isTaskSubmitted" type="button" mat-raised-button color="accent" class="text-uppercase d-inline-block" (click)="resetTask()">{{translations.ACTION_SKIP_TASK}}</button>
             </div>
-            <div class="col-6 text-left">
+            <div class="col-12 col-md-6 text-center text-md-left my-1">
               <button *ngIf="!isTaskSubmitted" type="submit" mat-raised-button color="primary" class="text-uppercase d-inline-block" [disabled]="form.invalid">{{translations.ACTION_SUBMIT_TASK_SOLUTION}}</button>
               <button *ngIf="isTaskSubmitted" type="button" mat-raised-button color="primary" class="text-uppercase d-inline-block" (click)="resetTask()">{{translations.ACTION_NEXT_TASK}}</button>
             </div>
