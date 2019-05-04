@@ -21,7 +21,7 @@ import {
   MatListModule,
   MatMenuModule,
   MatNativeDateModule,
-  MatPaginatorModule,
+  MatPaginatorModule, MatProgressBarModule, MatProgressSpinnerModule,
   MatRadioModule,
   MatSelectModule,
   MatSliderModule,
@@ -47,6 +47,7 @@ import localePl from '@angular/common/locales/pl';
 import localePlExtra from '@angular/common/locales/extra/pl';
 import {registerLocaleData} from "@angular/common";
 import { SolverComponent } from './solver/solver.component';
+import { LoaderComponent } from './loader/loader.component';
 
 registerLocaleData(localePl, 'pl-PL', localePlExtra);
 
@@ -65,7 +66,8 @@ export function tokenGetter() {
     CreatorComponent,
     TestComponent,
     LearnComponent,
-    SolverComponent
+    SolverComponent,
+    LoaderComponent
   ],
   imports: [
     BrowserModule,
@@ -103,7 +105,9 @@ export function tokenGetter() {
     MatBadgeModule,
     ChartsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     RestService,
