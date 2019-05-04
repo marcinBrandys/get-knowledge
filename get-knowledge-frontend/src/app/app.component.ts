@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import {AuthService} from "./services/auth.service";
 import {Router} from "@angular/router";
 import * as _ from 'lodash';
+import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
+import {environment} from "../environments/environment";
 
 @Component({
   selector: 'app-root',
@@ -15,7 +17,11 @@ export class AppComponent {
     '/register'
   ];
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, angulartics2GoogleAnalytics: Angulartics2GoogleAnalytics) {
+    if (environment.production) {
+      angulartics2GoogleAnalytics.startTracking();
+    }
+  }
 
   isHeaderVisible(): boolean {
     return !_.includes(this.headerHiddenRoutes, this.router.url);

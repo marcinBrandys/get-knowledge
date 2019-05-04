@@ -6,6 +6,7 @@ import * as _ from "lodash";
 import {Router} from "@angular/router";
 import {ChartOptions} from "chart.js";
 import {MappingsService} from "../services/mappings.service";
+import {NotificationService} from "../services/notification.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -57,7 +58,7 @@ export class DashboardComponent implements OnInit {
     }
   };
 
-  constructor(private restService: RestService, private router: Router, private mappingService: MappingsService) { }
+  constructor(private restService: RestService, private router: Router, private mappingService: MappingsService, private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.getUserInfo();
@@ -68,12 +69,11 @@ export class DashboardComponent implements OnInit {
   getUserInfo() {
     this.restService.getUserInfo().subscribe(
       data => {
-        console.log(data);
         this.bindUser(data);
         this.bindStats(data);
       },
       error => {
-        console.log(error);
+        this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
       }
     )
   }
@@ -81,11 +81,10 @@ export class DashboardComponent implements OnInit {
   getRanking() {
     this.restService.getRanking().subscribe(
       data => {
-        console.log(data);
         this.bindRanking(data);
       },
       error => {
-        console.log(error);
+        this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
       }
     )
   }
@@ -93,11 +92,10 @@ export class DashboardComponent implements OnInit {
   getPrivateRanking() {
     this.restService.getPrivateRanking().subscribe(
       data => {
-        console.log(data);
         this.bindPrivateRanking(data);
       },
       error => {
-        console.log(error);
+        this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
       }
     )
   }

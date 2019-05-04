@@ -11,6 +11,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {Solution} from "../classes/solution";
 import {NotificationService} from "../services/notification.service";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
+import {Angulartics2} from "angulartics2";
 
 @Component({
   selector: 'app-learn',
@@ -47,7 +48,7 @@ export class LearnComponent implements OnInit {
   @ViewChild('taskTypeSelection') taskTypeSelection: MatSelectionList;
   @ViewChild('ngForm') ngForm;
 
-  constructor(private restService: RestService, private mappingsService: MappingsService, private fb: FormBuilder, private notificationService: NotificationService) { }
+  constructor(private restService: RestService, private mappingsService: MappingsService, private fb: FormBuilder, private notificationService: NotificationService, private angulartics2: Angulartics2) { }
 
   ngOnInit() {
     this.taskGroupSelection.selectedOptions = new SelectionModel<MatListOption>(false);
@@ -79,6 +80,7 @@ export class LearnComponent implements OnInit {
   onTaskTypeSelection(e, v){
     this.selectedTaskType = e.option.selected ? e.option.value : null;
     this.bindTask();
+    this.trackTaskTypeSelect();
   }
 
   onTipOpen() {
@@ -109,11 +111,10 @@ export class LearnComponent implements OnInit {
   getTaskGroups() {
     this.restService.getStudentTaskGroups().subscribe(
       data => {
-        console.log(data);
         this.bindTaskGroups(data);
       },
       error => {
-        console.log(error);
+        this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
       }
     )
   }
@@ -137,7 +138,6 @@ export class LearnComponent implements OnInit {
     this.isTaskSubmitted = false;
     const taskGroup = _.get(this.selectedTaskGroup, 'id', null);
     const taskType = _.get(this.selectedTaskType, 'code', null);
-    console.log(taskType);
     if (taskGroup !== null && taskType !== null) {
       this.restService.getTask(taskGroup, taskType).subscribe(
         data => {
@@ -165,7 +165,7 @@ export class LearnComponent implements OnInit {
           this.prepareTaskView();
         },
         error => {
-          console.log(error);
+          this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
         }
       )
     } else {
@@ -268,14 +268,11 @@ export class LearnComponent implements OnInit {
   }
 
   submitSolution() {
-    console.log(this.form);
     if (this.form.valid) {
       const solution = this.taskSolution.value ? this.taskSolution.value : this.prepareSolution();
       this.solution.prepareToSubmit(solution);
-      console.log(this.solution);
       this.restService.submitSolution(this.solution).subscribe(
         data => {
-          console.log(data);
           const isCorrect = _.get(data, 'solution.isCorrect', false);
           const correctTranslation = this.translations.TITLE_CORRECT_ANSWER;
           const incorrectTranslation = this.translations.TITLE_INCORRECT_ANSWER;
@@ -284,7 +281,7 @@ export class LearnComponent implements OnInit {
             this.notificationService.showNotification(incorrectTranslation)
         },
         error => {
-          console.log(error);
+          this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
         },
         () => {
           this.isTaskSubmitted = true;
@@ -308,5 +305,19 @@ export class LearnComponent implements OnInit {
     this.gSelectGroups = [];
     this.isTaskSubmitted = false;
     this.bindTask();
+  }
+
+  trackTaskTypeSelect() {
+    const taskTypeName: string = _.get(this.selectedTaskType, 'code');
+    if (taskTypeName) {
+      this.angulartics2.eventTrack.next({ action: taskTypeName, properties: { category: 'task_type_selection' } });
+    }
+  }
+
+  trackSkipTask() {
+    const taskTypeCode: string = _.get(this.task, 'taskType');
+    if (taskTypeCode) {
+      this.angulartics2.eventTrack.next({ action: taskTypeCode, properties: { category: 'task_type_skip' } });
+    }
   }
 }

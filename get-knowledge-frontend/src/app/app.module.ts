@@ -48,6 +48,8 @@ import localePlExtra from '@angular/common/locales/extra/pl';
 import {registerLocaleData} from "@angular/common";
 import { SolverComponent } from './solver/solver.component';
 import { LoaderComponent } from './loader/loader.component';
+import { Angulartics2Module } from 'angulartics2';
+import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
 
 registerLocaleData(localePl, 'pl-PL', localePlExtra);
 
@@ -107,7 +109,12 @@ export function tokenGetter() {
     MatDatepickerModule,
     MatNativeDateModule,
     MatProgressBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    Angulartics2Module.forRoot({
+      pageTracking: {
+        clearIds: true,
+      }
+    })
   ],
   providers: [
     RestService,

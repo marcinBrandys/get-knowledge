@@ -162,7 +162,7 @@
           </div>
           <div class="row">
             <div class="col-12 col-md-6 text-center text-md-right my-1">
-              <button *ngIf="!isTaskSubmitted" type="button" mat-raised-button color="accent" class="text-uppercase d-inline-block" (click)="resetTask()">{{translations.ACTION_SKIP_TASK}}</button>
+              <button *ngIf="!isTaskSubmitted" type="button" mat-raised-button color="accent" class="text-uppercase d-inline-block" (click)="trackSkipTask(); resetTask()">{{translations.ACTION_SKIP_TASK}}</button>
             </div>
             <div class="col-12 col-md-6 text-center text-md-left my-1">
               <button *ngIf="!isTaskSubmitted" type="submit" mat-raised-button color="primary" class="text-uppercase d-inline-block" [disabled]="form.invalid">{{translations.ACTION_SUBMIT_TASK_SOLUTION}}</button>

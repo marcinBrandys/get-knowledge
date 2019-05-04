@@ -6,6 +6,7 @@ import {Translations} from "../translations/translations.enum";
 import {formatDate} from "@angular/common";
 import {Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
+import {NotificationService} from "../services/notification.service";
 
 @Component({
   selector: 'app-test',
@@ -27,7 +28,7 @@ export class TestComponent implements OnInit {
   ];
   testsResult = [];
 
-  constructor(private restService: RestService, private router: Router, private authService: AuthService) { }
+  constructor(private restService: RestService, private router: Router, private authService: AuthService, private notificationService: NotificationService) { }
 
   ngOnInit() {
     this.getUserRole();
@@ -45,7 +46,7 @@ export class TestComponent implements OnInit {
         this.bindTests(data);
       },
       error => {
-        console.log(error);
+        this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
       }
     )
   }
@@ -71,7 +72,7 @@ export class TestComponent implements OnInit {
         this.bindTestResult(data);
       },
       error => {
-        console.log(error);
+        this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
       }
     )
   }
