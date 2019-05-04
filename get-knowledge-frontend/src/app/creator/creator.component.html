@@ -1,6 +1,6 @@
 <div class="container my-5">
   <div class="row">
-    <div class="col-4">
+    <div class="col-12 col-sm-4 mb-4 mb-sm-0">
       <div class="col-12 content-wrapper">
         <h4 class="mt-0 mb-4 text-center">{{translations.TITLE_CREATE_TASK_GROUP}}</h4>
         <form id="task-group-creation-form" class="d-flex flex-column mx-auto w-75" (ngSubmit)="createTaskGroup()" #createTaskGroupNgForm="ngForm">
@@ -30,7 +30,7 @@
         </ul>
       </div>
     </div>
-    <div class="col-8">
+    <div class="col-12 col-sm-8">
       <div class="col-12 content-wrapper">
         <h4 class="mt-0 mb-4 text-center">{{translations.TITLE_CREATE_TASK}}</h4>
         <form id="task-creation-form" class="d-flex flex-column mx-auto w-75" (ngSubmit)="createTask()" #createTaskNgForm="ngForm">
@@ -259,10 +259,10 @@
           <!-- G_02 -->
 
           <div class="row">
-            <div class="col-6 text-right">
+            <div class="col-12 col-md-6 text-center text-md-right my-1">
               <button type="button" mat-raised-button color="accent" class="text-uppercase d-inline-block" (click)="resetCreateTaskForm()">{{translations.TITLE_TASK_ADD_CANCEL}}</button>
             </div>
-            <div class="col-6 text-left">
+            <div class="col-12 col-md-6 text-center text-md-left my-1">
               <button type="submit" mat-raised-button color="primary" class="text-uppercase mx-auto w-50" [disabled]="taskCreationForm.invalid">{{translations.ACTION_ADD}}</button>
             </div>
           </div>
