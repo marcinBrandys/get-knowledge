@@ -36,7 +36,7 @@ export class SolutionController {
         const taskId = _.get(req, 'body.taskId');
         const startTs = _.get(req, 'body.startTs');
         const endTs = _.get(req, 'body.endTs');
-        const answer = _.get(req, 'body.answer');
+        const answer = _.get(req, 'body.answer', 'none');
         const isTipUsed = _.get(req, 'body.isTipUsed', false);
 
         if (taskId && startTs && endTs && answer) {
@@ -46,9 +46,10 @@ export class SolutionController {
                 const isTestTask: boolean = _.get(task, 'taskGroup.isTestTaskGroup', false);
                 const testStartTs: number = _.get(task, 'taskGroup.startTs', null);
                 const testEndTs: number = _.get(task, 'taskGroup.endTs', null);
+                const taskCorrectSolution: string = _.get(task, 'taskCorrectSolution', 'undefined');
 
                 const duration = endTs - startTs;
-                const isCorrect = task.taskCorrectSolution === answer;
+                const isCorrect = taskCorrectSolution.toLowerCase() === answer.toLowerCase();
                 const points = isCorrect ? task.taskPoints : 0;
                 const weight = task.taskWeight;
                 let isTipAvailable = _.get(task, 'taskTip.length', 0) > 0;
