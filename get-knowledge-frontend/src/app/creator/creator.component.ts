@@ -7,6 +7,7 @@ import * as _ from "lodash";
 import {NotificationService} from "../services/notification.service";
 import {MappingsService} from "../services/mappings.service";
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from "@angular/cdk/drag-drop";
+import {Angulartics2} from "angulartics2";
 
 @Component({
   selector: 'app-creator',
@@ -49,7 +50,7 @@ export class CreatorComponent implements OnInit {
   @ViewChild('createTaskGroupNgForm') createTaskGroupNgForm;
   @ViewChild('createTaskNgForm') createTaskNgForm;
 
-  constructor(private restService: RestService, private notificationService: NotificationService, private fb: FormBuilder, private mappingsService: MappingsService) { }
+  constructor(private restService: RestService, private notificationService: NotificationService, private fb: FormBuilder, private mappingsService: MappingsService, private angulartics2: Angulartics2) { }
 
   ngOnInit() {
     this.taskGroupCreationForm = this.fb.group({
@@ -72,13 +73,12 @@ export class CreatorComponent implements OnInit {
       if (!this.isTestTaskGroup || (this.isTestTaskGroup && endTs > startTs)) {
         this.restService.createTaskGroup(this.taskGroupName.value, this.isTestTaskGroup, startTs, endTs).subscribe(
           data => {
-            console.log(data);
             this.getTaskGroups();
             this.resetCreateTaskGroupForm();
             this.notificationService.showNotification(this.translations.CREATE_TASK_GROUP_SUCCESS);
           },
           error => {
-            console.log(error);
+            this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
           }
         )
       } else {
@@ -90,11 +90,10 @@ export class CreatorComponent implements OnInit {
   getTaskGroups() {
     this.restService.getTaskGroups().subscribe(
       data => {
-        console.log(data);
         this.bindTaskGroups(data);
       },
       error => {
-        console.log(error);
+        this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
       }
     )
   }
@@ -132,18 +131,15 @@ export class CreatorComponent implements OnInit {
   }
 
   createTask() {
-    console.log(this.taskCreationForm);
     if (this.taskCreationForm.valid) {
       const taskPresentedValue: string = this.prepareTaskPresentedValue();
       const solution: string = this.taskCorrectSolution.value ? this.taskCorrectSolution.value : this.prepareSolution();
       this.restService.createTask(this.taskTitle.value, this.selectTaskGroup.value, this.selectTaskType.value, this.taskContent.value, this.taskTip.value, taskPresentedValue, solution, this.taskWeight.value, this.taskPoints.value).subscribe(
         data => {
-          console.log(data);
           this.notificationService.showNotification(this.translations.TITLE_TASK_ADDED);
           this.resetCreateTaskForm();
         },
         error => {
-          console.log(error);
           this.notificationService.showNotification(this.translations.TITLE_TASK_ADDING_ERROR);
         }
       )
@@ -335,6 +331,10 @@ export class CreatorComponent implements OnInit {
     }
 
     return taskPresentedValue;
+  }
+
+  trackCancelingTaskCreationForm() {
+    this.angulartics2.eventTrack.next({ action: 'task_creation_form_cancel', properties: { category: 'task_creation_form' } });
   }
 
 }

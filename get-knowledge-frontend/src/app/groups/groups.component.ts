@@ -43,12 +43,11 @@ export class GroupsComponent implements OnInit {
     if (this.groupCreationForm.valid) {
       this.restService.createGroup(this.groupName.value).subscribe(
         data => {
-          console.log(data);
           this.getGroups();
           this.notificationService.showNotification(this.translations.TITLE_GROUP_ADDED);
         },
         error => {
-          console.log(error);
+          this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
         }
       )
     }
@@ -62,7 +61,7 @@ export class GroupsComponent implements OnInit {
           this.notificationService.showNotification(this.translations.TITLE_STUDENT_ADDED);
         },
         error => {
-          console.log(error);
+          this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
         }
       )
     }
@@ -74,7 +73,7 @@ export class GroupsComponent implements OnInit {
         this.bindGroups(data);
       },
       error => {
-        console.log(error);
+        this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
       }
     )
   }
@@ -93,7 +92,7 @@ export class GroupsComponent implements OnInit {
         }
       },
       error => {
-        console.log(error);
+        this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
       }
     )
   }
@@ -124,7 +123,7 @@ export class GroupsComponent implements OnInit {
         this.getGroups();
       },
       error => {
-        console.log(error);
+        this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
       }
     )
   }

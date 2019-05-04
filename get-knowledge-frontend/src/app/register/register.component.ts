@@ -6,6 +6,7 @@ import {NotificationService} from "../services/notification.service";
 import {Router} from "@angular/router";
 import {MatVerticalStepper} from "@angular/material";
 import * as _ from 'lodash';
+import {Angulartics2} from "angulartics2";
 
 @Component({
   selector: 'app-register',
@@ -34,7 +35,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
   accessCodeInvisibilityState = true;
   @ViewChild(MatVerticalStepper) stepper: MatVerticalStepper;
 
-  constructor(private restService: RestService, private notificationService: NotificationService, private fb: FormBuilder, private router: Router) { }
+  constructor(private restService: RestService, private notificationService: NotificationService, private fb: FormBuilder, private router: Router, private angulartics2: Angulartics2) { }
 
   ngOnInit(): void {
     this.form = this.fb.group({
@@ -70,16 +71,23 @@ export class RegisterComponent implements OnInit, AfterViewInit {
       data => {
         this.notificationService.showNotification(this.translations.REGISTER_SUCCESS);
         this.goToLogin();
+        this.angulartics2.eventTrack.next({ action: 'register_success', properties: { category: 'register' } });
       },
       error => {
-        console.log(error);
         if (_.get(error, 'error.error.code') === 11000) {
           this.notificationService.showNotification(this.translations.REGISTER_FAIL_DUPLICATE_KEY);
         } else {
           this.notificationService.showNotification(this.translations.REGISTER_FAIL);
+          this.angulartics2.eventTrack.next({ action: 'register_fail', properties: { category: 'register' } });
         }
       }
     );
+  }
+
+  onPasswordVisibilityStateClick(passwordVisibilityState: boolean) {
+    if (!passwordVisibilityState) {
+      this.angulartics2.eventTrack.next({ action: 'password_show', properties: { category: 'password' } });
+    }
   }
 
 }

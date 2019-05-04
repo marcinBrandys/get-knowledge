@@ -73,7 +73,7 @@ export class SolverComponent implements OnInit {
         this.bindTest(data);
       },
       error => {
-        console.log(error);
+        this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
       }
     )
   }
@@ -85,7 +85,7 @@ export class SolverComponent implements OnInit {
         this.checkIfTestEnded();
       },
       error => {
-        console.log(error);
+        this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
       }
     )
   }
@@ -123,7 +123,6 @@ export class SolverComponent implements OnInit {
         this.tasks.push(new Task(id, taskTitle, taskGroup, taskType, owner, creationTs, taskContent, taskTip, taskPresentedValue, taskCorrectSolution, taskWeight, taskPoints));
       }
     }
-    console.log(this.tasks);
   }
 
   startTest() {
@@ -254,25 +253,23 @@ export class SolverComponent implements OnInit {
   }
 
   submitSolution() {
-    console.log(this.form);
     if (this.form.valid) {
       const solution = this.taskSolution.value ? this.taskSolution.value : this.prepareSolution();
       this.solution.prepareToSubmit(solution);
-      console.log(this.solution);
       this.restService.submitSolution(this.solution).subscribe(
         data => {
-          console.log(data);
           this.notificationService.showNotification(this.translations.TITLE_SOLUTION_SUBMITTED);
           this.tasks.shift();
           this.resetTask();
           this.checkIfTestEnded();
         },
         error => {
-          console.log(error);
           const errorCode = _.get(error, 'status');
           if (errorCode === 409) {
             this.notificationService.showNotification(this.translations.ERROR_TEST_TIMEOUT);
             this.router.navigate(['/dashboard']);
+          } else {
+            this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
           }
         },
         () => {
