@@ -26,15 +26,15 @@
         <h4 class="mt-0 mb-2 text-center">{{translations.TITLE_EMPTY_TASK}}</h4>
       </div>
       <div class="col-12 content-wrapper" *ngIf="selectedTaskGroup && selectedTaskType && task">
-        <h4 class="mt-0 mb-2 text-center">{{task.taskTitle}}</h4>
+        <h4 class="mt-0 mb-2 text-center" *ngIf="!isTaskSubmitted">{{task.taskTitle}}</h4>
         <form id="task-creation-form" class="d-flex flex-column mx-auto w-100" (ngSubmit)="submitSolution()" #ngForm="ngForm">
-          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'T_01'">
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="!isTaskSubmitted && task.taskType === 'T_01'">
             <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
             <mat-form-field class="w-100 mb-2">
               <input matInput placeholder="{{translations.ATTRIBUTE_TASK_SOLUTION}}" [formControl]="taskSolution" autocomplete="off" required>
             </mat-form-field>
           </div>
-          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'T_02'">
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="!isTaskSubmitted && task.taskType === 'T_02'">
             <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
             <mat-form-field class="w-100 mb-2">
               <input matInput placeholder="{{translations.ATTRIBUTE_TASK_SOLUTION}}" [formControl]="taskSolution" autocomplete="off" required>
@@ -50,7 +50,7 @@
               </mat-expansion-panel>
             </mat-accordion>
           </div>
-          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'W_01'">
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="!isTaskSubmitted && task.taskType === 'W_01'">
             <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
             <mat-radio-group [formControl]="taskSolution">
               <ul class="list-unstyled">
@@ -58,7 +58,7 @@
               </ul>
             </mat-radio-group>
           </div>
-          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'W_02'">
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="!isTaskSubmitted && task.taskType === 'W_02'">
             <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
             <ul class="list-unstyled">
               <li class="mb-3" *ngFor="let wTypeCheckboxSolution of wTypeCheckboxSolutions">
@@ -66,7 +66,7 @@
               </li>
             </ul>
           </div>
-          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'W_03'">
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="!isTaskSubmitted && task.taskType === 'W_03'">
             <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
             <mat-radio-group [formControl]="taskSolution">
               <ul class="list-unstyled">
@@ -75,7 +75,7 @@
               </ul>
             </mat-radio-group>
           </div>
-          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'W_04'">
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="!isTaskSubmitted && task.taskType === 'W_04'">
             <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
             <div class="row">
               <div class="col-6">
@@ -104,19 +104,19 @@
               </div>
             </div>
           </div>
-          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'S_01'">
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="!isTaskSubmitted && task.taskType === 'S_01'">
             <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
             <div *ngIf="sTypeSolutions.length > 0" cdkDropList class="swap-list-vertical mb-4" (cdkDropListDropped)="swapSTypeSolution($event)">
               <div class="swap-list-vertical-box" *ngFor="let sTypeSolution of sTypeSolutions" cdkDrag>{{sTypeSolution}}</div>
             </div>
           </div>
-          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'S_02'">
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="!isTaskSubmitted && task.taskType === 'S_02'">
             <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
             <div *ngIf="sTypeSolutions.length > 0" cdkDropList cdkDropListOrientation="horizontal" class="swap-list-horizontal mb-4" (cdkDropListDropped)="swapSTypeSolution($event)">
               <div class="swap-list-horizontal-box" *ngFor="let sTypeSolution of sTypeSolutions" cdkDrag>{{sTypeSolution}}</div>
             </div>
           </div>
-          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'G_01'">
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="!isTaskSubmitted && task.taskType === 'G_01'">
             <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
             <div cdkDropListGroup *ngIf="getGTypeGroupKeys().length > 0">
               <div class="d-flex flex-wrap flex-sm-column flex-md-row flex-lg-row justify-content-center">
@@ -143,7 +143,7 @@
               </div>
             </div>
           </div>
-          <div class="content-wrapper-bg align-middle my-4" *ngIf="task.taskType === 'G_02'">
+          <div class="content-wrapper-bg align-middle my-4" *ngIf="!isTaskSubmitted && task.taskType === 'G_02'">
             <p class="mt-0 mb-2 w-100 text-justify">{{task.taskContent}}</p>
             <div class="row" *ngFor="let gSelectElement of gSelectElements">
               <div class="col-6 pt-3">
@@ -166,7 +166,9 @@
             </div>
             <div class="col-12 col-md-6 text-center text-md-left my-1">
               <button *ngIf="!isTaskSubmitted" type="submit" mat-raised-button color="primary" class="text-uppercase d-inline-block" [disabled]="form.invalid">{{translations.ACTION_SUBMIT_TASK_SOLUTION}}</button>
-              <button *ngIf="isTaskSubmitted" type="button" mat-raised-button color="primary" class="text-uppercase d-inline-block" (click)="resetTask()">{{translations.ACTION_NEXT_TASK}}</button>
+            </div>
+            <div class="col-12 text-center" *ngIf="isTaskSubmitted">
+              <button type="button" mat-raised-button color="primary" class="text-uppercase d-inline-block" (click)="resetTask()">{{translations.ACTION_NEXT_TASK}}</button>
             </div>
           </div>
         </form>
