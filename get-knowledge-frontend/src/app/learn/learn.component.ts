@@ -22,7 +22,7 @@ export class LearnComponent implements OnInit {
   translations = Translations;
   taskGroups: TaskGroup[] = [];
   selectedTaskGroup: TaskGroup = null;
-  taskTypes: object[] = this.mappingsService.taskTypes;
+  taskTypes: object[] = this.mappingsService.studentsTaskTypes;
   selectedTaskType: string = null;
 
   task: Task = null;
@@ -137,6 +137,7 @@ export class LearnComponent implements OnInit {
     this.isTaskSubmitted = false;
     const taskGroup = _.get(this.selectedTaskGroup, 'id', null);
     const taskType = _.get(this.selectedTaskType, 'code', null);
+    console.log(taskType);
     if (taskGroup !== null && taskType !== null) {
       this.restService.getTask(taskGroup, taskType).subscribe(
         data => {
