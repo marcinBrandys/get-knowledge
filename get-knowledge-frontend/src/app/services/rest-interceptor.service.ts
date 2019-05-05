@@ -30,6 +30,7 @@ export class RestInterceptorService implements HttpInterceptor {
       catchError((err: HttpErrorResponse) => {
         if (err.status == 401) {
           this.authService.logout();
+          return throwError(err);
         } else {
           return throwError(err);
         }
