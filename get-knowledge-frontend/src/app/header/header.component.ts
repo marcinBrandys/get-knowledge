@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Translations} from "../translations/translations.enum";
 import {AuthService} from "../services/auth.service";
+import {environment} from "../../environments/environment";
 
 @Component({
   selector: 'app-header',
@@ -28,6 +29,11 @@ export class HeaderComponent implements OnInit {
 
   studentRequirementFulfilled(): boolean {
     return this.userRole === 'student';
+  }
+
+  goToGoogleForm() {
+    const location = this.teacherRequirementFulfilled() ? environment.TEACHER_FORM_URL : environment.STUDENT_FORM_URL;
+    window.open(location, "_blank");
   }
 
   logout() {

@@ -142,5 +142,6 @@ export enum Translations {
   TITLE_PERCENT_RESULT = 'Wynik procentowy',
   TITLE_GROUP_ADDED = 'Grupa została dodana',
   TITLE_STUDENT_ADDED = 'Uczeń został dodany do klasy',
-  TITLE_GENERIC_ERROR = 'Wystąpił nieoczekiwany błąd'
+  TITLE_GENERIC_ERROR = 'Wystąpił nieoczekiwany błąd',
+  MENU_ITEM_GOOGLE_FORM = 'Ankieta'
 }
