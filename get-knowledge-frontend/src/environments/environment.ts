@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   REST_API_URL: 'http://localhost:1337/api/',
   STUDENT_FORM_URL: 'https://forms.gle/APRaDm6YRe88vLtg6',
-  TEACHER_FORM_URL: 'https://forms.gle/fc8XaVbwqQNQQNSD6'
+  TEACHER_FORM_URL: 'https://forms.gle/fc8XaVbwqQNQQNSD6',
+  VERSION: require('../../package.json').version
 };
 
 /*

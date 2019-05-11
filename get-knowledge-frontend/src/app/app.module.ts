@@ -50,6 +50,7 @@ import { SolverComponent } from './solver/solver.component';
 import { LoaderComponent } from './loader/loader.component';
 import { Angulartics2Module } from 'angulartics2';
 import { Angulartics2GoogleAnalytics } from 'angulartics2/ga';
+import {environment} from "../environments/environment";
 
 registerLocaleData(localePl, 'pl-PL', localePlExtra);
 
@@ -129,4 +130,8 @@ export function tokenGetter() {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+  constructor () {
+    console.log('APP VERSION: ' + environment.VERSION);
+  }
+}
