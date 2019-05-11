@@ -7,6 +7,7 @@ import {formatDate} from "@angular/common";
 import {Router} from "@angular/router";
 import {AuthService} from "../services/auth.service";
 import {NotificationService} from "../services/notification.service";
+import {LoaderService} from "../services/loader.service";
 
 @Component({
   selector: 'app-test',
@@ -29,7 +30,7 @@ export class TestComponent implements OnInit {
   testsResult = [];
   isTestsResultLoaded: boolean = false;
 
-  constructor(private restService: RestService, private router: Router, private authService: AuthService, private notificationService: NotificationService) { }
+  constructor(private restService: RestService, private router: Router, private authService: AuthService, private notificationService: NotificationService, public loaderService: LoaderService) { }
 
   ngOnInit() {
     this.getUserRole();

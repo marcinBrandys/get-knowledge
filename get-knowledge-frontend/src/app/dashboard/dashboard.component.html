@@ -101,7 +101,7 @@
           <tr mat-row *matRowDef="let row; columns: displayedColumns; let element" [ngClass]="{'table-checked-row': element && isLoggedUserNick(element.studentNick)}"></tr>
         </table>
       </div>
-      <div *ngIf="!isRankingLoaded || !isPrivateRankingLoaded" class="col-12 mb-4 text-center">
+      <div *ngIf="!loaderService.isLoading && (!isRankingLoaded || !isPrivateRankingLoaded)" class="col-12 mb-4 text-center">
         <div style="width: 100px;" class="mx-auto">
           <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
         </div>

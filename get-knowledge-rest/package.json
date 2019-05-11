@@ -1,6 +1,6 @@
 {
   "name": "get-knowledge-rest",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "get knowledge rest api",
   "main": "index.js",
   "scripts": {
