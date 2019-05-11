@@ -65,7 +65,8 @@
       </div>
     </div>
   </div>
-  <div class="row mb-4" *ngIf="user && user.role && (user.role === 'teacher' || user.role === 'student') && (ranking.length > 0 || privateRanking.length > 0)">
+  <div class="row mb-4" *ngIf="user && user.role && (user.role === 'teacher' || user.role === 'student') && (
+  !isRankingLoaded || !isPrivateRankingLoaded || ranking.length > 0 || privateRanking.length > 0)">
     <div class="col-12">
       <div *ngIf="ranking.length > 0" class="col-12 content-wrapper mb-4">
         <h4 class="text-center w-100 my-2" *ngIf="ranking.length > 0">{{translations.TITLE_RANK}}</h4>
@@ -99,6 +100,11 @@
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns; let element" [ngClass]="{'table-checked-row': element && isLoggedUserNick(element.studentNick)}"></tr>
         </table>
+      </div>
+      <div *ngIf="!isRankingLoaded || !isPrivateRankingLoaded" class="col-12 mb-4 text-center">
+        <div style="width: 100px;" class="mx-auto">
+          <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
+        </div>
       </div>
       <div *ngFor="let pRanking of privateRanking" class="col-12 content-wrapper mb-4">
         <h4 class="text-center w-100 my-2" *ngIf="pRanking.ranking.length > 0">{{translations.TITLE_RANK_OF_CLASS}} {{pRanking.groupName}}</h4>

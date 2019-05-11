@@ -28,6 +28,8 @@ export class DashboardComponent implements OnInit {
   };
   ranking: any[] = [];
   privateRanking: any[] = [];
+  isRankingLoaded: boolean = false;
+  isPrivateRankingLoaded: boolean = false;
   displayedColumns: string[] = ['index', 'studentNick', 'studentPoints', 'avgStudentSolutionDuration', 'studentGroupNames'];
   displayedPrivateColumns: string[] = ['index', 'studentNick', 'studentPoints', 'avgStudentSolutionDuration'];
 
@@ -85,6 +87,9 @@ export class DashboardComponent implements OnInit {
       },
       error => {
         this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
+      },
+      () => {
+        this.isRankingLoaded = true;
       }
     )
   }
@@ -96,6 +101,9 @@ export class DashboardComponent implements OnInit {
       },
       error => {
         this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
+      },
+      () => {
+        this.isPrivateRankingLoaded = true;
       }
     )
   }

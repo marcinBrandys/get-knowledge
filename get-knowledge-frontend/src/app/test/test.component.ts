@@ -27,6 +27,7 @@ export class TestComponent implements OnInit {
     'index', 'taskGroupName', 'numberOfTasks', 'testCorrectSolutions', 'testPoints', 'maxPoints', 'percent'
   ];
   testsResult = [];
+  isTestsResultLoaded: boolean = false;
 
   constructor(private restService: RestService, private router: Router, private authService: AuthService, private notificationService: NotificationService) { }
 
@@ -73,6 +74,9 @@ export class TestComponent implements OnInit {
       },
       error => {
         this.notificationService.showNotification(this.translations.TITLE_GENERIC_ERROR);
+      },
+      () => {
+        this.isTestsResultLoaded = true;
       }
     )
   }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Translations} from "../translations/translations.enum";
+import * as _ from "lodash";
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +27,12 @@ export class MappingsService {
     {translation: Translations.TASK_TYPE_G, code: 'G'}
   ];
 
+  public httpRoutesWithoutMainLoadingSpinner = [
+    'user-management/ranking',
+    'user-management/private_ranking',
+    'task-group-management/tests_result'
+  ];
+
   public wTypeSeparator: string = '###';
   public wTypePartsSeparator: string = '$$$';
   public sTypeSeparator: string = '###';
@@ -39,4 +46,13 @@ export class MappingsService {
   public failChartColor: string = 'rgb(217, 83, 79, 0.8)';
 
   constructor() { }
+
+  isHttpRouteWithoutMainLoadingSpinner (httpRoute: string): boolean {
+    let result: boolean = false;
+    for (let route of this.httpRoutesWithoutMainLoadingSpinner) {
+      if (_.includes(httpRoute, route)) result = true;
+    }
+
+    return result;
+  }
 }
