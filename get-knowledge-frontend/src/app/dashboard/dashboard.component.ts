@@ -7,6 +7,7 @@ import {Router} from "@angular/router";
 import {ChartOptions} from "chart.js";
 import {MappingsService} from "../services/mappings.service";
 import {NotificationService} from "../services/notification.service";
+import {LoaderService} from "../services/loader.service";
 
 @Component({
   selector: 'app-dashboard',
@@ -60,7 +61,7 @@ export class DashboardComponent implements OnInit {
     }
   };
 
-  constructor(private restService: RestService, private router: Router, private mappingService: MappingsService, private notificationService: NotificationService) { }
+  constructor(private restService: RestService, private router: Router, private mappingService: MappingsService, private notificationService: NotificationService, public loaderService: LoaderService) { }
 
   ngOnInit() {
     this.getUserInfo();

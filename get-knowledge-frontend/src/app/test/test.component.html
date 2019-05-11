@@ -61,7 +61,7 @@
       </table>
     </div>
   </div>
-  <div class="row mb-4" *ngIf="!isTestsResultLoaded">
+  <div class="row mb-4" *ngIf="!loaderService.isLoading && !isTestsResultLoaded">
     <div class="col-12 mb-4 text-center">
       <div style="width: 100px;" class="mx-auto">
         <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
