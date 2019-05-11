@@ -10,21 +10,22 @@ import {Observable, throwError} from "rxjs";
 import {AuthService} from "./auth.service";
 import {catchError, finalize} from "rxjs/operators";
 import {LoaderService} from "./loader.service";
+import {MappingsService} from "./mappings.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class RestInterceptorService implements HttpInterceptor {
 
-  constructor(private authService: AuthService, private loaderService: LoaderService) { }
+  constructor(private authService: AuthService, private loaderService: LoaderService, private mappingsService: MappingsService) { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-    this.loaderService.show();
 
     const reqWithAccessToken = req.clone({
       headers: req.headers.set('x-access-token', this.authService.getToken())
     });
+
+    if (!this.mappingsService.isHttpRouteWithoutMainLoadingSpinner(req.url)) this.loaderService.show();
 
     return next.handle(reqWithAccessToken).pipe(
       catchError((err: HttpErrorResponse) => {
@@ -37,7 +38,7 @@ export class RestInterceptorService implements HttpInterceptor {
       }),
       finalize(
         () => {
-          this.loaderService.hide();
+          if (!this.mappingsService.isHttpRouteWithoutMainLoadingSpinner(req.url)) this.loaderService.hide();
         }
       )
     );

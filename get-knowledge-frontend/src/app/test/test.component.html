@@ -61,6 +61,13 @@
       </table>
     </div>
   </div>
+  <div class="row mb-4" *ngIf="!isTestsResultLoaded">
+    <div class="col-12 mb-4 text-center">
+      <div style="width: 100px;" class="mx-auto">
+        <mat-progress-spinner mode="indeterminate" color="primary"></mat-progress-spinner>
+      </div>
+    </div>
+  </div>
   <div class="row mb-4" *ngIf="testsResult.length > 0 && userRole === 'student'">
     <div class="col-12 content-wrapper mb-4">
       <h3 class="text-center w-100 my-2">{{translations.TITLE_TEST_RESULTS}}</h3>
@@ -104,7 +111,7 @@
   <div class="row mb-4" *ngIf="testsResult.length > 0 && userRole === 'teacher'">
     <div class="col-12 content-wrapper mb-4" *ngFor="let test of testsResult">
       <h3 class="text-center w-100 my-2">{{translations.TITLE_SPECIFIC_TEST_RESULTS}}: {{test.test.taskGroupName}}</h3>
-      <div class="row mb-2" *ngFor="let groupResult of test.results">
+      <div class="row mb-2" *ngFor="let groupResult of test['results']">
         <div class="col-12">
           <h4 class="text-center w-100 my-2">{{translations.TITLE_GROUP}}: {{groupResult.groupName}}</h4>
 

@@ -12,6 +12,7 @@
     <button mat-menu-item routerLink="test"><mat-icon class="align-middle mr-2">edit</mat-icon> {{translations.MENU_ITEM_TEST}}</button>
     <button mat-menu-item routerLink="groups" *ngIf="teacherRequirementFulfilled()"><mat-icon class="align-middle mr-2">group</mat-icon> {{translations.MENU_ITEM_GROUPS}}</button>
     <button mat-menu-item routerLink="creator" *ngIf="teacherRequirementFulfilled()"><mat-icon class="align-middle mr-2">note_add</mat-icon> {{translations.MENU_ITEM_TASK_GENERATOR}}</button>
+    <button mat-menu-item (click)="goToGoogleForm()"><mat-icon class="align-middle mr-2">feedback</mat-icon> {{translations.MENU_ITEM_GOOGLE_FORM}}</button>
     <button mat-menu-item (click)="logout()"><mat-icon class="align-middle mr-2">power_settings_new</mat-icon> {{translations.MENU_ITEM_LOGOUT}}</button>
   </mat-menu>
 </div>
