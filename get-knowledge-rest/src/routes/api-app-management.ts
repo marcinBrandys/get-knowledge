@@ -9,4 +9,10 @@ router.route('/status')
 router.route('/stats')
     .get(appController.getAppStats);
 
+router.route('/stats/gender/:gender')
+    .get(appController.getAppStats);
+
+router.route('/stats/age/:age')
+    .get(appController.getAppStats);
+
 module.exports = router;

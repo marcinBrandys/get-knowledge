@@ -2,7 +2,7 @@ const statsService = require('../services/stats-service');
 const mappingsService = require('../services/mappings-service');
 let Solution = require('../models/solution-model');
 const _ = require('lodash');
-const config = require('../config/config')
+const config = require('../config/config');
 
 export class AppController {
     getAppStatus(req, res) {
@@ -18,6 +18,9 @@ export class AppController {
         const taskTypes: string[] = mappingsService.getTaskTypes();
         let taskTypesStats = {};
         let testTaskTypesStats = {};
+        const gender: string = _.get(req, 'params.gender');
+        const paramsAge: string = _.get(req, 'params.age');
+        const age: number = paramsAge ? Number.parseInt(paramsAge) : -1;
 
         for (let taskType of taskTypes) {
             taskTypesStats[taskType] = {
@@ -34,9 +37,10 @@ export class AppController {
             .populate(solutions1Query)
             .populate(solutions2Query)
             .then(function (solutions) {
-            console.log(solutions[0]);
 
             for (let solution of solutions) {
+                if (gender !== undefined && gender !== solution.student.gender) continue;
+                if (age > -1 && age !== solution.student.age) continue;
                 const taskType: string = solution.task.taskType;
                 const isTestTask: boolean = solution.task.taskGroup.isTestTaskGroup;
                 if ((_.indexOf(bannedNicksForTTypeExercises, solution.student.nick.toString()) > -1
