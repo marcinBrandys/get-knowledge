@@ -13,7 +13,7 @@ export class AppController {
 
     getAppStats(req, res) {
         const bannedNicksForTTypeExercises = config.BANNED_T_TYPE_NICKS;
-        const solutions1Query: object = {path: 'task'};
+        const solutions1Query: object = {path: 'task', populate: {path: 'taskGroup'}};
         const solutions2Query: object = {path: 'student'};
         const taskTypes: string[] = mappingsService.getTaskTypes();
         let taskTypesStats = {};
@@ -21,6 +21,10 @@ export class AppController {
 
         for (let taskType of taskTypes) {
             taskTypesStats[taskType] = {
+                solutions: [],
+                stats: null
+            };
+            testTaskTypesStats[taskType] = {
                 solutions: [],
                 stats: null
             };
@@ -33,11 +37,13 @@ export class AppController {
             console.log(solutions[0]);
 
             for (let solution of solutions) {
-                const taskType = solution.task.taskType;
+                const taskType: string = solution.task.taskType;
+                const isTestTask: boolean = solution.task.taskGroup.isTestTaskGroup;
                 if ((_.indexOf(bannedNicksForTTypeExercises, solution.student.nick.toString()) > -1
-                    && _.includes(taskType, 'T'))
+                    && _.includes(taskType, 'T') && !isTestTask)
                     || _.indexOf(taskTypes, taskType) < 0) continue;
-                taskTypesStats[taskType].solutions.push(solution);
+                isTestTask ?
+                    testTaskTypesStats[taskType].solutions.push(solution) : taskTypesStats[taskType].solutions.push(solution)
             }
 
             for (let taskTypeStat of _.keys(taskTypesStats)) {
@@ -46,11 +52,18 @@ export class AppController {
                 delete taskTypesStats[taskTypeStat].solutions;
             }
 
+            for (let testTaskTypesStat of _.keys(testTaskTypesStats)) {
+                testTaskTypesStats[testTaskTypesStat].stats
+                    = statsService.countStats(testTaskTypesStats[testTaskTypesStat].solutions);
+                delete testTaskTypesStats[testTaskTypesStat].solutions;
+            }
+
             res.json({
                 stats: taskTypesStats,
                 testStats: testTaskTypesStats
             });
         }).catch(function (error) {
+            console.log(error);
             res.json({
                 error: error
             });
