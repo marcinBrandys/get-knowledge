@@ -9,6 +9,9 @@ const mappingsService = {
         };
 
         return _.get(taskTypesMap, taskMainCategory, []);
+    },
+    getTaskTypes(): string[] {
+        return ['T_01', 'T_02', 'W_01', 'W_02', 'W_03', 'W_04', 'S_01', 'S_02', 'G_01', 'G_02'];
     }
 };
 
