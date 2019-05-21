@@ -3,6 +3,7 @@ const mappingsService = require('../services/mappings-service');
 let Solution = require('../models/solution-model');
 const _ = require('lodash');
 const config = require('../config/config');
+const json2csv = require('json2csv').parse;
 
 export class AppController {
     getAppStatus(req, res) {
@@ -62,10 +63,38 @@ export class AppController {
                 delete testTaskTypesStats[testTaskTypesStat].solutions;
             }
 
-            res.json({
+            const result = {
                 stats: taskTypesStats,
                 testStats: testTaskTypesStats
-            });
+            };
+
+            let formattedResult = [];
+
+            for (let key of _.keys(result)) {
+                for (let taskTypeStat of _.keys(result[key])) {
+                    const stats = result[key][taskTypeStat]['stats'];
+                    const statsKeys = _.keys(stats);
+                    let statsObject = {};
+                    statsObject['taskTypeName'] = key === 'testStats' ? 'test_' + taskTypeStat : taskTypeStat;
+                    for (let statKey of statsKeys) {
+                        statsObject[statKey] = stats[statKey];
+                    }
+                    formattedResult.push(statsObject);
+                }
+            }
+
+            try {
+                const keys = _.keys(formattedResult[0]);
+                const csv = json2csv(formattedResult, keys);
+                res.setHeader('Content-disposition', 'attachment; filename=data.csv');
+                res.set('Content-Type', 'text/csv');
+                res.status(200).send(csv);
+            } catch (error) {
+                console.log(error);
+                res.json({
+                    error: error
+                });
+            }
         }).catch(function (error) {
             console.log(error);
             res.json({

@@ -1,3 +1,4 @@
+const lodash = require('lodash');
 const statsService = {
 
     countStats: function (solutions: any[]): object {
@@ -23,8 +24,8 @@ const statsService = {
                 duration += solution.duration;
             }
         }
-        if (denominator) result.pointsWeightedAvg = counter / denominator;
-        if (numberOfSolutions) result.successRatio = numberOfCorrectSolutions / numberOfSolutions;
+        if (denominator) result.pointsWeightedAvg = lodash.round(counter / denominator, 2);
+        if (numberOfSolutions) result.successRatio = lodash.round(numberOfCorrectSolutions / numberOfSolutions, 2);
         result.numberOfCorrectSolutions = numberOfCorrectSolutions;
         result.numberOfSolutions = numberOfSolutions;
         result.avgDuration = Math.round((duration / numberOfCorrectSolutions) / 1000);
